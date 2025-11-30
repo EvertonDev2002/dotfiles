@@ -1,0 +1,61 @@
+###############################################
+# PERFIL 1: LAPTOP SOLO
+###############################################
+[[profile]]
+name = "notebook"
+exec = ["notify-send 'Shikane' 'Modo: Apenas notebook'"]
+
+    [[profile.output]]
+    search = "n=eDP-1"
+    enable = true
+    mode = "1920x1080@60"
+    position = "0,0"
+    adaptive_sync = false
+
+
+
+###############################################
+# PERFIL 2: CASA (LG Monitor - Estendido)
+###############################################
+[[profile]]
+name = "dual_monitor"
+exec = ["notify-send 'Shikane' 'Modo: estendido'"]
+
+    # Laptop
+    [[profile.output]]
+    search = "n=eDP-1"
+    enable = true
+    mode = "1920x1080@60"
+    position = "0,0"
+    adaptive_sync = false
+
+    # Monitor LG FULL HD
+    [[profile.output]]
+    search = ["n=HDMI-A-1", "s=0x000147EA", "m=LG FULL HD"]
+    enable = true
+    mode = "1920x1080@75"
+    position = "1280,0"
+    adaptive_sync = true
+
+
+
+###############################################
+# PERFIL 3: PROJETOR/OUTROS (GENÉRICO)
+###############################################
+[[profile]]
+name = "generic_extended"
+exec = ["notify-send 'Shikane' 'Modo: estendido (genérico)'"]
+
+    # Laptop
+    [[profile.output]]
+    search = "n=eDP-1"
+    enable = true
+    mode = "1920x1080@60"
+    position = "0,0"
+
+    # monitor externo
+    [[profile.output]]
+    search = "n=HDMI"
+    enable = true
+    mode = "1920x1080@60"
+    position = "1920,0"

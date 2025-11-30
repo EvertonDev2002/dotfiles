@@ -1,0 +1,54 @@
+[window]
+#opacity = 0.9
+dynamic_padding = true
+padding = {x=10,y=0}
+#blur = true
+#decorations = "None" 
+
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+
+[font]
+normal = {family = "FiraCode Nerd Font Mono", style = "Medium"}
+size = 19
+offset = {x = 1,y = 1}
+glyph_offset = {x = 0, y = 0}
+
+
+[cursor]
+style= {shape="Beam", blinking="Never"}
+
+
+[env]
+WINIT_UNIX_BACKEND = "wayland"
+
+[colors.primary]
+background = "#212121"
+foreground = "0xc9d1d9"
+
+[colors.cursor]
+text = "0x0d1117"
+cursor = "0xc9d1d9"
+
+[colors.normal]
+black   = "0x484f58"
+red     = "0xff7b72"
+green   = "0x58a6ff"
+yellow  = "0xd29922"
+blue    = "0x58a6ff"
+magenta = "0xbc8cff"
+cyan    = "0x39c5cf"
+white   = "0xb1bac4"
+
+[colors.bright]
+black   = "0x6e7681"
+red     = "0xffa198"
+green   = "0x79c0ff"
+yellow  = "0xe3b341"
+blue    = "0x79c0ff"
+magenta = "0xbc8cff"
+cyan    = "0x39c5cf"
+white   = "0xb1bac4"

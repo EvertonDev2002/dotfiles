@@ -1,0 +1,30 @@
+output $laptop_out 'AU Optronics 0x38ED Unknown'
+output $lg_monitor 'LG Electronics LG FULL HD 0x000147EA' 
+# Use swaymsg -t get_outputs para saber as saídas
+
+# ===============================================
+# PERFIL 1: LAPTOP SOLO
+profile {
+    output $laptop_out enable pos 0,0 res 1920x1080@60Hz
+}
+
+# ===============================================
+# PERFIL 2: CASA (LG Monitor - Estendido)
+profile home {
+    # Laptop
+    output $laptop_out enable pos 0,0 res 1920x1080@60Hz
+    
+    # LG Monitor
+    output $lg_monitor enable pos -1280,0 res 1920x1080@75Hz adaptive_sync 
+on
+}
+
+# ===============================================
+# PERFIL 3: PROJETOR/OUTROS
+profile generic_extended {
+    # Laptop	
+    output $laptop_out enable pos 0,0 res 1920x1080@60Hz
+
+    # Generico
+    output * enable pos 1920,0 res 1920x1080@60Hz
+}

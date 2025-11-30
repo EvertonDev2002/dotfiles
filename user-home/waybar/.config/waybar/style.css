@@ -1,0 +1,69 @@
+@import "colors.css";
+* {
+  font-family: Symbols Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: transparent;
+}
+
+#workspaces {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+#workspaces button {
+  border-radius: 15px;
+  margin-right: 0px;
+  padding: 0px 7px 0px 7px;
+  font-weight: bolder;
+  color: @white;
+  background-color: transparent;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+  color: @blue;
+}
+
+#tray,
+#cpu,
+#temperature,
+#memory,
+#keyboard-state,
+#backlight,
+#pulseaudio,
+#custom-power,
+#power-profiles-daemon,
+#disk,
+#network,
+#bluetooth,
+#battery,
+#clock,
+#network {
+  padding: 0px 15px 0px 0px;
+  color: @white;
+}
+
+#custom-power {
+  color: @white;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+#keyboard-state label.locked {
+  color: @blue;
+}
+
+#temperature.critical {
+  color: @dusty-pink;
+}
+
+#clock {
+  font-weight: 500;
+}

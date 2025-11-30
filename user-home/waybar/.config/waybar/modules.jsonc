@@ -1,0 +1,100 @@
+{
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "tooltip-format": "{device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+  "clock": {
+    "format": "{:L%d %b  %H:%M}",
+    "format-alt": "{:%d/%m/%y  %H:%M}",
+    "timezone": "America/Fortaleza",
+    "locale": "pt_BR.UTF-8",
+    "tooltip-format": "<tt><big>{calendar}</big></tt>",
+    "calendar": {
+      "mode": "month",
+      "format": {
+        "months": "<span color='#5b9bf8'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'><b>{}</b></span>",
+        "weekdays": "<span color='#ade8fa'><b>{}</b></span>",
+        "today": "<span color='#ffcc66'><b>{}</b></span>"
+      }
+    }
+  },
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "./.config/rofi/scripts/powermenu.sh"
+  },
+  "backlight": {
+    "format": "{icon}",
+    "tooltip": true,
+    "tooltip-format": "{percent}%",
+    "format-icons": ["󰃞", "󰃝", "󰃟", "󰃠"]
+  },
+  "battery": {
+    "states": {
+      "critical": 25,
+      "warning": 40
+    },
+    "format-full": "󰂅",
+    "format-alt": "{icon}",
+    "format": "{capacity}% {icon}",
+    "format-discharging": "{icon}",
+    "format-charging": "{icon}",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+    "interval": 5,
+    "tooltip-format": "{capacity}%",
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "tooltip": true
+  },
+  "sway/workspaces": {
+    "all-outputs": true,
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "default": "",
+      "focused": "󱓻",
+      "urgent": ""
+      
+    },/*
+    "persistent-workspaces": {
+      "1": [],
+      "2": []
+    }*/
+    
+  },
+  "pulseaudio": {
+    "format": "{icon} &#8239;&#8239; {format_source}",
+    "tooltip-format": "{volume}%",
+    "tooltip": true,
+    "scroll-step": 5,
+    "format-muted": "",
+    "format-source": "",
+    "format-source-muted": "&",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "foot --app-id=Wiremix -e wiremix", 
+    "on-click-right": "pamixer -t"
+  },
+
+  "tray": {
+    "icon-size": 15,
+    "spacing": 17
+  }
+}

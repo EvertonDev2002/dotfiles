@@ -1,0 +1,114 @@
+#!/bin/sh
+# --- Variáveis de Configuração ---
+mod="Mod4" # Super/Windows
+
+# --- Variáveis de Apps e scripts ---
+terminal="foot"
+browser="firefox"
+file_manager="nautilus"
+launcher="rofi -show drun"
+editor="code"
+mirror="$HOME/.local/bin/wl-mirror/mirror_toggle.sh"
+
+# --- Configuração de Entrada (Teclado e Touchpad) ---
+riverctl keyboard-layout -options "grp:alt_shift_toggle" br
+riverctl set-repeat 45 300
+
+TOUCHPAD_ID="1003:8552:ATML3000:00_03EB:2168_Touchpad"
+riverctl input $TOUCHPAD_ID tap enabled
+riverctl input $TOUCHPAD_ID natural-scroll disabled
+riverctl input $TOUCHPAD_ID tap-button-map left-right-middle
+
+# --- Aparência e Bordas ---
+riverctl border-width 1
+riverctl border-color-focused "0x5b9bf8"
+riverctl border-color-unfocused "0xffffff"
+
+# --- Monitores (Scale 1.5) ---
+riverctl output-configuration -name "LG Electronics LG FULL HD 0x000147EA" -mode "1920x1080@75Hz" -adaptive-sync enabled
+# Aplica escala para todos os monitores detectados
+for output in $(riverctl list-outputs); do
+    riverctl output "$output" scale 1.5
+done
+
+# --- Inicialização do Layout (Rivertile) ---
+# Inicia o gerador de layout ANTES de definir os atalhos
+rivertile -view-padding 7 -outer-padding 2 &
+riverctl default-layout rivertile
+
+# --- Mapeamento de Teclas (Keybindings) ---
+
+# Apps
+riverctl map normal $mod T spawn "$terminal"
+riverctl map normal $mod N spawn "$browser"
+riverctl map normal $mod E spawn "$file_manager"
+riverctl map normal $mod M spawn "$launcher"
+riverctl map normal $mod D spawn "$editor"
+
+# Sistema
+riverctl map normal $mod Q close 
+riverctl map normal $mod+Shift C spawn "$0" # Reload
+riverctl map normal $mod P spawn "$mirror"
+riverctl map normal None Print spawn 'grim -g "$(slurp)"'
+
+# Áudio e Brilho
+riverctl map -layout locked normal None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
+riverctl map -layout locked normal None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+riverctl map -layout locked normal None XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
+riverctl map -layout locked normal None XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+riverctl map -layout locked normal None XF86MonBrightnessUp spawn 'brightnessctl set 5%+'
+riverctl map -layout locked normal None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+
+# Playerctl
+riverctl map normal None XF86AudioPlay spawn 'playerctl play-pause'
+riverctl map normal None XF86AudioNext spawn 'playerctl next'
+riverctl map normal None XF86AudioPrev spawn 'playerctl previous'
+
+# --- Gerenciamento de Janelas (Dynamic Tiling) ---
+riverctl map normal $mod J focus-view next
+riverctl map normal $mod K focus-view previous
+riverctl map normal $mod+Shift J swap next
+riverctl map normal $mod+Shift K swap previous
+riverctl map normal $mod Return zoom
+
+# --- Controle de Layout (Rivertile) ---
+riverctl map normal $mod H send-layout-cmd rivertile "main-count +1"
+riverctl map normal $mod L send-layout-cmd rivertile "main-count -1"
+riverctl map normal $mod Space send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map normal $mod+Shift Space send-layout-cmd rivertile "main-ratio +0.05"
+
+# --- Floating (Flutuante) ---
+riverctl map normal $mod F toggle-float
+riverctl map-pointer normal $mod BTN_LEFT move-view
+riverctl map-pointer normal $mod BTN_RIGHT resize-view
+
+# --- Configuração de Tags (Bitmask 1-9) ---
+for i in $(seq 1 9); do
+    tags=$((1 << ($i - 1)))
+    riverctl map normal $mod "$i" set-focused-tags $tags
+    riverctl map normal $mod+Shift "$i" set-view-tags $tags
+    riverctl map normal $mod+Control "$i" toggle-focused-tags $tags
+    riverctl map normal $mod+Shift+Control "$i" toggle-view-tags $tags
+done
+# Tag 0 (Todas as tags)
+all_tags=$(((1 << 32) - 1))
+riverctl map normal $mod 0 set-focused-tags $all_tags
+
+# --- Inicialização Automática (Apps) ---
+
+# Serviços de fundo (Essential)
+# Usamos spawn aqui pois esses serviços geralmente lidam com instância única internamente ou via D-Bus
+riverctl spawn "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh"
+riverctl spawn "dbus-update-activation-environment --all"
+riverctl spawn "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+# riverctl spawn "wbg ~/Imagens/Wallapaper/05.jpg" 
+
+# Apps UI (Reinicia ao recarregar a config)
+pkill waybar; riverctl spawn waybar
+pkill nm-applet; riverctl spawn "nm-applet --indicator"
+pkill mako; riverctl spawn mako
+pkill shikane; riverctl spawn shikane
+
+# Tema GTK 
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+gsettings set org.gnome.desktop.wm.preferences button-layout ""
