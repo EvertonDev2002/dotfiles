@@ -53,7 +53,7 @@
     "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
     "tooltip": true
   },
-  "sway/workspaces": {
+  /* "sway/workspaces": {
     "all-outputs": true,
     "on-click": "activate",
     "format": "{icon}",
@@ -71,12 +71,22 @@
       "focused": "󱓻",
       "urgent": ""
       
-    },/*
+    },
     "persistent-workspaces": {
       "1": [],
       "2": []
-    }*/
+    }
     
+  }, */
+  "river/tags": {
+    "num-tags": 9,
+    "tag-labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    "set-tags": [
+      2147483648 // Máscara para tags urgentes (opcional)
+    ],
+    "hide-vacant": true,
+    "disable-click": true,
+
   },
   "pulseaudio": {
     "format": "{icon} &#8239;&#8239; {format_source}",
@@ -89,7 +99,7 @@
     "format-icons": {
       "default": ["", "", ""]
     },
-    "on-click": "foot --app-id=Wiremix -e wiremix", 
+    "on-click": "foot --app-id=Wiremix -e wiremix",
     "on-click-right": "pamixer -t"
   },
 

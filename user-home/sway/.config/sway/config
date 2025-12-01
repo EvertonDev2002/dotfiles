@@ -81,7 +81,7 @@ bindsym $mainMod+M exec $menu
 bindsym $mainMod+Escape exec killall waybar || waybar
 bindsym $mainMod+Shift+c reload
 bindsym Print exec 'grim -g "$(slurp)"'
-bindsym $mainMod+P exec ~/.local/bin/wl-mirror/mirror_toggle.sh
+bindsym $mainMod+P exec ~/.local/bin/mirror_toggle.sh
 
 #bindsym $mainMod+Shift+e exec swaynag -t warning -m 'Você pressionou o atalho de saída. Deseja realmente sair do sway? Isso encerrará sua sessão Wayland.' -B 'Sim, sair do sway' 'swaymsg exit'
 
@@ -173,6 +173,9 @@ bindsym XF86Search exec $menu
 
 # Keyring/SSH Agent
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh
+
+# Inicialização de Áudio
+exec --no-startup-id ~/.local/bin/init-pipewire.sh
 
 # D-Bus Environment (com runit) 
 exec --no-startup-id sh -c "dbus-update-activation-environment --all"

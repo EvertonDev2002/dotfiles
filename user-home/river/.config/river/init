@@ -1,114 +1,253 @@
 #!/bin/sh
-# --- Variáveis de Configuração ---
-mod="Mod4" # Super/Windows
 
-# --- Variáveis de Apps e scripts ---
-terminal="foot"
-browser="firefox"
-file_manager="nautilus"
+# ============================================================================
+#  RIVER COMPOSITOR CONFIGURATION
+#  Sistema: Artix Linux (Runit)
+# ============================================================================
+
+# --- 1. FUNÇÕES HELPER (DRY - Don't Repeat Yourself) ------------------------
+
+# Atalho para mapear teclas no modo normal
+map() { riverctl map normal "$@"; }
+
+# Atalho para mapear ponteiro/mouse
+map_pointer() { riverctl map-pointer normal "$@"; }
+
+# Atalho para executar comandos
+spawn() { riverctl spawn "$@"; }
+
+# Inicia um serviço SOMENTE se ele ainda não estiver rodando (Para Daemons)
+start_once() {
+    if ! pgrep -x "$1" >/dev/null 2>&1; then
+        spawn "$2"
+    fi
+}
+
+# Reinicia um serviço forçadamente (Para Apps de UI que precisam de reload)
+restart_service() {
+    pkill -x "$1"
+
+    spawn "sh -c '$2'"
+}
+
+try_spawn() {
+    cmd="$1"
+    first=$(printf "%s" "$cmd" | awk '{print $1}')
+
+    if command -v "$first" >/dev/null 2>&1; then
+        spawn "sh -c '$cmd'"
+    else
+        printf '%s\n' "Aviso: comando não encontrado: $first" >&2
+    fi
+}
+
+float_app() {
+    if [ -z "$2" ]; then
+        riverctl rule-add -app-id "$1" float
+    else
+        riverctl rule-add -app-id "$1" -title "$2" float
+    fi
+}
+
+float_app_not_title(){
+    for app in $apps; do
+        float_app "$app"
+    done
+}
+
+# --- 2. VARIÁVEIS DE AMBIENTE E APPS ----------------------------------------
+mod="Super"
+
+# Aplicações
+term="foot"
+web="firefox"
+files="nautilus"
 launcher="rofi -show drun"
 editor="code"
-mirror="$HOME/.local/bin/wl-mirror/mirror_toggle.sh"
 
-# --- Configuração de Entrada (Teclado e Touchpad) ---
-riverctl keyboard-layout -options "grp:alt_shift_toggle" br
-riverctl set-repeat 45 300
+# Scripts e Caminhos
+script_mirror="$HOME/.local/bin/wl-mirror/mirror_toggle.sh"
+script_wall="$HOME/.local/bin/set-wallpaper.sh"
+wallpaper_img="$HOME/Imagens/Wallapaper/05.jpg"
 
-TOUCHPAD_ID="1003:8552:ATML3000:00_03EB:2168_Touchpad"
-riverctl input $TOUCHPAD_ID tap enabled
-riverctl input $TOUCHPAD_ID natural-scroll disabled
-riverctl input $TOUCHPAD_ID tap-button-map left-right-middle
+# Hardware (IDs obtidos via riverctl list-inputs ou libinput list-devices)
+touch_id="1003:8552:ATML3000:00_03EB:2168_Touchpad"
+monitor_notebook="eDP-1"
+monitor_externo="HDMI-A-1"
 
-# --- Aparência e Bordas ---
-riverctl border-width 1
+# --- 3. CONFIGURAÇÃO DE INPUT E HARDWARE ------------------------------------
+
+# Teclado
+riverctl keyboard-layout -options "grp:alt_shift_toggle,caps:ctrl_modifier" br
+riverctl set-repeat 50 200
+
+# Touchpad
+riverctl input "$touch_id" tap enabled
+riverctl input "$touch_id" natural-scroll disabled
+riverctl input "$touch_id" tap-button-map left-right-middle
+riverctl input "$touch_id" disable-while-typing enabled
+riverctl input "$touch_id" accel-profile adaptive
+riverctl input "$touch_id" pointer-accel 0.3
+
+# Comportamento do Foco e Cursor
+riverctl focus-follows-cursor normal
+riverctl set-cursor-warp on-focus-change
+riverctl xcursor-theme "Bibata-Modern-Ice" 20
+
+# --- 4. APARÊNCIA E LAYOUT --------------------------------------------------
+
+# Cores das Bordas
+riverctl background-color 0x2a2041
+riverctl border-width 2
 riverctl border-color-focused "0x5b9bf8"
-riverctl border-color-unfocused "0xffffff"
+riverctl border-color-unfocused "0x586e75"
+riverctl border-color-urgent "0xff0000"
 
-# --- Monitores (Scale 1.5) ---
-riverctl output-configuration -name "LG Electronics LG FULL HD 0x000147EA" -mode "1920x1080@75Hz" -adaptive-sync enabled
-# Aplica escala para todos os monitores detectados
-for output in $(riverctl list-outputs); do
-    riverctl output "$output" scale 1.5
-done
-
-# --- Inicialização do Layout (Rivertile) ---
-# Inicia o gerador de layout ANTES de definir os atalhos
-rivertile -view-padding 7 -outer-padding 2 &
+# Inicialização do Layout (Rivertile)
+pkill rivertile
+spawn "rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.5"
 riverctl default-layout rivertile
+riverctl default-attach-mode bottom
 
-# --- Mapeamento de Teclas (Keybindings) ---
+# --- 5. MAPEAMENTOS: SISTEMA E APPS -----------------------------------------
 
 # Apps
-riverctl map normal $mod T spawn "$terminal"
-riverctl map normal $mod N spawn "$browser"
-riverctl map normal $mod E spawn "$file_manager"
-riverctl map normal $mod M spawn "$launcher"
-riverctl map normal $mod D spawn "$editor"
+map $mod T spawn "$term"
+map $mod N spawn "$web"
+map $mod E spawn "$files"
+map $mod M spawn "$launcher"
+map $mod D spawn "$editor"
+map $mod P spawn "$script_mirror"
 
 # Sistema
-riverctl map normal $mod Q close 
-riverctl map normal $mod+Shift C spawn "$0" # Reload
-riverctl map normal $mod P spawn "$mirror"
-riverctl map normal None Print spawn 'grim -g "$(slurp)"'
+map $mod Q close 
+map $mod+Shift C spawn "sh $HOME/.config/river/init"
+# map $mod+Shift E exit
+map None Print spawn 'grim -g "$(slurp)"'
 
-# Áudio e Brilho
-riverctl map -layout locked normal None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
-riverctl map -layout locked normal None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
-riverctl map -layout locked normal None XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
-riverctl map -layout locked normal None XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
-riverctl map -layout locked normal None XF86MonBrightnessUp spawn 'brightnessctl set 5%+'
-riverctl map -layout locked normal None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+# --- 6. MAPEAMENTOS: GERENCIAMENTO DE JANELAS -------------------------------
 
-# Playerctl
-riverctl map normal None XF86AudioPlay spawn 'playerctl play-pause'
-riverctl map normal None XF86AudioNext spawn 'playerctl next'
-riverctl map normal None XF86AudioPrev spawn 'playerctl previous'
+# Foco (Direcional HJKL + Setas)
+map $mod H focus-view left
+map $mod J focus-view down
+map $mod K focus-view up
+map $mod L focus-view right
+map $mod Left focus-view left
+map $mod Down focus-view down
+map $mod Up focus-view up
+map $mod Right focus-view right
 
-# --- Gerenciamento de Janelas (Dynamic Tiling) ---
-riverctl map normal $mod J focus-view next
-riverctl map normal $mod K focus-view previous
-riverctl map normal $mod+Shift J swap next
-riverctl map normal $mod+Shift K swap previous
-riverctl map normal $mod Return zoom
+# Mover Janela / Swap (Direcional HJKL + Setas)
+map $mod+Shift H swap left
+map $mod+Shift J swap down
+map $mod+Shift K swap up
+map $mod+Shift L swap right
+map $mod+Shift Down swap down
+map $mod+Shift Up swap up
 
-# --- Controle de Layout (Rivertile) ---
-riverctl map normal $mod H send-layout-cmd rivertile "main-count +1"
-riverctl map normal $mod L send-layout-cmd rivertile "main-count -1"
-riverctl map normal $mod Space send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map normal $mod+Shift Space send-layout-cmd rivertile "main-ratio +0.05"
+# Zoom (Promover janela focada para a área Mestre)
+map $mod Return zoom
 
-# --- Floating (Flutuante) ---
-riverctl map normal $mod F toggle-float
-riverctl map-pointer normal $mod BTN_LEFT move-view
-riverctl map-pointer normal $mod BTN_RIGHT resize-view
+# Manipulação de Layout (Rivertile)
+# Aumentar/Diminuir área mestre
+map $mod Space send-layout-cmd rivertile "main-ratio -0.05"
+map $mod+Shift Space send-layout-cmd rivertile "main-ratio +0.05"
+# Aumentar/Diminuir quantidade de janelas na mestre
+map $mod+Control H send-layout-cmd rivertile "main-count +1"
+map $mod+Control L send-layout-cmd rivertile "main-count -1"
 
-# --- Configuração de Tags (Bitmask 1-9) ---
+# Estados da Janela
+map $mod F toggle-float
+map $mod+Shift F toggle-fullscreen
+
+# Monitores (Foco e Movimentação Espacial)
+# [ = Esquerda, ] = Direita
+map $mod bracketleft focus-output left
+map $mod bracketright focus-output right
+map $mod+Shift bracketleft send-to-output left
+map $mod+Shift bracketright send-to-output right
+
+# Mouse (Super + Clique)
+map_pointer $mod BTN_LEFT move-view
+map_pointer $mod BTN_RIGHT resize-view
+map_pointer $mod BTN_MIDDLE toggle-float
+
+# --- 7. MAPEAMENTOS: TAGS (WORKSPACES) --------------------------------------
+
+# Gera mapeamentos para tags 1 a 9
 for i in $(seq 1 9); do
     tags=$((1 << ($i - 1)))
-    riverctl map normal $mod "$i" set-focused-tags $tags
-    riverctl map normal $mod+Shift "$i" set-view-tags $tags
-    riverctl map normal $mod+Control "$i" toggle-focused-tags $tags
-    riverctl map normal $mod+Shift+Control "$i" toggle-view-tags $tags
+    map $mod "$i" set-focused-tags $tags             # Focar Tag
+    map $mod+Shift "$i" set-view-tags $tags          # Mover para Tag
+    map $mod+Control "$i" toggle-focused-tags $tags  # Ver Tag junto com atual
+    map $mod+Shift+Control "$i" toggle-view-tags $tags # Fixar janela em +1 Tag
 done
-# Tag 0 (Todas as tags)
+
+# Tag 0 (Ver todas as tags)
 all_tags=$(((1 << 32) - 1))
-riverctl map normal $mod 0 set-focused-tags $all_tags
+map $mod 0 set-focused-tags $all_tags
 
-# --- Inicialização Automática (Apps) ---
+# --- 8. MODOS E TECLAS ESPECIAIS --------------------------------------------
 
-# Serviços de fundo (Essential)
-# Usamos spawn aqui pois esses serviços geralmente lidam com instância única internamente ou via D-Bus
-riverctl spawn "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh"
-riverctl spawn "dbus-update-activation-environment --all"
-riverctl spawn "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-# riverctl spawn "wbg ~/Imagens/Wallapaper/05.jpg" 
+# Modo Passthrough (Para VMs e Jogos) - Super+F11 ativa/desativa
+riverctl declare-mode passthrough
+map $mod F11 enter-mode passthrough
+riverctl map passthrough $mod F11 enter-mode normal
 
-# Apps UI (Reinicia ao recarregar a config)
-pkill waybar; riverctl spawn waybar
-pkill nm-applet; riverctl spawn "nm-applet --indicator"
-pkill mako; riverctl spawn mako
-pkill shikane; riverctl spawn shikane
+# Teclas de Mídia (Volume/Brilho) - Funcionam mesmo com tela bloqueada
+for mode in normal locked; do
+    riverctl map $mode None XF86AudioRaiseVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
+    riverctl map $mode None XF86AudioLowerVolume spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+    riverctl map $mode None XF86AudioMute spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
+    riverctl map $mode None XF86AudioMicMute spawn 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+    riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl set 5%+'
+    riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+    riverctl map $mode None XF86AudioPlay spawn 'playerctl play-pause'
+    riverctl map $mode None XF86AudioNext spawn 'playerctl next'
+    riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
+done
 
-# Tema GTK 
+# --- 9. REGRAS DE JANELA ----------------------------------------------------
+
+# Forçar SSD (Server Side Decorations) em tudo -> Remove barras de título
+riverctl rule-add -app-id "*" ssd
+# Janelas Flutuantes
+apps='pavucontrol nm-connection-editor blueman-manager'
+float_app 'firefox'  'Picture-in-Picture'
+
+#riverctl rule-add -app-id "pavucontrol" float
+#riverctl rule-add -app-id "nm-connection-editor" float
+#riverctl rule-add -app-id "blueman-manager" float
+#riverctl rule-add -app-id "firefox" -title "Picture-in-Picture" float
+
+# Tags Iniciais por Monitor (Fixação)
+# Monitor Externo começa na Tag 1
+riverctl set-focused-tags -output "$monitor_externo" 1
+# Notebook começa na Tag 2
+riverctl set-focused-tags -output "$monitor_notebook" 2
+
+# --- 10. AUTOSTART (INICIALIZAÇÃO INTELIGENTE) ------------------------------
+
+# A. Essenciais do Sistema (Rodar uma vez)
+spawn "$HOME/.local/bin/init-pipewire.sh"
+spawn "dbus-update-activation-environment --all"
+start_once "gnome-keyring-daemon" "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh"
+start_once "polkit-gnome-authentication-agent-1" "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+start_once "swww-daemon" "swww-daemon"
+
+# B. Wallpaper (Script com cache e transição)
+# Executa sempre para garantir transição suave no reload
+spawn "$script_wall $wallpaper_img"
+
+# C. Interface e Monitores (Reiniciar no reload para aplicar configs)
+restart_service "way-displays" "way-displays > /tmp/way-displays.log 2>&1"
+restart_service "waybar" "waybar"
+restart_service "nm-applet" "nm-applet --indicator"
+restart_service "mako" "mako"
+
+# D. Temas GTK
 gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
+gsettings set org.gnome.desktop.interface icon-theme "Tela-circle-blue-dark"
+gsettings set org.gnome.desktop.interface cursor-theme "Bibata-Modern-Ice"
 gsettings set org.gnome.desktop.wm.preferences button-layout ""

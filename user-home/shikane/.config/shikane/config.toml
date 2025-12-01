@@ -10,7 +10,7 @@ exec = ["notify-send 'Shikane' 'Modo: Apenas notebook'"]
     enable = true
     mode = "1920x1080@60"
     position = "0,0"
-    adaptive_sync = false
+    scale = 1.5
 
 
 
@@ -25,17 +25,19 @@ exec = ["notify-send 'Shikane' 'Modo: estendido'"]
     [[profile.output]]
     search = "n=eDP-1"
     enable = true
-    mode = "1920x1080@60"
+    mode = "1920x1080@60Hz"
     position = "0,0"
-    adaptive_sync = false
+    scale = 1.5
+
 
     # Monitor LG FULL HD
     [[profile.output]]
     search = ["n=HDMI-A-1", "s=0x000147EA", "m=LG FULL HD"]
     enable = true
-    mode = "1920x1080@75"
-    position = "1280,0"
+    mode = "1920x1080@75Hz"
     adaptive_sync = true
+    position = "1280,0"
+    scale = 1.5
 
 
 
@@ -50,12 +52,14 @@ exec = ["notify-send 'Shikane' 'Modo: estendido (genérico)'"]
     [[profile.output]]
     search = "n=eDP-1"
     enable = true
-    mode = "1920x1080@60"
+    mode = "1920x1080@60Hz"
     position = "0,0"
+    scale = 1.5
 
     # monitor externo
     [[profile.output]]
     search = "n=HDMI"
     enable = true
-    mode = "1920x1080@60"
+    mode = "1920x1080@60Hz"
     position = "1920,0"
+    scale = 1.5
