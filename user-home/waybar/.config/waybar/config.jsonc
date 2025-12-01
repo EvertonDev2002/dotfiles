@@ -13,6 +13,7 @@
   "modules-right": [
     "tray",
     "bluetooth",
+    "custom/clipboard",
     "backlight",
     "pulseaudio",
     "battery",

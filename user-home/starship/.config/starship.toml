@@ -1,12 +1,16 @@
-# version: 1.0.0
 "$schema" = 'https://starship.rs/config-schema.json'
 
+scan_timeout = 1000
 add_newline = true
 continuation_prompt = "[▸▹ ](dimmed white)"
 
 format = """
 $directory\
-($nix_shell$container$fill$git_metrics\n)$cmd_duration\
+$fill\
+$nix_shell\
+$container\
+$git_metrics\
+$cmd_duration\
 $hostname\
 $localip\
 $shlvl\
@@ -15,12 +19,8 @@ $env_var\
 $jobs\
 $sudo\
 $username\
-$character"""
-
-right_format = """
 $singularity\
 $kubernetes\
-
 $vcsh\
 $fossil_branch\
 $git_branch\
@@ -91,9 +91,9 @@ $custom\
 $status\
 $os\
 $battery\
-$time"""
-
-scan_timeout = 1000
+$time\
+$line_break\
+$character"""
 
 [fill]
 symbol = ' '
@@ -103,7 +103,6 @@ format = "$symbol "
 success_symbol = "[◎](bold italic bright-blue)"
 error_symbol = "[○](italic purple)"
 vimcmd_symbol = "[■](italic dimmed green)"
-# not supported in zsh
 vimcmd_replace_one_symbol = "◌"
 vimcmd_replace_symbol = "□"
 vimcmd_visual_symbol = "▼"

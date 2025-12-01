@@ -1,6 +1,7 @@
 @import "colors.css";
 * {
-  font-family: Symbols Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-family: Symbols Nerd Font, FontAwesome, Roboto, Helvetica, Arial,
+    sans-serif;
   font-size: 0.9rem;
   min-height: 0;
 }
@@ -9,14 +10,16 @@ window#waybar {
   background-color: transparent;
 }
 
-#workspaces {
+#workspaces,
+#tags {
   margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 0px;
   margin-left: 0px;
 }
 
-#workspaces button {
+#workspaces button,
+#tags button {
   border-radius: 15px;
   margin-right: 0px;
   padding: 0px 7px 0px 7px;
@@ -26,12 +29,14 @@ window#waybar {
 }
 
 #workspaces button.active,
-#workspaces button.focused {
+#workspaces button.focused,
+#tags button.focused {
   color: @blue;
 }
 
 #tray,
 #cpu,
+#custom-clipboard,
 #temperature,
 #memory,
 #keyboard-state,

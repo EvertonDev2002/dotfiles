@@ -1,0 +1,24 @@
+--- Iniciando Stack de Áudio: seg 01 dez 2025 19:31:50 -03 ---
+Limpando processos antigos...
+Iniciando PipeWire...
+Iniciando WirePlumber...
+Iniciando PipeWire-Pulse...
+--- Áudio iniciado com sucesso ---
+E 19:31:51.814374 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 19:31:51.815627 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 19:31:51.815686 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 19:31:51.815707 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+N 19:31:52.173643          wp-device ../wireplumber/lib/wp/device.c:710:wp_spa_device_new_from_spa_factory: SPA handle 'api.libcamera.enum.manager' could not be loaded; is it installed?
+N 19:31:52.174680 s-monitors-libcame enumerate-device.lua:30:chunk: PipeWire's libcamera SPA plugin is missing or broken. Some camera types may not be supported.
+[W][19:32:16.270672] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
+[W][19:32:16.270760] mod.rt       | [     module-rt.c:  995 do_rtkit_setup()] RTKit does not give us MaxRealtimePriority, using 1
+[W][19:32:16.777454] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
+[W][19:32:16.777562] mod.rt       | [     module-rt.c:  995 do_rtkit_setup()] RTKit does not give us MaxRealtimePriority, using 1
+[W][19:32:31.736659] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
+[W][19:32:31.736699] mod.rt       | [     module-rt.c: 1000 do_rtkit_setup()] RTKit does not give us MinNiceLevel, using 0
+[W][19:32:32.235422] mod.rt       | [[W][19:32:41.295826] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
+[W][19:32:41.295875] mod.rt       | [     module-rt.c: 1000 do_rtkit_setup()] RTKit does not give us MinNiceLevel, using 0
+[W][19:32:41.802568] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
+[W][19:32:41.802608] mod.rt       | [     module-rt.c: 1000 do_rtkit_setup()] RTKit does not give us MinNiceLevel, using 0
+W 19:32:41.814565             mod.rt ../pipewire/src/modules/module-rt.c:330:translate_error: RTKit error: org.freedesktop.DBus.Error.NoReply
+W 19:32:41.814611             mod.rt ../pipewire/src/modules/module-rt.c:1000:do_rtkit_setup: RTKit does not give us MinNiceLevel, using 0

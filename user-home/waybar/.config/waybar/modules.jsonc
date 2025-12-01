@@ -81,12 +81,8 @@
   "river/tags": {
     "num-tags": 9,
     "tag-labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    "set-tags": [
-      2147483648 // Máscara para tags urgentes (opcional)
-    ],
     "hide-vacant": true,
-    "disable-click": true,
-
+    "disable-click": true
   },
   "pulseaudio": {
     "format": "{icon} &#8239;&#8239; {format_source}",
@@ -99,12 +95,18 @@
     "format-icons": {
       "default": ["", "", ""]
     },
-    "on-click": "foot --app-id=Wiremix -e wiremix",
-    "on-click-right": "pamixer -t"
+    "on-click": "foot --app-id=Wiremix -e wiremix"
+    // "on-click-right": "pamixer -t"
   },
-
   "tray": {
     "icon-size": 15,
     "spacing": 17
+  },
+  "custom/clipboard": {
+    "format": "󰅇",
+    "format-alt": "",
+    "tooltip": false,
+    "on-click": "cliphist list | rofi -dmenu -p 'Histórico' | cliphist decode | wl-copy",
+    "on-click-right": "cliphist wipe"
   }
 }

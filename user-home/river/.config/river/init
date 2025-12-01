@@ -27,9 +27,9 @@ start_once() {
 restart_service() {
     pkill -x "$1"
 
-    spawn "sh -c '$2'"
+    try_spawn "sh -c '$2'"
 }
-
+# testar antes de inicializar
 try_spawn() {
     cmd="$1"
     first=$(printf "%s" "$cmd" | awk '{print $1}')
@@ -227,25 +227,25 @@ riverctl set-focused-tags -output "$monitor_externo" 1
 riverctl set-focused-tags -output "$monitor_notebook" 2
 
 # --- 10. AUTOSTART (INICIALIZAÇÃO INTELIGENTE) ------------------------------
-
-# A. Essenciais do Sistema (Rodar uma vez)
-spawn "$HOME/.local/bin/init-pipewire.sh"
-spawn "dbus-update-activation-environment --all"
+# Essenciais do Sistema (Rodar uma vez)
+try_spawn "$HOME/.local/bin/init-portals.sh"
+try_spawn "$HOME/.local/bin/init-pipewire.sh"
+try_spawn "$HOME/.local/bin/init-clipboard.sh"
 start_once "gnome-keyring-daemon" "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh"
 start_once "polkit-gnome-authentication-agent-1" "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 start_once "swww-daemon" "swww-daemon"
 
-# B. Wallpaper (Script com cache e transição)
+# Wallpaper (Script com cache e transição)
 # Executa sempre para garantir transição suave no reload
 spawn "$script_wall $wallpaper_img"
 
-# C. Interface e Monitores (Reiniciar no reload para aplicar configs)
+# Interface e Monitores (Reiniciar no reload para aplicar configs)
 restart_service "way-displays" "way-displays > /tmp/way-displays.log 2>&1"
 restart_service "waybar" "waybar"
 restart_service "nm-applet" "nm-applet --indicator"
 restart_service "mako" "mako"
 
-# D. Temas GTK
+# Temas GTK
 gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
 gsettings set org.gnome.desktop.interface icon-theme "Tela-circle-blue-dark"
