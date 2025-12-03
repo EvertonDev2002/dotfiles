@@ -1,4 +1,4 @@
-echo 'function ls-service-running --description "Lista serviços rodando (Auto-detecta Runit ou Systemd)"
+function ls-service-running
     if command -v sv > /dev/null; and test -d /run/runit/service
         echo "--> Detectado Runit (Artix)"
         sudo sv status /run/runit/service/* | grep "^run:"
@@ -10,4 +10,4 @@ echo 'function ls-service-running --description "Lista serviços rodando (Auto-d
     else
         echo "Nenhum sistema de init suportado (Runit/Systemd) foi detectado."
     end
-end' > ~/.config/fish/functions/ls-service-running.fish
+end

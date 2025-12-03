@@ -14,10 +14,10 @@ user_pref("browser.tabs.inTitlebar", 1);
 // Força aceleração WebRender
 user_pref("gfx.webrender.all", true);
 // Força aceleração de camadas
-user_pref("layers.acceleration.force-enabled", true);
+user_pref("layers.acceleration.force-enabled", false);
 // Habilita decodificação de vídeo por hardware (VA-API)
 user_pref("media.ffmpeg.vaapi.enabled", true);
-user_pref("media.hardware-video-decoding.force-enabled", true);
+user_pref("media.hardware-video-decoding.force-enabled", false);
 // Desabilita FFVPX para forçar o uso de decodificadores do sistema
 user_pref("media.ffvpx.enabled", false);
 // Desativa o cache em disco (HD/SSD)
@@ -27,7 +27,7 @@ user_pref("browser.cache.memory.enable", true);
 // Gerenciar dinamicamente o uso de cache na RAM
 user_pref("browser.cache.memory.capacity", -1);
 // Desativa o "Session Restore" excessivo
-user_pref("browser.sessionstore.interval", 300000);
+user_pref("browser.sessionstore.interval", 60000);
 
 /* PRIVACIDADE & SEGURANÇA */
 // Desabilita Telemetria e Estudos (Normandy/Shield)

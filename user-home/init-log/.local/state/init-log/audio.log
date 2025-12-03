@@ -1,24 +1,24 @@
---- Iniciando Stack de Áudio: seg 01 dez 2025 19:31:50 -03 ---
+--- Iniciando Stack de Áudio: qua 03 dez 2025 14:04:50 -03 ---
 Limpando processos antigos...
 Iniciando PipeWire...
 Iniciando WirePlumber...
 Iniciando PipeWire-Pulse...
 --- Áudio iniciado com sucesso ---
-E 19:31:51.814374 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
-E 19:31:51.815627 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
-E 19:31:51.815686 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
-E 19:31:51.815707 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
-N 19:31:52.173643          wp-device ../wireplumber/lib/wp/device.c:710:wp_spa_device_new_from_spa_factory: SPA handle 'api.libcamera.enum.manager' could not be loaded; is it installed?
-N 19:31:52.174680 s-monitors-libcame enumerate-device.lua:30:chunk: PipeWire's libcamera SPA plugin is missing or broken. Some camera types may not be supported.
-[W][19:32:16.270672] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
-[W][19:32:16.270760] mod.rt       | [     module-rt.c:  995 do_rtkit_setup()] RTKit does not give us MaxRealtimePriority, using 1
-[W][19:32:16.777454] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
-[W][19:32:16.777562] mod.rt       | [     module-rt.c:  995 do_rtkit_setup()] RTKit does not give us MaxRealtimePriority, using 1
-[W][19:32:31.736659] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
-[W][19:32:31.736699] mod.rt       | [     module-rt.c: 1000 do_rtkit_setup()] RTKit does not give us MinNiceLevel, using 0
-[W][19:32:32.235422] mod.rt       | [[W][19:32:41.295826] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
-[W][19:32:41.295875] mod.rt       | [     module-rt.c: 1000 do_rtkit_setup()] RTKit does not give us MinNiceLevel, using 0
-[W][19:32:41.802568] mod.rt       | [     module-rt.c:  330 translate_error()] RTKit error: org.freedesktop.DBus.Error.NoReply
-[W][19:32:41.802608] mod.rt       | [     module-rt.c: 1000 do_rtkit_setup()] RTKit does not give us MinNiceLevel, using 0
-W 19:32:41.814565             mod.rt ../pipewire/src/modules/module-rt.c:330:translate_error: RTKit error: org.freedesktop.DBus.Error.NoReply
-W 19:32:41.814611             mod.rt ../pipewire/src/modules/module-rt.c:1000:do_rtkit_setup: RTKit does not give us MinNiceLevel, using 0
+E 14:04:53.965849 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 14:04:53.965929 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 14:04:53.965941 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 14:04:53.965952 wp-event-dispatche (null):(null):(null): wp_event_dispatcher_unregister_hook: assertion 'already_registered_dispatcher == self' failed
+E 14:04:54.311805            default ../pipewire/spa/plugins/bluez5/upower.c:54:upower_get_percentage_properties_reply: Failed to get percentage from UPower: org.freedesktop.DBus.Error.NameHasNoOwner
+N 14:04:54.334225          wp-device ../wireplumber/lib/wp/device.c:710:wp_spa_device_new_from_spa_factory: SPA handle 'api.libcamera.enum.manager' could not be loaded; is it installed?
+N 14:04:54.334260 s-monitors-libcame enumerate-device.lua:30:chunk: PipeWire's libcamera SPA plugin is missing or broken. Some camera types may not be supported.
+W 14:37:36.458114  spa.bluez5.native ../pipewire/spa/plugins/bluez5/backend-native.c:1216:rfcomm_hfp_ag: RFCOMM receive command but modem not available: AT+CHLD=?
+W 14:37:36.467089  spa.bluez5.native ../pipewire/spa/plugins/bluez5/backend-native.c:1216:rfcomm_hfp_ag: RFCOMM receive command but modem not available: AT+NREC=0
+W 14:37:36.468947  spa.bluez5.native ../pipewire/spa/plugins/bluez5/backend-native.c:1216:rfcomm_hfp_ag: RFCOMM receive command but modem not available: AT+CGMI?
+W 15:45:13.504926 spa.bluez5.sink.me ../pipewire/spa/plugins/bluez5/media-sink.c:1105:media_on_flush_error: 0x5580a38f2d78: error 24
+E 15:45:13.505216            pw.node ../pipewire/src/pipewire/impl-node.c:477:node_update_state: (bluez_output.84_AC_60_13_23_74.1-72) running -> error (Received error event)
+E 15:45:13.505253         spa.bluez5 ../pipewire/spa/plugins/bluez5/bluez5-dbus.c:2938:spa_bt_transport_set_state: Failure in Bluetooth audio transport /org/bluez/hci0/dev_84_AC_60_13_23_74/sep1/fd0
+[E][15:45:13.509459] pw.node      | [     impl-node.c:  477 node_update_state()] (bluez_output.84_AC_60_13_23_74.1-72) running -> error (Received error event)
+W 15:45:13.538802  spa.bluez5.device ../pipewire/spa/plugins/bluez5/bluez5-device.c:1291:set_profile: trying to set invalid profile 3, codec 257, 00000084 00000000
+W 15:55:06.819452  spa.bluez5.native ../pipewire/spa/plugins/bluez5/backend-native.c:1216:rfcomm_hfp_ag: RFCOMM receive command but modem not available: AT+CHLD=?
+W 15:55:06.830152  spa.bluez5.native ../pipewire/spa/plugins/bluez5/backend-native.c:1216:rfcomm_hfp_ag: RFCOMM receive command but modem not available: AT+NREC=0
+W 15:55:06.832133  spa.bluez5.native ../pipewire/spa/plugins/bluez5/backend-native.c:1216:rfcomm_hfp_ag: RFCOMM receive command but modem not available: AT+CGMI?

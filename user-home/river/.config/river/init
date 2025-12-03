@@ -72,14 +72,14 @@ wallpaper_img="$HOME/Imagens/Wallapaper/05.jpg"
 
 # Hardware (IDs obtidos via riverctl list-inputs ou libinput list-devices)
 touch_id="1003:8552:ATML3000:00_03EB:2168_Touchpad"
-monitor_notebook="eDP-1"
-monitor_externo="HDMI-A-1"
+#monitor_notebook="eDP-1"
+#monitor_externo="HDMI-A-1"
 
 # --- 3. CONFIGURAÇÃO DE INPUT E HARDWARE ------------------------------------
 
 # Teclado
 riverctl keyboard-layout -options "grp:alt_shift_toggle,caps:ctrl_modifier" br
-riverctl set-repeat 50 200
+riverctl set-repeat 50 300
 
 # Touchpad
 riverctl input "$touch_id" tap enabled
@@ -123,7 +123,7 @@ map $mod P spawn "$script_mirror"
 map $mod Q close 
 map $mod+Shift C spawn "sh $HOME/.config/river/init"
 # map $mod+Shift E exit
-map None Print spawn 'grim -g "$(slurp)"'
+map None Print spawn 'grim -g "$(slurp)" | wl-paste'
 
 # --- 6. MAPEAMENTOS: GERENCIAMENTO DE JANELAS -------------------------------
 
@@ -210,21 +210,19 @@ done
 # --- 9. REGRAS DE JANELA ----------------------------------------------------
 
 # Forçar SSD (Server Side Decorations) em tudo -> Remove barras de título
-riverctl rule-add -app-id "*" ssd
+#riverctl rule-add -app-id "*" ssd
+riverctl rule-add ssd
+
 # Janelas Flutuantes
 apps='pavucontrol nm-connection-editor blueman-manager'
 float_app 'firefox'  'Picture-in-Picture'
-
-#riverctl rule-add -app-id "pavucontrol" float
-#riverctl rule-add -app-id "nm-connection-editor" float
-#riverctl rule-add -app-id "blueman-manager" float
-#riverctl rule-add -app-id "firefox" -title "Picture-in-Picture" float
+float_app 'float*'  'foo'
 
 # Tags Iniciais por Monitor (Fixação)
 # Monitor Externo começa na Tag 1
-riverctl set-focused-tags -output "$monitor_externo" 1
+#riverctl set-focused-tags -output "$monitor_externo" 1
 # Notebook começa na Tag 2
-riverctl set-focused-tags -output "$monitor_notebook" 2
+#riverctl set-focused-tags -output "$monitor_notebook" 2
 
 # --- 10. AUTOSTART (INICIALIZAÇÃO INTELIGENTE) ------------------------------
 # Essenciais do Sistema (Rodar uma vez)
@@ -246,8 +244,8 @@ restart_service "nm-applet" "nm-applet --indicator"
 restart_service "mako" "mako"
 
 # Temas GTK
-gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
-gsettings set org.gnome.desktop.interface icon-theme "Tela-circle-blue-dark"
+gsettings set org.gnome.desktop.wm.preferences button-layout ' '
 gsettings set org.gnome.desktop.interface cursor-theme "Bibata-Modern-Ice"
-gsettings set org.gnome.desktop.wm.preferences button-layout ""
+gsettings set org.gnome.desktop.interface icon-theme "Tela-circle-blue-dark"
+gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"

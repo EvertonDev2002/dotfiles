@@ -36,3 +36,6 @@
 
 #navigator-toolbox::after { display: none !important; }
 
+#navigator-toolbox {
+    border-bottom: none !important;
+}
