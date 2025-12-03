@@ -123,7 +123,7 @@ map $mod P spawn "$script_mirror"
 map $mod Q close 
 map $mod+Shift C spawn "sh $HOME/.config/river/init"
 # map $mod+Shift E exit
-map None Print spawn 'grim -g "$(slurp)" | wl-paste'
+map None Print spawn 'grim -g "$(slurp)" | wl-copy'
 
 # --- 6. MAPEAMENTOS: GERENCIAMENTO DE JANELAS -------------------------------
 
