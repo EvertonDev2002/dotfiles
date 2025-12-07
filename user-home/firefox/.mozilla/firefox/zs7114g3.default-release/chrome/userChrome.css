@@ -1,9 +1,9 @@
 :root {
-  --trigger-area: 5px; 
+  --trigger-area: 5px;
   --anim-speed: 0.2s;
+  --hide-delay: 0.4s;
 }
 
-/* --- CONTÊINER PRINCIPAL --- */
 #navigator-toolbox {
   position: fixed !important;
   top: 0;
@@ -12,16 +12,18 @@
   z-index: 9999 !important;
   transform: translateY(calc(-100% + var(--trigger-area))) !important;
   opacity: 0 !important;
-  transition: transform var(--anim-speed) ease, opacity var(--anim-speed) ease !important;
-  pointer-events: auto !important; 
-  background-color: var(--lwt-accent-color, #2b2a33) !important;
+  transition: transform var(--anim-speed) ease var(--hide-delay),
+    opacity var(--anim-speed) ease var(--hide-delay) !important;
+  pointer-events: auto !important;
+  background-color: var(--lwt-accent-color, #1d1d1e) !important;
+  border-bottom: none !important;
 }
 
-/* --- QUANDO ATIVADO (Mouse OU Teclado) --- */
 #navigator-toolbox:hover,
 #navigator-toolbox:focus-within {
   transform: translateY(0) !important;
   opacity: 1 !important;
+  transition-delay: 0s !important;
 }
 
 #navigator-toolbox:not(:hover):not(:focus-within) #urlbar {
@@ -29,13 +31,28 @@
   pointer-events: none !important;
 }
 
-#browser, #appcontent, #tabbrowser-tabbox {
+#browser,
+#appcontent,
+#tabbrowser-tabbox {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
-#navigator-toolbox::after { display: none !important; }
+#navigator-toolbox::after {
+  display: none !important;
+}
 
-#navigator-toolbox {
-    border-bottom: none !important;
+#mainPopupSet,
+#contentAreaContextMenu,
+#appMenu-popup,
+.panel-arrowcontent,
+tooltip {
+  z-index: 2147483647 !important;
+}
+
+#navigator-toolbox:has(#urlbar[open]),
+#navigator-toolbox:has(*[open="true"]) {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }

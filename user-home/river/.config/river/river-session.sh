@@ -8,4 +8,4 @@
 
 . "$HOME/.local/bin/wayland-common.sh" river
 
-exec dbus-run-session river 
+exec dbus-run-session river -no-xwayland

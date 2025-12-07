@@ -16,7 +16,6 @@ if ! pidof -q swww-daemon; then
     sleep 0.5
 fi
 
-# 3. Aplica com transição
 swww img "$WALLPAPER" \
     --transition-type grow \
     --transition-pos 0.854,0.977 \

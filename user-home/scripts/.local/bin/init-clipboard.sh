@@ -24,7 +24,7 @@ sleep 1
 if command -v wl-paste >/dev/null && command -v cliphist >/dev/null; then
     wl-paste --type text --watch cliphist store &
     echo "Watcher de Texto iniciado."
-    
+
     wl-paste --type image --watch cliphist store &
     echo "Watcher de Imagens iniciado."
 else

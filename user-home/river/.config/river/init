@@ -1,61 +1,17 @@
 #!/bin/sh
-
 # ============================================================================
 #  RIVER COMPOSITOR CONFIGURATION
 #  Sistema: Artix Linux (Runit)
 # ============================================================================
 
-# --- 1. FUNÇÕES HELPER (DRY - Don't Repeat Yourself) ------------------------
+LOG_FILE="$HOME/.local/state/init-log/river.log"
+exec > "$LOG_FILE" 2>&1
+echo "--- Iniciando River em $(date)"
+# --- AMBIENTE E DBUS (CRÍTICO: Executar primeiro) ---
 
-# Atalho para mapear teclas no modo normal
-map() { riverctl map normal "$@"; }
+dbus-update-activation-environment --systemd --all WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
 
-# Atalho para mapear ponteiro/mouse
-map_pointer() { riverctl map-pointer normal "$@"; }
-
-# Atalho para executar comandos
-spawn() { riverctl spawn "$@"; }
-
-# Inicia um serviço SOMENTE se ele ainda não estiver rodando (Para Daemons)
-start_once() {
-    if ! pgrep -x "$1" >/dev/null 2>&1; then
-        spawn "$2"
-    fi
-}
-
-# Reinicia um serviço forçadamente (Para Apps de UI que precisam de reload)
-restart_service() {
-    pkill -x "$1"
-
-    try_spawn "sh -c '$2'"
-}
-# testar antes de inicializar
-try_spawn() {
-    cmd="$1"
-    first=$(printf "%s" "$cmd" | awk '{print $1}')
-
-    if command -v "$first" >/dev/null 2>&1; then
-        spawn "sh -c '$cmd'"
-    else
-        printf '%s\n' "Aviso: comando não encontrado: $first" >&2
-    fi
-}
-
-float_app() {
-    if [ -z "$2" ]; then
-        riverctl rule-add -app-id "$1" float
-    else
-        riverctl rule-add -app-id "$1" -title "$2" float
-    fi
-}
-
-float_app_not_title(){
-    for app in $apps; do
-        float_app "$app"
-    done
-}
-
-# --- 2. VARIÁVEIS DE AMBIENTE E APPS ----------------------------------------
+# ---  APPS e SCRIPTS
 mod="Super"
 
 # Aplicações
@@ -65,51 +21,66 @@ files="nautilus"
 launcher="rofi -show drun"
 editor="code"
 
-# Scripts e Caminhos
+# Scripts
 script_mirror="$HOME/.local/bin/wl-mirror/mirror_toggle.sh"
 script_wall="$HOME/.local/bin/set-wallpaper.sh"
 wallpaper_img="$HOME/Imagens/Wallapaper/05.jpg"
+portals="$HOME/.local/bin/init-portals.sh"
+clipboard="$HOME/.local/bin/init-clipboard.sh"
+pipewire="$HOME/.local/bin/init-pipewire.sh"
 
-# Hardware (IDs obtidos via riverctl list-inputs ou libinput list-devices)
 touch_id="1003:8552:ATML3000:00_03EB:2168_Touchpad"
-#monitor_notebook="eDP-1"
-#monitor_externo="HDMI-A-1"
 
-# --- 3. CONFIGURAÇÃO DE INPUT E HARDWARE ------------------------------------
+# --- FUNÇÕES HELPER (DRY)
 
-# Teclado
-riverctl keyboard-layout -options "grp:alt_shift_toggle,caps:ctrl_modifier" br
+map() { riverctl map normal "$@"; }
+map_pointer() { riverctl map-pointer normal "$@"; }
+spawn() { riverctl spawn "$@"; }
+
+run_once() {
+    if ! pgrep -f "$1" >/dev/null; then
+        echo "Iniciando: $1"
+        spawn "$2"
+    else
+        echo "Serviço já rodando: $1"
+    fi
+}
+
+# --- CONFIGURAÇÃO DE INPUT E HARDWARE
+
+# Teclado (PT-BR ABNT2) - CORRIGIDO
+export XKB_DEFAULT_LAYOUT=br
+export XKB_DEFAULT_MODEL=abnt2
+riverctl keyboard-layout -model abnt2 br
 riverctl set-repeat 50 300
 
 # Touchpad
 riverctl input "$touch_id" tap enabled
 riverctl input "$touch_id" natural-scroll disabled
-riverctl input "$touch_id" tap-button-map left-right-middle
+riverctl input "$touch_id" tap-button-map lrm
 riverctl input "$touch_id" disable-while-typing enabled
 riverctl input "$touch_id" accel-profile adaptive
 riverctl input "$touch_id" pointer-accel 0.3
 
-# Comportamento do Foco e Cursor
+# Cursor
 riverctl focus-follows-cursor normal
 riverctl set-cursor-warp on-focus-change
 riverctl xcursor-theme "Bibata-Modern-Ice" 20
 
-# --- 4. APARÊNCIA E LAYOUT --------------------------------------------------
+# --- APARÊNCIA E LAYOUT
 
 # Cores das Bordas
-riverctl background-color 0x2a2041
 riverctl border-width 2
 riverctl border-color-focused "0x5b9bf8"
 riverctl border-color-unfocused "0x586e75"
 riverctl border-color-urgent "0xff0000"
 
-# Inicialização do Layout (Rivertile)
-pkill rivertile
-spawn "rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.5"
+# Rivertile
 riverctl default-layout rivertile
+rivertile -view-padding 5 -outer-padding 5 -main-ratio 0.5 &
 riverctl default-attach-mode bottom
 
-# --- 5. MAPEAMENTOS: SISTEMA E APPS -----------------------------------------
+# --- MAPEAMENTOS: SISTEMA E APPS
 
 # Apps
 map $mod T spawn "$term"
@@ -120,12 +91,12 @@ map $mod D spawn "$editor"
 map $mod P spawn "$script_mirror"
 
 # Sistema
-map $mod Q close 
-map $mod+Shift C spawn "sh $HOME/.config/river/init"
-# map $mod+Shift E exit
-map None Print spawn 'grim -g "$(slurp)" | wl-copy'
+map $mod Q close
+map $mod+Shift C spawn "$HOME/.config/river/init"
+map $mod Escape spawn "pkill waybar; waybar"
+map None Print spawn "grim -g \$(slurp) | wl-copy"
 
-# --- 6. MAPEAMENTOS: GERENCIAMENTO DE JANELAS -------------------------------
+# --- MAPEAMENTOS: GERENCIAMENTO DE JANELAS
 
 # Foco (Direcional HJKL + Setas)
 map $mod H focus-view left
@@ -145,34 +116,26 @@ map $mod+Shift L swap right
 map $mod+Shift Down swap down
 map $mod+Shift Up swap up
 
-# Zoom (Promover janela focada para a área Mestre)
+# Zoom (Mestre)
 map $mod Return zoom
-
-# Manipulação de Layout (Rivertile)
-# Aumentar/Diminuir área mestre
-map $mod Space send-layout-cmd rivertile "main-ratio -0.05"
-map $mod+Shift Space send-layout-cmd rivertile "main-ratio +0.05"
-# Aumentar/Diminuir quantidade de janelas na mestre
-map $mod+Control H send-layout-cmd rivertile "main-count +1"
-map $mod+Control L send-layout-cmd rivertile "main-count -1"
 
 # Estados da Janela
 map $mod F toggle-float
 map $mod+Shift F toggle-fullscreen
 
+# Rivertile tuning
+map $mod Space send-layout-cmd rivertile "main-ratio -0.05"
+map $mod+Shift Space send-layout-cmd rivertile "main-ratio +0.05"
+map $mod+Control H send-layout-cmd rivertile "main-count +1"
+map $mod+Control L send-layout-cmd rivertile "main-count -1"
+
 # Monitores (Foco e Movimentação Espacial)
-# [ = Esquerda, ] = Direita
 map $mod bracketleft focus-output left
 map $mod bracketright focus-output right
 map $mod+Shift bracketleft send-to-output left
 map $mod+Shift bracketright send-to-output right
 
-# Mouse (Super + Clique)
-map_pointer $mod BTN_LEFT move-view
-map_pointer $mod BTN_RIGHT resize-view
-map_pointer $mod BTN_MIDDLE toggle-float
-
-# --- 7. MAPEAMENTOS: TAGS (WORKSPACES) --------------------------------------
+# --- MAPEAMENTOS: TAGS (WORKSPACES)
 
 # Gera mapeamentos para tags 1 a 9
 for i in $(seq 1 9); do
@@ -183,11 +146,15 @@ for i in $(seq 1 9); do
     map $mod+Shift+Control "$i" toggle-view-tags $tags # Fixar janela em +1 Tag
 done
 
-# Tag 0 (Ver todas as tags)
 all_tags=$(((1 << 32) - 1))
 map $mod 0 set-focused-tags $all_tags
 
-# --- 8. MODOS E TECLAS ESPECIAIS --------------------------------------------
+# Mouse (Super + Clique)
+map_pointer $mod BTN_LEFT move-view
+map_pointer $mod BTN_RIGHT resize-view
+map_pointer $mod BTN_MIDDLE toggle-float
+
+# --- MODOS E TECLAS ESPECIAIS
 
 # Modo Passthrough (Para VMs e Jogos) - Super+F11 ativa/desativa
 riverctl declare-mode passthrough
@@ -207,45 +174,50 @@ for mode in normal locked; do
     riverctl map $mode None XF86AudioPrev spawn 'playerctl previous'
 done
 
-# --- 9. REGRAS DE JANELA ----------------------------------------------------
+# --- REGRAS DE JANELA
 
-# Forçar SSD (Server Side Decorations) em tudo -> Remove barras de título
-#riverctl rule-add -app-id "*" ssd
+# Remove barras de título
 riverctl rule-add ssd
+riverctl rule-add -app-id 'firefox' ssd
 
-# Janelas Flutuantes
-apps='pavucontrol nm-connection-editor blueman-manager'
-float_app 'firefox'  'Picture-in-Picture'
-float_app 'float*'  'foo'
+# Janelas Flutuantes (Função float_app)
+riverctl rule-add -app-id 'firefox' -title 'Picture-in-Picture' float
+riverctl rule-add -app-id 'firefox' -title 'Extensão:*' float
+riverctl rule-add -role dialog float
+riverctl rule-add -title "Authentication Required" float
+riverctl rule-add -app-id "pavucontrol" float
+riverctl rule-add -app-id "nm-connection-editor" float
+riverctl rule-add -app-id "blueman-manager" float
 
-# Tags Iniciais por Monitor (Fixação)
-# Monitor Externo começa na Tag 1
-#riverctl set-focused-tags -output "$monitor_externo" 1
-# Notebook começa na Tag 2
-#riverctl set-focused-tags -output "$monitor_notebook" 2
+# --- AUTOSTART
+echo "Aplicando temas..."
+# Temas GTK
+(
+    gsettings set org.gnome.desktop.wm.preferences button-layout ' '
+    gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Ice'
+    gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle-blue-dark'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Colloid-Dark'
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+) &
 
-# --- 10. AUTOSTART (INICIALIZAÇÃO INTELIGENTE) ------------------------------
-# Essenciais do Sistema (Rodar uma vez)
-try_spawn "$HOME/.local/bin/init-portals.sh"
-try_spawn "$HOME/.local/bin/init-pipewire.sh"
-try_spawn "$HOME/.local/bin/init-clipboard.sh"
-start_once "gnome-keyring-daemon" "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh"
-start_once "polkit-gnome-authentication-agent-1" "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-start_once "swww-daemon" "swww-daemon"
+echo "Iniciando serviços..."
+# Serviços
+run_once "gnome-keyring-daemon"  "/usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh"
+run_once "polkit-gnome-authentication-agent-1"  "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+run_once "pipewire" "$pipewire"
+run_once "wl-paste" "$clipboard"
+run_once "swww-daemon" "swww-daemon"
+run_once "nm-applet" "nm-applet --indicator"
 
-# Wallpaper (Script com cache e transição)
-# Executa sempre para garantir transição suave no reload
+# Interface
+pkill -x way-displays 2>/dev/null; spawn "way-displays > /tmp/way-displays.log 2>&1"
+pkill -x mako 2>/dev/null; spawn "mako"
+pkill -x waybar 2>/dev/null; spawn "waybar"
+
+# Wallpaper
 spawn "$script_wall $wallpaper_img"
 
-# Interface e Monitores (Reiniciar no reload para aplicar configs)
-restart_service "way-displays" "way-displays > /tmp/way-displays.log 2>&1"
-restart_service "waybar" "waybar"
-restart_service "nm-applet" "nm-applet --indicator"
-restart_service "mako" "mako"
+# Portals
+run_once "xdg-desktop-portal" "$portals"
 
-# Temas GTK
-gsettings set org.gnome.desktop.wm.preferences button-layout ' '
-gsettings set org.gnome.desktop.interface cursor-theme "Bibata-Modern-Ice"
-gsettings set org.gnome.desktop.interface icon-theme "Tela-circle-blue-dark"
-gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
-gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+echo "River iniciado com sucesso."
