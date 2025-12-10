@@ -1,11 +1,11 @@
 {
-  "bluetooth": {
+  /*   "bluetooth": {
     "format": "",
     "format-disabled": "󰂲",
     "format-connected": "󰂱",
     "tooltip-format": "{device_battery_percentage}%",
     "on-click": "blueman-manager"
-  },
+  }, */
   "clock": {
     "format": "{:L%d %b  %H:%M}",
     "format-alt": "{:%d/%m/%y  %H:%M}",
@@ -24,7 +24,7 @@
   },
   "custom/power": {
     "format": "⏻",
-    "on-click": "./.config/rofi/scripts/powermenu.sh"
+    "on-click": "~/.local/bin/powermenu.sh"
   },
   "backlight": {
     "format": "{icon}",
@@ -104,9 +104,9 @@
   },
   "custom/clipboard": {
     "format": "󰅇",
-    "format-alt": "",
+    // "format-alt": "",
     "tooltip": false,
-    "on-click": "cliphist list | rofi -dmenu -p 'Histórico' | cliphist decode | wl-copy",
+    "on-click": "cliphist list | fuzzel -d -p 'Área de transferência' | cliphist decode | wl-copy",
     "on-click-right": "cliphist wipe"
   }
 }

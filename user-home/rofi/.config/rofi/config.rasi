@@ -1,6 +1,6 @@
 /*****----- Configuration -----*****/
 configuration {
-    modi:                   "drun";
+    modi:                   "drun, window";
     show-icons:             true;
     drun-display-format:    "{name}";
 }

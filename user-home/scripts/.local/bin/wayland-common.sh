@@ -16,6 +16,10 @@ export XDG_MENU_PREFIX="arch-"
 export XCURSOR_SIZE=20
 export XCURSOR_THEME=Bibata-Modern-Ice
 
+# --- Teclado (Layout e padrão)
+export XKB_DEFAULT_LAYOUT=br
+export XKB_DEFAULT_MODEL=abnt2
+
 # --- Toolkits (GTK, Qt, Java, GDK, SDL)
 export GDK_BACKEND=wayland,x11
 export QT_QPA_PLATFORM="wayland;xcb"
