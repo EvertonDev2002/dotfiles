@@ -1,0 +1,11 @@
+#!/bin/sh
+# ============================================================================
+#  RUNIT FINISH SCRIPT: preload
+#  Executado quando o serviço é parado ou falha
+# ============================================================================
+
+# Log de parada para debug
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Preload service stopped with exit code: $1" >> /tmp/preload-finish.log
+
+# Aguardar antes de reiniciar (evita restart loop)
+sleep 2

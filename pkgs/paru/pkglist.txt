@@ -1,0 +1,86 @@
+# --- Base & Kernel ---
+base
+base-devel
+linux-cachyos-eevdf-lto
+linux-cachyos-eevdf-lto-headers
+linux-firmware-atheros
+linux-firmware-intel
+linux-firmware-realtek
+limine
+efibootmgr
+artix-archlinux-support
+
+# --- Init System (Runit) ---
+runit
+elogind
+ly-runit
+networkmanager-runit
+bluez-runit
+docker-runit
+ufw-runit
+tlp-runit
+seatd-runit
+acpid-runit
+
+# --- Interface (River Wayland) ---
+river
+waybar
+mako
+fuzzel
+swww
+wl-clipboard
+wlr-randr
+swaybg
+way-displays            
+nwg-look
+slurp
+grim
+
+# --- Audio & Video ---
+pipewire
+pipewire-pulse
+pipewire-alsa
+wireplumber
+mpv
+ffmpeg
+
+# --- Dev & CLI Tools ---
+git
+yay
+stow
+starship
+fastfetch
+ripgrep
+fd
+fzf
+bat
+eza
+zoxide
+yazi 
+wiremix
+visual-studio-code-bin
+docker
+docker-compose
+fish
+fisher
+mise
+uv
+omf
+
+# --- GUI Apps ---
+firefox
+foot
+nautilus
+network-manager-applet
+bluez
+blueman
+
+# --- Fonts & Themes ---
+ttf-firacode-nerd
+ttf-font-awesome
+ttf-nerd-fonts-symbols
+noto-fonts
+noto-fonts-emoji
+adwaita-icon-theme
+tela-circle-icon-theme-blue
+colloid-gtk-theme-git

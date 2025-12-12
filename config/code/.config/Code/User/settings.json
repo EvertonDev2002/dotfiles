@@ -1,0 +1,418 @@
+{
+  // EDITOR
+  "editor.wordWrap": "on",
+  "editor.fontSize": 16,
+  "editor.lineHeight": 2.1,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.fontFamily": "FiraCode Nerd Font",
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "normal",
+  "terminal.integrated.fontWeight": "normal",
+  "editor.minimap.enabled": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.semanticHighlighting.enabled": false,
+  "editor.suggestSelection": "first",
+  "editor.scrollbar.vertical": "hidden",
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.overviewRulerBorder": false,
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.rulers": [79],
+  "editor.largeFileOptimizations": true,
+  "editor.smoothScrolling": false,
+  "editor.renderWhitespace": "none",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.stickyScroll.enabled": false,
+  "editor.hover.enabled": "on",
+  "editor.inlayHints.enabled": "off",
+  "editor.parameterHints.enabled": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "fontStyle": "italic"
+        }
+      }
+    ]
+  },
+
+  // WORKBENCH E INTERFACE
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.perEditorGroup": true,
+  "workbench.editor.limit.value": 10,
+  "workbench.editor.enablePreview": false,
+  "workbench.layoutControl.enabled": false,
+  "workbench.tree.indent": 10,
+  "workbench.tree.renderIndentGuides": "none",
+  "workbench.preferredLightColorTheme": "Default Dark Modern",
+  "workbench.productIconTheme": "fluent-icons",
+  "workbench.iconTheme": "symbols",
+  "workbench.editor.showTabs": "single",
+  "workbench.tree.enableStickyScroll": false,
+  "workbench.sideBar.location": "right",
+  "workbench.colorCustomizations": {},
+  "workbench.colorTheme": "Min Dark",
+  "workbench.enableExperiments": false,
+
+  // JANELA
+  "window.menuBarVisibility": "toggle",
+  "window.commandCenter": false,
+  "window.titleBarStyle": "native",
+  "window.zoomLevel": 1,
+
+  // Git
+  "git.enabled": true,
+  "git.autorefresh": false,
+  "git.decorations.enabled": false,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "editor.inlineSuggest.enabled": false,
+
+  // EXPLORER E FILE NESTING
+  "explorer.compactFolders": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.openEditors.sortOrder": "alphabetical",
+  "explorer.sortOrder": "foldersNestsFiles",
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": ".eslint*, prettier*, tsconfig*, vite*, pnpm-lock*, bun.lockb, nest*, pnpm-workspace*, .npmrc,",
+    "tailwind.config.js": "tailwind.config*, postcss.config*",
+    ".env.local": ".env*",
+    ".env": ".env*",
+    "*.sqlite": "${capture}.${extname}-*",
+    "*.db": "${capture}.${extname}-*",
+    "*.sqlite3": "${capture}.${extname}-*",
+    "*.db3": "${capture}.${extname}-*",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*"
+  },
+
+  // EXCLUSÕES
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/out/**": true,
+    "**/.git/**": true,
+    "**/.next/**": true,
+    "**/.venv/**": true,
+    "**/__pycache__/**": true,
+    "**/.gradle/**": true,
+    "**/.idea/**": true,
+    "**/target/**": true,
+    "**/vendor/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/out": true,
+    "**/.next": true,
+    "**/__pycache__": true,
+    "**/.venv": true,
+    "**/.gradle": true,
+    "**/target": true,
+    "**/vendor": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/__pycache__": true,
+    "**/.venv": true,
+    //  "**/target": true,
+    "**/vendor": true
+  },
+  "search.useIgnoreFiles": true,
+  "search.followSymlinks": false,
+  "search.useGlobalIgnoreFiles": true,
+  "search.searchOnType": false,
+  "files.simpleDialog.enable": true,
+
+  // FORMATADORES POR LINGUAGEM
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.fixAll.unusedImports": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "prettier.semi": true,
+    "prettier.singleQuote": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "prettier.semi": true,
+    "prettier.singleQuote": true
+  },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
+
+  // PRETTIER
+  "prettier.enable": true,
+  "prettier.singleQuote": false,
+  "prettier.semi": false,
+
+  // PYTHON
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": ["tests"],
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.indexing": false,
+  "python.analysis.autoSearchPaths": false,
+  "python.analysis.useLibraryCodeForTypes": false,
+  "python.analysis.openFilesOnly": true,
+  "python.analysis.diagnosticMode": "openFilesOnly",
+
+  // RUFF
+  "ruff.lineLength": 79,
+  "ruff.enable": true,
+  "ruff.lint.select": ["I", "F", "E", "W", "PL", "PT", "N", "C4", "ICN"],
+
+  // TERMINAL
+  "terminal.integrated.fontSize": 15,
+  "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+
+  // EXECUTOR (CODE RUNNER)
+  "code-runner.runInTerminal": true,
+  "code-runner.ignoreSelection": true,
+  "code-runner.executorMap": {
+    "javascript": "clear ; node",
+    "python": "clear ; python -u",
+    "typescript": "ts-node",
+    "go": "go run",
+    "php": "php",
+    "java": "clear ; cd $dir && javac $fileName && java $fileNameWithoutExt",
+    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
+    "zig": "zig run"
+  },
+
+  // JS/TS
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.completeFunctionCalls": false,
+  // "javascript.suggest.autoImports": false,
+  // "typescript.suggest.autoImports": false,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "typescript.tsserver.maxTsServerMemory": 2048,
+  "typescript.tsserver.log": "off",
+
+  // ORTOGRAFIA
+  "cSpell.language": "en,pt-BR",
+  "cSpell.suggestionMenuType": "quickFix",
+  "cSpell.showAutocompleteSuggestions": true,
+  "cSpell.userWords": [
+    "albumcover",
+    "dublefy",
+    "Dublue",
+    "Dubluefy",
+    "fastapi",
+    "gestlab",
+    "httpx",
+    "imes",
+    "learninglab",
+    "ober",
+    "onupdate",
+    "poolclass",
+    "pydantic",
+    "senhateste",
+    "spotify",
+    "sqlalchemy",
+    "sqlite",
+    "tailwindcss",
+    "ufat"
+  ],
+
+  // TELEMETRIA E EXTENSÕES
+  "telemetry.telemetryLevel": "off",
+  "telemetry.feedback.enabled": false,
+  "gitlens.telemetry.enabled": false,
+  "git.autofetch": true,
+  "tabnine.experimentalAutoImports": true,
+  "codeium.enableConfig": {
+    "*": true,
+    "postcss": true
+  },
+
+  // OUTROS
+  "breadcrumbs.enabled": false,
+  "symbols.hidesExplorerArrows": true,
+  "chat.commandCenter.enabled": false,
+  "git.openRepositoryInParentFolders": "always",
+  "eslint.run": "onSave",
+  "files.autoSave": "afterDelay",
+  "workbench.settings.applyToAllProfiles": ["editor.cursorBlinking"],
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "workbench.activityBar.location": "bottom",
+  "workbench.editor.empty.hint": "hidden",
+  "latex-workshop.latex.defaultCompiler": "lualatex",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "lualatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-lualatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "xelatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-xelatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "latexmk_rconly",
+      "command": "latexmk",
+      "args": ["%DOC%"],
+      "env": {}
+    },
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"],
+      "env": {}
+    },
+    {
+      "name": "rnw2tex",
+      "command": "Rscript",
+      "args": [
+        "-e",
+        "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
+      ],
+      "env": {}
+    },
+    {
+      "name": "jnw2tex",
+      "command": "julia",
+      "args": ["-e", "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"],
+      "env": {}
+    },
+    {
+      "name": "jnw2texminted",
+      "command": "julia",
+      "args": [
+        "-e",
+        "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
+      ],
+      "env": {}
+    },
+    {
+      "name": "pnw2tex",
+      "command": "pweave",
+      "args": ["-f", "tex", "%DOC_EXT%"],
+      "env": {}
+    },
+    {
+      "name": "pnw2texminted",
+      "command": "pweave",
+      "args": ["-f", "texminted", "%DOC_EXT%"],
+      "env": {}
+    },
+    {
+      "name": "tectonic",
+      "command": "tectonic",
+      "args": ["--synctex", "--keep-logs", "--print", "%DOC%.tex"],
+      "env": {}
+    }
+  ],
+  "[shellscript]": {
+    "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
+  },
+  "workbench.statusBar.visible": false,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "window.customTitleBarVisibility": "never"
+}

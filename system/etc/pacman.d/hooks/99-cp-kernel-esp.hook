@@ -1,0 +1,15 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+# Lista de pacotes que, se alterados, disparam a cópia
+Target = linux
+Target = linux-cachyos
+Target = linux-cachyos-eevdf-lto
+Target = intel-ucode
+Target = mkinitcpio
+
+[Action]
+Description = Copiando Kernels e Initramfs para a ESP (/boot/efi/linux)...
+When = PostTransaction
+Exec = /bin/sh -c 'mkdir -p /boot/efi/linux && cp -f /boot/vmlinuz* /boot/initramfs* /boot/intel-ucode.img /boot/efi/linux/'

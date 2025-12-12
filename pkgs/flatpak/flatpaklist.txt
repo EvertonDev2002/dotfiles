@@ -1,0 +1,38 @@
+# --- Utilitários de Sistema ---
+com.github.d4nj1.tlpui
+com.github.tchx84.Flatseal
+io.github.flattool.Warehouse
+it.mijorus.gearlever
+org.bleachbit.BleachBit
+page.codeberg.libre_menu_editor.LibreMenuEditor
+
+# --- Produtividade & Office ---
+com.jgraph.drawio.desktop
+com.notesnook.Notesnook
+org.libreoffice.LibreOffice
+org.gnome.Calculator
+org.gnome.TextEditor
+rest.insomnia.Insomnia
+
+# --- Multimídia & Design ---
+com.spotify.Client
+com.stremio.Stremio
+com.transmissionbt.Transmission
+fr.handbrake.ghb
+org.gimp.GIMP
+org.kde.kdenlive
+io.github.seadve.Kooha
+com.github.jeromerobert.pdfarranger
+
+# --- Internet & Social ---
+org.telegram.desktop
+com.valvesoftware.Steam
+net.codelogistics.webapps
+org.localsend.localsend_app
+
+# --- Outros ---
+com.jeffser.Alpaca
+info.febvre.Komikku 
+net.nokyan.Resources
+org.gnome.Boxes
+org.gnome.Loupe

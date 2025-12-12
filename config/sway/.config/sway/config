@@ -1,0 +1,202 @@
+# --- Variáveis ---
+# Tecla modificadora principal (Super/Windows)
+set $mainMod Mod4
+
+# Teclas de direção na linha inicial, como no vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# --- Programas ---
+set $terminal foot
+set $fileManager nautilus
+set $menu rofi -show drun
+set $browser firefox
+set $ide code
+
+# --- Aparência ---
+font pango:Noto Sans 16
+
+default_floating_border pixel 1
+default_border pixel 1
+
+client.focused          #5b9bf8 #5b9bf8 #5b9bf8
+client.unfocused        #FFFFFF #FFFFFF #FFFFFF
+client.focused_inactive #808080 #808080 #808080
+
+# Borda
+gaps inner 7 
+gaps outer 2 
+
+#  Papel de parede 
+output * bg ~/Imagens/Wallapaper/05.jpg fill
+
+# --- Configuração de entrada (teclado e touchpad) ---
+
+input type:keyboard {
+    xkb_layout "br"
+    xkb_variant abnt2
+    xkb_model abnt2
+    xkb_numlock on
+    repeat_rate 45
+    repeat_delay 300
+}
+
+input type:touchpad {
+    tap enabled
+    dwt enabled
+    natural_scroll disabled
+    middle_emulation enabled
+    
+}
+
+# --- Monitores ---
+output * {
+    scale_filter linear 
+    scale 1.5
+    allow_tearing false
+    subpixel none
+    max_render_time 6
+    render_bit_depth 8
+}
+# eDP-1
+#output "AU Optronics 0x38ED Unknown" {
+#    res 1920x1080@60Hz
+#    pos 0,0
+#} 
+
+# HDMI-A-1
+output 'LG Electronics LG FULL HD 0x000147EA' {
+    adaptive_sync on
+} 
+
+# --- Atalhos de teclado ---
+bindsym $mainMod+T exec $terminal
+bindsym $mainMod+Q kill
+bindsym $mainMod+D exec $ide
+bindsym $mainMod+N exec $browser
+bindsym $mainMod+E exec $fileManager
+bindsym $mainMod+M exec $menu
+bindsym $mainMod+Escape exec killall waybar || waybar
+bindsym $mainMod+Shift+c reload
+bindsym Print exec 'grim -g "$(slurp)"'
+bindsym $mainMod+P exec ~/.local/bin/mirror_toggle.sh
+
+#bindsym $mainMod+Shift+e exec swaynag -t warning -m 'Você pressionou o atalho de saída. Deseja realmente sair do sway? Isso encerrará sua sessão Wayland.' -B 'Sim, sair do sway' 'swaymsg exit'
+
+# Movimentação
+bindsym $mainMod+$left focus left
+bindsym $mainMod+$down focus down
+bindsym $mainMod+$up focus up
+bindsym $mainMod+$right focus right
+bindsym $mainMod+Left focus left
+bindsym $mainMod+Down focus down
+bindsym $mainMod+Up focus up
+bindsym $mainMod+Right focus right
+bindsym $mainMod+Shift+$left move left
+bindsym $mainMod+Shift+$down move down
+bindsym $mainMod+Shift+$up move up
+bindsym $mainMod+Shift+$right move right
+bindsym $mainMod+Shift+Left move left
+bindsym $mainMod+Shift+Down move down
+bindsym $mainMod+Shift+Up move up
+bindsym $mainMod+Shift+Right move right
+
+# Áreas de trabalho
+bindsym $mainMod+1 workspace number 1
+bindsym $mainMod+2 workspace number 2
+bindsym $mainMod+3 workspace number 3
+bindsym $mainMod+4 workspace number 4
+bindsym $mainMod+5 workspace number 5
+bindsym $mainMod+6 workspace number 6
+bindsym $mainMod+7 workspace number 7
+bindsym $mainMod+8 workspace number 8
+bindsym $mainMod+9 workspace number 9
+bindsym $mainMod+0 workspace number 10
+bindsym $mainMod+Shift+1 move container to workspace number 1
+bindsym $mainMod+Shift+2 move container to workspace number 2
+bindsym $mainMod+Shift+3 move container to workspace number 3
+bindsym $mainMod+Shift+4 move container to workspace number 4
+bindsym $mainMod+Shift+5 move container to workspace number 5
+bindsym $mainMod+Shift+6 move container to workspace number 6
+bindsym $mainMod+Shift+7 move container to workspace number 7
+bindsym $mainMod+Shift+8 move container to workspace number 8
+bindsym $mainMod+Shift+9 move container to workspace number 9
+bindsym $mainMod+Shift+0 move container to workspace number 10
+
+# Layout
+bindsym $mainMod+b splith
+bindsym $mainMod+v splitv
+bindsym $mainMod+f fullscreen
+bindsym $mainMod+Shift+space floating toggle
+bindsym $mainMod+space focus mode_toggle
+bindsym $mainMod+a focus parent
+floating_modifier $mainMod normal
+
+# Scratchpad
+bindsym $mainMod+Shift+minus move scratchpad
+bindsym $mainMod+minus scratchpad show
+
+# Redimensionando containers
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mainMod+r mode "resize"
+
+# Utilitários
+bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86Search exec $menu
+
+# --- Execuções automáticas ---
+
+# Exportar variáveis para processos iniciados
+
+# Keyring/SSH Agent
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,ssh
+
+# Inicialização de Áudio
+exec --no-startup-id ~/.local/bin/init-pipewire.sh
+
+# D-Bus Environment (com runit) 
+exec --no-startup-id sh -c "dbus-update-activation-environment --all"
+
+# Polkit
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Tema escuro GTK
+exec --no-startup-id gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+exec --no-startup-id gsettings set org.gnome.desktop.wm.preferences button-layout ""
+
+# Apps
+exec --no-startup-id waybar
+exec --no-startup-id nm-applet --indicator
+exec --no-startup-id mako
+exec --no-startup-id autotiling-rs
+
+# Shikane (gerenciamento automático de monitores)
+exec_always --no-startup-id killall shikane; sleep 1; shikane
+
+
+# Nota: exec_always
+# --- Includes ---
+include /etc/sway/config.d/*

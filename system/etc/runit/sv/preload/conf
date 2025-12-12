@@ -1,0 +1,11 @@
+# ============================================================================
+#  RUNIT CONFIG: preload
+#  Variáveis de ambiente e configurações do serviço
+# ============================================================================
+
+# Nível de verbosidade (0=silencioso, 1=básico, 2=detalhado)
+PRELOAD_VERBOSE=1
+
+# Nice level (prioridade do processo: -20 a 19, menor = maior prioridade)
+# Para preload, valores baixos são recomendados (ex: -5)
+PRELOAD_NICE=-5

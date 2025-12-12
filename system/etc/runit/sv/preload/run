@@ -1,0 +1,14 @@
+#!/bin/sh
+# ============================================================================
+#  RUNIT SERVICE: preload
+#  Pré-carrega aplicativos frequentes na RAM para inicialização mais rápida
+# ============================================================================
+
+# Carregar configurações (se existir)
+[ -r ./conf ] && . ./conf
+
+# Ajustar prioridade do processo
+[ -n "$PRELOAD_NICE" ] && exec chpst -n "$PRELOAD_NICE" preload --foreground --verbose "${PRELOAD_VERBOSE:-1}"
+
+# Fallback sem nice
+exec preload --foreground --verbose 1
