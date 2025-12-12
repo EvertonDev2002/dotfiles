@@ -1,5 +1,0 @@
-#!/bin/sh
-# A flag --foreground (-f) impede que o preload vá para o background (daemonize),
-# o que é essencial para o supervisionamento do runit.
-# A flag --verbose 1 é opcional, mas útil para logs básicos.
-exec preload --foreground --verbose 1
