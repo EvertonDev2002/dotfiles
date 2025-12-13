@@ -1,6 +1,6 @@
 #!/bin/bash
 # scripts/setup_repos.sh
-# Configura repositórios Artix, CachyOS e Arch Linux
+# Configura repositórios Artix e Arch Linux
 
 set -euo pipefail
 
@@ -73,29 +73,7 @@ else
 fi
 
 # ============================================
-# 2. Repositórios CachyOS
-# ============================================
-# Documentação: https://wiki.cachyos.org/features/optimized_repos/
-if ! grep -q "cachyos" "${PACMAN_CONF}"; then
-    if ! command -v curl &> /dev/null; then
-        log "Instalando curl..."
-        sudo pacman -S --needed --noconfirm curl
-    fi
-    
-    log "Configurando repositórios CachyOS..."
-    curl -O https://mirror.cachyos.org/cachyos-repo.tar.xz
-    tar xvf cachyos-repo.tar.xz
-    cd cachyos-repo || exit
-    sudo ./cachyos-repo.sh
-    cd ..
-    rm -rf cachyos-repo cachyos-repo.tar.xz
-    success "Repositórios CachyOS configurados"
-else
-    warn "Repositórios CachyOS já configurados"
-fi
-
-# ============================================
-# 3. Repositório Arch [extra]
+# 2. Repositório Arch [extra]
 # ============================================
 # Documentação Artix: https://wiki.artixlinux.org/Main/Repositories
 if ! grep -q "\[extra\]" "${PACMAN_CONF}"; then

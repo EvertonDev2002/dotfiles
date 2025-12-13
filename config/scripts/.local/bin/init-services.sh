@@ -4,8 +4,6 @@
 #  Otimizado para velocidade e fácil manutenção.
 # ============================================================================
 
-set -euo pipefail
-
 # --- 1. CONFIGURAÇÃO E LOGS ---
 
 # Logging

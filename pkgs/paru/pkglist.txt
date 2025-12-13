@@ -1,53 +1,146 @@
-# --- Base & Kernel ---
+# ============================================================================
+# LISTA DE PACOTES - Artix Linux (Paru)
+# Organizada por categorias para instalação via install.sh
+# ============================================================================
+
+# --- BASE & KERNEL ---
 base
 base-devel
-linux-cachyos-eevdf-lto
-linux-cachyos-eevdf-lto-headers
 linux-firmware-atheros
 linux-firmware-intel
 linux-firmware-realtek
+linux-firmware-other
+linux-firmware-whence
 limine
 efibootmgr
 artix-archlinux-support
 
-# --- Init System (Runit) ---
-runit
-elogind
-ly-runit
+# --- INIT SYSTEM (RUNIT) ---
 networkmanager-runit
+dbus-runit
+acpid-runit
 bluez-runit
 docker-runit
-ufw-runit
+earlyoom-runit
 tlp-runit
 seatd-runit
-acpid-runit
+iwd-runit
+chrony-runit 
+openssh-runit
+greetd-runit
+lm_sensors-runit
+ufw-runit
+zramen-runit
+apparmor-runit
 
-# --- Interface (River Wayland) ---
+# --- WAYLAND & WINDOW MANAGER ---
 river
 waybar
 mako
+seatd
 fuzzel
 swww
-wl-clipboard
-wlr-randr
 swaybg
-way-displays            
-nwg-look
+wl-clipboard
+wl-mirror
+wlr-randr
+way-displays
 slurp
 grim
+libnotify
+brightnessctl
+pamixer
 
-# --- Audio & Video ---
+# --- AUDIO (PIPEWIRE) ---
 pipewire
 pipewire-pulse
 pipewire-alsa
+pipewire-jack
 wireplumber
-mpv
-ffmpeg
+playerctl
 
-# --- Dev & CLI Tools ---
+# --- VIDEO & HARDWARE ACCELERATION ---
+# Intel Graphics
+intel-ucode
+intel-media-driver
+intel-gpu-tools
+vulkan-intel
+thermald
+# Media Libs
+libva
+libva-utils
+gst-libav
+gst-plugins-base
+gst-plugins-good
+gst-plugins-bad
+gst-plugins-ugly
+gstreamer
+gstreamer-vaapi
+ffmpeg
+mpv
+
+# --- NETWORKING ---
+networkmanager
+network-manager-applet
+iwd
+ufw
+chrony
+bluez
+blueman
+bluez-utils
+bind
+
+# --- SYSTEM UTILITIES ---
+dbus
+acpid
+earlyoom
+tlp
+preload
+lm_sensors
+zramen
+pacman-contrib
+polkit
+polkit-gnome
+greetd-tuigreet
+ufw
+apparmor
+openssh
+inxi
+
+# --- FILE SYSTEM ---
+btrfs-progs
+fuse2
+fuse3
+gvfs-mtp
+
+# --- XDG & DESKTOP PORTAL ---
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+xdg-desktop-portal-wlr
+xdg-user-dirs
+xdg-user-dirs-gtk
+xdg-utils
+
+# --- APPLICATIONS ---
+firefox
+nautilus
+evince
+foot
+visual-studio-code-bin
+flatpak
+
+# --- DEVELOPMENT ---
 git
-yay
+docker
+docker-compose
 stow
+mise
+uv
+
+# --- SHELL & CLI TOOLS ---
+fish
+fisher
+omf
 starship
 fastfetch
 ripgrep
@@ -55,32 +148,38 @@ fd
 fzf
 bat
 eza
+cliphist
 zoxide
-yazi 
-wiremix
-visual-studio-code-bin
-docker
-docker-compose
-fish
-fisher
-mise
-uv
-omf
+yazi
+tree
+nano
+nano-syntax-highlighting
+7zip
+jq
+lswt
 
-# --- GUI Apps ---
-firefox
-foot
-nautilus
-network-manager-applet
-bluez
-blueman
+# --- SECURITY ---
+gnome-keyring
 
-# --- Fonts & Themes ---
+# --- PACKAGE MANAGERS ---
+paru
+
+# --- FONTS ---
 ttf-firacode-nerd
-ttf-font-awesome
+otf-font-awesome
+ttf-jetbrains-mono-nerd
 ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-mono
+ttf-nerd-fonts-symbols-common
 noto-fonts
+noto-fonts-cjk
 noto-fonts-emoji
-adwaita-icon-theme
+
+# --- THEMES & ICONS ---
 tela-circle-icon-theme-blue
 colloid-gtk-theme-git
+nwg-look
+
+# --- MEDIA ---
+ffmpegthumbnailer
+wiremix

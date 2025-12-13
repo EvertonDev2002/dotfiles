@@ -4,8 +4,6 @@
 #  Inicia temas, wallpaper, barras e applets.
 # ============================================================================
 
-set -euo pipefail
-
 # --- LOGGING
 DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
 mkdir -p "$DIR_LOG"

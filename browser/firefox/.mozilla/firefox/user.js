@@ -416,8 +416,6 @@ user_pref('browser.aboutwelcome.enabled', false);
 user_pref('browser.profiles.enabled', true);
 
 // === THEME ADJUSTMENTS ===
-// Mostra opção de modo compacto
-user_pref('browser.compactmode.show', true);
 // Desativa separação de janelas privadas na UI
 user_pref('browser.privateWindowSeparation.enabled', false);
 

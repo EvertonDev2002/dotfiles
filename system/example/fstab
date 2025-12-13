@@ -3,11 +3,11 @@
 
 # <file system> <dir> <type> <options> <dump> <pass>
 # /dev/nvme0n1p2 LABEL=ROOT
-UUID=(...)	/         	btrfs     	rw,ssd,noatime,space_cache=v2,compress=zstd:1,commit=120,subvol=/	0 1
+UUID=d45e2eab-2d32-4b50-9dc7-5a841f90791e	/		btrfs	rw,ssd,noatime,space_cache=v2,compress=zstd:1,discard=async,commit=60,subvol=/	0 1
 
-# /dev/... LABEL=BOOT
-UUID=(...)					/boot/efi 	vfat     	defaults,nodev,nosuid,noexec,fmask=0177,dmask=0077				0 2
+# /dev/nvme0n1p1 LABEL=BOOT
+UUID=5851-754C					/boot/efi	vfat	defaults,nodev,nosuid,noexec,fmask=0177,dmask=0077				0 2
 
-# /dev/(...)
-UUID=	/home		btrfs		rw,noatime,compress=zstd:1,space_cache=v2,commit=120,subvol=@home	        0 2
+# /dev/sda1
+UUID=218f12e4-af26-497a-bba2-5126bf8333b6	/home		btrfs		rw,noatime,compress=zstd:1,space_cache=v2,discard=async,commit=60,subvol=@home	        0 2
 

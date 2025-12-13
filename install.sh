@@ -26,7 +26,7 @@ log "Iniciando pós-instalação..."
 
 chmod +x "${SCRIPT_DIR}/scripts/"*.sh
 
-# --- Configuração de Repositórios (CachyOS, Arch Extra)
+# --- Configuração de Repositórios (Arch Extra)
 if [ -f "$REPOS" ]; then
     log "Executando setup de repositórios..."
     bash "$REPOS"

@@ -45,11 +45,14 @@ if [ -f "$LIST_FILE" ]; then
     
     while IFS= read -r app; do
         if [ -n "$app" ]; then
-            log " -> Instalando: $app"
-            if flatpak install -y flathub "$app" 2>/dev/null; then
-                success "$app instalado"
+            # Extrair apenas o ID do app (remove /x86_64/stable se existir)
+            app_id="${app%%/*}"
+            
+            log " -> Instalando: $app_id"
+            if flatpak install -y flathub "$app_id" 2>/dev/null; then
+                success "$app_id instalado"
             else
-                warn "Falha ou já instalado: $app"
+                warn "Falha ou já instalado: $app_id"
             fi
         fi
     done < <(grep -vE '^\s*#|^\s*$' "$LIST_FILE")
