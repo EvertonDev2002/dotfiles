@@ -91,7 +91,7 @@ if command -v stow &> /dev/null; then
     [ -f "$HOME/.config/fish/config.fish" ] && rm -f "$HOME/.config/fish/config.fish"
     
     cd "$SCRIPT_DIR"
-    stow -d config -t "$HOME" . --verbose 2> /dev/null || warn "Alguns links já existem"
+    stow -d config -t "$HOME" -- * --verbose 2> /dev/null || warn "Alguns links já existem"
     success "Dotfiles linkados com sucesso!"
 else
     error "GNU Stow não está instalado. Verifique o pkglist.txt"

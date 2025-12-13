@@ -232,8 +232,6 @@ stow -d config -t ~ waybar
 # Scripts utilitários
 stow -d config -t ~ scripts
 
-# Firefox
-stow -d browser -t ~ firefox
 ```
 
 ---
@@ -329,20 +327,17 @@ Todos os scripts possuem:
 - ✅ Error handling (`set -euo pipefail`)
 - ✅ Paths dinâmicos com `$SCRIPT_DIR`
 
-| Script              | Função                                      | Log                       |
-| ------------------- | ------------------------------------------- | ------------------------- | ------------------- | --- |
-| `init-services.sh`  | Orquestra todos os serviços de usuário      | `services.log`            |
-| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              | `audio.log`               |
-| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         | `portals.log`             |
-| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) | `clipboard.log`           |
-| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     | `autostart.log`           |
-| `screenshot.sh`     | Captura de tela (grim + slurp)              | `screenshot.log`          |
-| `powermenu.sh`      | Menu de energia (fuzzel)                    | -                         |
-| `mirror_toggle.sh`  | Toggle espelhamento de display              | `mirror.log`              |
-| `set-wallpaper.sh`  | Gerencia wallpapers com swww                | `wallpaper.log`           |
-| <!--                | `show-keys.sh`                              | Exibe atalhos do River    | -                   |
-| `update-keys.sh`    | Sincroniza shortcuts.db com River init      | -                         | -->                 |
-| <!--                | `scale-display.sh`                          | Escala displays para 1.5x | `scale-display.log` | --> |
+| Script              | Função                                      | Log                |
+| ------------------- | ------------------------------------------- | ------------------ |
+| `init-services.sh`  | Orquestra todos os serviços de usuário      | `services.log`     |
+| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              | `audio.log`        |
+| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         | `portals.log`      |
+| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) | `clipboard.log`    |
+| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     | `autostart.log`    |
+| `screenshot.sh`     | Captura de tela (grim + slurp)              | `screenshot.log`   |
+| `powermenu.sh`      | Menu de energia (fuzzel)                    | -                  |
+| `mirror_toggle.sh`  | Toggle espelhamento de display              | `mirror.log`       |
+| `set-wallpaper.sh`  | Gerencia wallpapers com swww                | `wallpaper.log`    |
 
 ### Scripts de Setup (`scripts/`)
 
