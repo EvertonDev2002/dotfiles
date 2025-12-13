@@ -48,7 +48,6 @@ Este repositório contém todas as configurações necessárias para replicar me
 - **Preload service** para cache inteligente de aplicações
 - **Zramen** swap comprimido em memória
 - **Pacman otimizado** (ParallelDownloads=12, DownloadUser=alpm)
-- **Repositórios CachyOS** com otimizações x86-64-v3
 - **PipeWire** com baixa latência
 - **Aliases modernos** (fd, ripgrep, eza, bat, xcp)
 
@@ -166,7 +165,7 @@ dotfiles/
 
 ### Pré-requisitos
 
-- Artix Linux instalado (Runit ou OpenRC)
+- Artix Linux instalado (Runit)
 - Acesso root (sudo)
 - Conexão com internet
 
@@ -185,7 +184,7 @@ chmod +x install.sh
 O script `install.sh` irá:
 
 1. ✅ Instalar Paru (AUR helper)
-2. ✅ Configurar repositórios (Artix, CachyOS, Arch)
+2. ✅ Configurar repositórios (Arch extra)
 3. ✅ Instalar pacotes do sistema (pkglist.txt)
 4. ✅ Instalar Flatpaks (flatpaklist.txt)
 5. ✅ Criar symlinks com GNU Stow
