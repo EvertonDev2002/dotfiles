@@ -136,13 +136,31 @@ enable_service() {
     fi
 }
 
-# Lista de serviços 
-enable_service "ly"
-enable_service "NetworkManager"
-enable_service "bluetoothd"
-enable_service "docker"
-enable_service "tlp" 
-enable_service "ufw"
+# Lista de serviços
+services=(
+    "NetworkManager"
+    "bluetoothd"
+    "docker"
+    "tlp"
+    "ufw"
+    "acpid"
+    "chrony"
+    "dbus"
+    "earlyoom"
+    "greetd"
+    "iwd"
+    "lm_sensors"
+    "preload"
+    "seatd"
+    "sshd"
+    "udevd"
+    "zramen"
+)
+
+for service in "${services[@]}"; do
+    enable_service "$service"
+done
+
 
 echo ""
 echo -e "${GREEN}=========================================${NC}"
