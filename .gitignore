@@ -1,4 +1,11 @@
 # VisualStudioCode
 .vscode
+config/code/.config/Code/*
+!config/code/.config/Code/User/settings.json
+!config/code/.config/Code/User/profiles/*
+
 # Logs
 *.log
+
+# pipewire
+stream-properties
