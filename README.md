@@ -33,7 +33,7 @@ Este repositório contém todas as configurações necessárias para replicar me
 - **Terminal**: Foot
 - **Browser**: Firefox com configurações (Betterfox + Personal use)
 - **Gerenciamento**: GNU Stow para symlinks automáticos
-- **Pacotes**: Paru (AUR helper) + Flatpak
+- **Pacotes**: Yay (AUR helper) + Flatpak
 
 ---
 
@@ -117,7 +117,7 @@ dotfiles/
 ├── pkgs
 │   ├── flatpak
 │   │   └── flatpaklist.txt
-│   └── paru
+│   └── yay
 │       └── pkglist.txt
 ├── scripts
 │   ├── setup_firefox.sh
@@ -183,7 +183,7 @@ chmod +x install.sh
 
 O script `install.sh` irá:
 
-1. ✅ Instalar Paru (AUR helper)
+1. ✅ Instalar Yay (AUR helper)
 2. ✅ Configurar repositórios (Arch extra)
 3. ✅ Instalar pacotes do sistema (pkglist.txt)
 4. ✅ Instalar Flatpaks (flatpaklist.txt)
@@ -265,10 +265,10 @@ stow -d config -t ~ scripts
 **Aliases úteis:**
 
 ```bash
-# Paru (pacman wrapper)
-alias add-arch="paru -S --needed --noconfirm"
-alias remove-arch="paru -Rns"
-alias update-arch="flatpak update -y; and paru -Syu --noconfirm; and paru -c"
+# Yay (pacman wrapper)
+alias -- add-arch="yay -S --needed --noconfirm"
+alias -- remove-arch="yay -Rns"
+alias -- update-arch="flatpak update -y; and yay -Syu --noconfirm; and yay -c"
 alias flatpak-search="flatpak search --columns=name,application"
 
 # Modern CLI tools
@@ -326,17 +326,17 @@ Todos os scripts possuem:
 - ✅ Error handling (`set -euo pipefail`)
 - ✅ Paths dinâmicos com `$SCRIPT_DIR`
 
-| Script              | Função                                      | Log                |
-| ------------------- | ------------------------------------------- | ------------------ |
-| `init-services.sh`  | Orquestra todos os serviços de usuário      | `services.log`     |
-| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              | `audio.log`        |
-| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         | `portals.log`      |
-| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) | `clipboard.log`    |
-| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     | `autostart.log`    |
-| `screenshot.sh`     | Captura de tela (grim + slurp)              | `screenshot.log`   |
-| `powermenu.sh`      | Menu de energia (fuzzel)                    | -                  |
-| `mirror_toggle.sh`  | Toggle espelhamento de display              | `mirror.log`       |
-| `set-wallpaper.sh`  | Gerencia wallpapers com swww                | `wallpaper.log`    |
+| Script              | Função                                      | Log              |
+| ------------------- | ------------------------------------------- | ---------------- |
+| `init-services.sh`  | Orquestra todos os serviços de usuário      | `services.log`   |
+| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              | `audio.log`      |
+| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         | `portals.log`    |
+| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) | `clipboard.log`  |
+| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     | `autostart.log`  |
+| `screenshot.sh`     | Captura de tela (grim + slurp)              | `screenshot.log` |
+| `powermenu.sh`      | Menu de energia (fuzzel)                    | -                |
+| `mirror_toggle.sh`  | Toggle espelhamento de display              | `mirror.log`     |
+| `set-wallpaper.sh`  | Gerencia wallpapers com swww                | `wallpaper.log`  |
 
 ### Scripts de Setup (`scripts/`)
 

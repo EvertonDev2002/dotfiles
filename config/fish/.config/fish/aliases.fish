@@ -11,9 +11,9 @@
 
 # --- Gerenciamento de Pacotes
 
-alias add-arch="paru -S --needed --noconfirm"
-alias remove-arch="paru -Rns"
-alias update-arch="flatpak update -y; and paru -Syu --noconfirm; and paru -c"
+alias -- add-arch="yay -S --needed --noconfirm"
+alias -- remove-arch="yay -Rns"
+alias -- update-arch="flatpak update -y; and yay -Syu --noconfirm; and yay -c"
 alias flatpak-search="flatpak search --columns=name,application"
 #alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg; and sudo mkinitcpio -P"
 

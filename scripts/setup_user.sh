@@ -38,7 +38,6 @@ fi
 log "Configurando usuário: $REAL_USER"
 echo ""
 
-# --- Grupos necessários para desktop/desenvolvimento
 # Documentação: https://wiki.archlinux.org/title/users_and_groups
 GROUPS_TO_ADD=(
     "wheel"        # Sudo/administração
@@ -46,13 +45,9 @@ GROUPS_TO_ADD=(
     "audio"        # Acesso a dispositivos de áudio
     "input"        # Acesso a dispositivos de input (teclado, mouse)
     "storage"      # Acesso a dispositivos de armazenamento removíveis
-    "optical"      # Acesso a drives ópticos (CD/DVD)
-    "lp"           # Acesso a impressoras
-    "scanner"      # Acesso a scanners
     "network"      # Gerenciamento de rede (NetworkManager)
     "power"        # Gerenciamento de energia (suspend, hibernate)
     "rfkill"       # Controle de dispositivos wireless
-    "users"        # Grupo padrão de usuários
     "seat"         # Acesso ao seatd (sessões Wayland)
     "docker"       # Acesso ao Docker (se instalado)
 )
@@ -83,8 +78,6 @@ done
 echo ""
 
 # --- Configurar Sudo
-SUDOERS_FILE="/etc/sudoers.d/10-$REAL_USER"
-
 log "Configurando sudo para $REAL_USER..."
 
 # Verificar se usuário está no grupo wheel
@@ -93,43 +86,22 @@ if ! id -nG "$REAL_USER" | grep -qw "wheel"; then
     usermod -aG wheel "$REAL_USER"
 fi
 
-# Criar arquivo sudoers específico do usuário
-if [ -f "$SUDOERS_FILE" ]; then
-    warn "Arquivo $SUDOERS_FILE já existe. Sobrescrevendo..."
-fi
-
-# Criar arquivo com permissões corretas ANTES de escrever
-touch "$SUDOERS_FILE"
-chmod 0440 "$SUDOERS_FILE"
-
-# Escrever configuração (sudo sem senha)
-cat > "$SUDOERS_FILE" << EOF
-# Configuração de sudo para $REAL_USER
-# Criado automaticamente por setup_user.sh
-
-# Permitir sudo sem senha
-$REAL_USER ALL=(ALL:ALL) NOPASSWD: ALL
-
-# Preservar variáveis de ambiente úteis
-Defaults:$REAL_USER env_keep += "HOME"
-Defaults:$REAL_USER env_keep += "XDG_RUNTIME_DIR"
-Defaults:$REAL_USER env_keep += "DISPLAY"
-Defaults:$REAL_USER env_keep += "WAYLAND_DISPLAY"
-EOF
-
-# Validar sintaxe do sudoers
-if visudo -c -f "$SUDOERS_FILE" > /dev/null 2>&1; then
-    success "Arquivo sudoers criado: $SUDOERS_FILE"
+# Descomente apenas a linha para sudo com senha no /etc/sudoers
+if grep -q "^## %wheel ALL=(ALL:ALL) ALL" /etc/sudoers; then
+    log "Descomentando linha wheel no /etc/sudoers..."
+    sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+    
+    if visudo -c > /dev/null 2>&1; then
+        success "Configuração sudoers atualizada (sudo COM senha)"
+    else
+        error "Erro na sintaxe do sudoers! Revertendo..."
+        sed -i 's/^%wheel ALL=(ALL:ALL) ALL/# %wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+        exit 1
+    fi
+elif grep -q "^%wheel ALL=(ALL:ALL) ALL" /etc/sudoers; then
+    success "Linha wheel já descomentada no /etc/sudoers"
 else
-    error "Erro na sintaxe do sudoers! Removendo arquivo..."
-    rm -f "$SUDOERS_FILE"
-    exit 1
-fi
-
-# Garantir que /etc/sudoers inclui arquivos .d/
-if ! grep -q "^#includedir /etc/sudoers.d" /etc/sudoers; then
-    warn "Adicionando #includedir ao /etc/sudoers..."
-    echo "#includedir /etc/sudoers.d" >> /etc/sudoers
+    warn "Linha wheel não encontrada em /etc/sudoers"
 fi
 
 echo ""
@@ -138,11 +110,15 @@ echo ""
 echo "Detalhes:"
 echo "  Usuário: $REAL_USER"
 echo "  Grupos: $(id -nG "$REAL_USER" | tr ' ' ', ')"
-echo "  Sudoers: $SUDOERS_FILE"
+echo "  Sudo: Com senha (descomentado em /etc/sudoers)"
 echo ""
 warn "IMPORTANTE: Faça logout e login novamente para aplicar as mudanças de grupo!"
 echo ""
-echo "Para testar sudo:"
+echo "Próximos passos:"
 echo "  1. Abra um novo terminal (logout/login)"
-echo "  2. Execute: sudo -v"
-echo "  3. Não deve pedir senha"
+echo "  2. Teste: sudo -v (pedirá senha)"
+echo ""
+echo "Recomendação de segurança:"
+echo "  Para DESABILITAR acesso root no Display Manager (DM),"
+echo "  Use: passwd -l root"
+echo ""

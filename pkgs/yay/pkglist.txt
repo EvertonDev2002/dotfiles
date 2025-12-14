@@ -1,5 +1,5 @@
 # ============================================================================
-# LISTA DE PACOTES - Artix Linux (Paru)
+# LISTA DE PACOTES - Artix Linux (Yay)
 # Organizada por categorias para instalação via install.sh
 # ============================================================================
 
@@ -25,7 +25,7 @@ earlyoom-runit
 tlp-runit
 seatd-runit
 iwd-runit
-chrony-runit 
+chrony-runit
 openssh-runit
 greetd-runit
 lm_sensors-runit
@@ -140,7 +140,6 @@ uv
 # --- SHELL & CLI TOOLS ---
 fish
 fisher
-omf
 starship
 fastfetch
 ripgrep
@@ -162,7 +161,7 @@ lswt
 gnome-keyring
 
 # --- PACKAGE MANAGERS ---
-paru
+yay
 
 # --- FONTS ---
 ttf-firacode-nerd
@@ -177,7 +176,7 @@ noto-fonts-emoji
 
 # --- THEMES & ICONS ---
 tela-circle-icon-theme-blue
-colloid-gtk-theme-git
+bibata-cursor-theme-bin
 nwg-look
 
 # --- MEDIA ---
