@@ -338,27 +338,6 @@ Todos os scripts possuem:
 | `mirror_toggle.sh`  | Toggle espelhamento de display              | `mirror.log`     |
 | `set-wallpaper.sh`  | Gerencia wallpapers com swww                | `wallpaper.log`  |
 
-### Scripts de Setup (`scripts/`)
-
-| Script                     | Função                                           | Contadores |
-| -------------------------- | ------------------------------------------------ | ---------- |
-| `setup_repos.sh`           | Configura Artix/CachyOS/Arch repos + pacman.conf | ❌         |
-| `setup_yay.sh`             | Instala Yay (AUR helper)                         | ✅         |
-| `setup_packages.sh`        | Instala 142 pacotes (Pacman + AUR)               | ✅         |
-| `setup_flatpaks.sh`        | Instala Flatpak + Flathub + 29 apps              | ✅         |
-| `setup_system.sh`          | Copia /etc configs com backup                    | ❌         |
-| `setup_services.sh`        | Habilita serviços Runit                          | ❌         |
-| `setup_dotfiles.sh`        | Cria symlinks com GNU Stow                       | ❌         |
-| `setup_user.sh`            | Configura grupos e sudo                          | ❌         |
-| `setup_firefox.sh`         | Detecta perfil e cria symlinks                   | ❌         |
-| `setup_theme_and_shell.sh` | Instala Colloid, OMF, Fisher, pnpm (interativo)  | ❌         |
-
-**Scripts com contadores** exibem resumo final:
-
-- ✓ Instalados
-- → Já existentes
-- ✗ Falhados
-
 ---
 
 ## 🎨 Customização
