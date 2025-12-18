@@ -2,10 +2,8 @@
 Operation = Install
 Operation = Upgrade
 Type = Package
-# Lista de pacotes que, se alterados, disparam a cópia
+
 Target = linux
-Target = linux-cachyos
-Target = linux-cachyos-eevdf-lto
 Target = intel-ucode
 Target = mkinitcpio
 

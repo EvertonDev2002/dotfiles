@@ -34,26 +34,50 @@ log "Aplicando otimizações no pacman.conf..."
 
 # Habilitar ParallelDownloads se não existir
 if ! grep -q "^ParallelDownloads" "${PACMAN_CONF}"; then
-    sudo sed -i '/^#ParallelDownloads/a ParallelDownloads = 12' "${PACMAN_CONF}"
+    sudo sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 12/' "${PACMAN_CONF}"
     success "ParallelDownloads ativado"
+else
+    success "ParallelDownloads já está ativo"
 fi
 
 # Habilitar DownloadUser se não existir
 if ! grep -q "^DownloadUser" "${PACMAN_CONF}"; then
-    sudo sed -i '/^ParallelDownloads/a DownloadUser = alpm' "${PACMAN_CONF}"
+    if grep -q "^#DownloadUser" "${PACMAN_CONF}"; then
+        sudo sed -i 's/^#DownloadUser.*/DownloadUser = alpm/' "${PACMAN_CONF}"
+    else
+        sudo sed -i '/^ParallelDownloads/a DownloadUser = alpm' "${PACMAN_CONF}"
+    fi
     success "DownloadUser configurado"
+else
+    success "DownloadUser já está ativo"
 fi
 
 # Habilitar Color se não existir
 if ! grep -q "^Color" "${PACMAN_CONF}"; then
     sudo sed -i 's/^#Color/Color/' "${PACMAN_CONF}"
     success "Color ativado"
+else
+    success "Color já está ativo"
+fi
+
+# Descomentar HookDir se estiver comentado
+if grep -q "^#HookDir" "${PACMAN_CONF}"; then
+    sudo sed -i 's/^#HookDir/HookDir/' "${PACMAN_CONF}"
+    success "HookDir descomentado"
+elif grep -q "^HookDir" "${PACMAN_CONF}"; then
+    success "HookDir já está ativo"
 fi
 
 # Adicionar IgnorePkg para systemd (evita conflitos no Artix)
 if ! grep -q "^IgnorePkg.*systemd" "${PACMAN_CONF}"; then
-    sudo sed -i '/^#IgnorePkg/a IgnorePkg = systemd systemd-libs systemd-sysv libsystemd systemd-resolvconf systemd-sysvcompat systemd-tests systemd-ukify' "${PACMAN_CONF}"
+    if grep -q "^#IgnorePkg" "${PACMAN_CONF}"; then
+        sudo sed -i 's/^#IgnorePkg.*/IgnorePkg = systemd systemd-libs systemd-sysv libsystemd systemd-resolvconf systemd-sysvcompat systemd-tests systemd-ukify/' "${PACMAN_CONF}"
+    else
+        sudo sed -i '/^#IgnorePkg/a IgnorePkg = systemd systemd-libs systemd-sysv libsystemd systemd-resolvconf systemd-sysvcompat systemd-tests systemd-ukify' "${PACMAN_CONF}"
+    fi
     success "IgnorePkg para systemd configurado"
+else
+    success "IgnorePkg já está configurado"
 fi
 
 # Instalar keyrings e suporte

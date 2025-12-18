@@ -1,5 +1,5 @@
 {
-  // EDITOR
+  // EDITOR - Configurações Gerais
   "editor.wordWrap": "on",
   "editor.fontSize": 16,
   "editor.lineHeight": 2.1,
@@ -8,34 +8,37 @@
   "editor.fontFamily": "FiraCode Nerd Font",
   "editor.fontLigatures": true,
   "editor.fontWeight": "normal",
-  "terminal.integrated.fontWeight": "normal",
   "editor.minimap.enabled": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "editor.guides.bracketPairsHorizontal": "active",
-  "editor.semanticHighlighting.enabled": false,
-  "editor.suggestSelection": "first",
-  "editor.scrollbar.vertical": "hidden",
-  "editor.scrollbar.horizontal": "hidden",
-  "editor.overviewRulerBorder": false,
-  "editor.hideCursorInOverviewRuler": true,
   "editor.rulers": [79],
   "editor.largeFileOptimizations": true,
   "editor.smoothScrolling": false,
   "editor.renderWhitespace": "none",
   "editor.cursorSmoothCaretAnimation": "on",
-  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.stickyScroll.enabled": false,
   "editor.hover.enabled": "on",
   "editor.inlayHints.enabled": "off",
   "editor.parameterHints.enabled": false,
+  "editor.inlineSuggest.enabled": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit"
   },
+  // Sugestões e Seleção
+  "editor.semanticHighlighting.enabled": false,
+  "editor.suggestSelection": "first",
+  // Barras de Rolagem e Régua
+  "editor.scrollbar.vertical": "hidden",
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.overviewRulerBorder": false,
+  "editor.hideCursorInOverviewRuler": true,
+  // Colorização e Brackets
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       {
@@ -46,51 +49,51 @@
       }
     ]
   },
-
-  // WORKBENCH E INTERFACE
+  // WORKBENCH - Interface e Aparência
   "workbench.startupEditor": "newUntitledFile",
+  "workbench.colorTheme": "Min Dark",
+  "workbench.iconTheme": "symbols",
+  "workbench.productIconTheme": "fluent-icons",
+  "workbench.preferredLightColorTheme": "Default Dark Modern",
+  "workbench.colorCustomizations": {},
+  "workbench.sideBar.location": "right",
+  "workbench.activityBar.location": "bottom",
+  "workbench.layoutControl.enabled": false,
+  "workbench.enableExperiments": false,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  // Editor e Tabs
   "workbench.editor.limit.enabled": true,
   "workbench.editor.limit.perEditorGroup": true,
   "workbench.editor.limit.value": 10,
   "workbench.editor.enablePreview": false,
-  "workbench.layoutControl.enabled": false,
+  "workbench.editor.showTabs": "single",
+  "workbench.editor.empty.hint": "hidden",
+  // Árvore de Arquivos
   "workbench.tree.indent": 10,
   "workbench.tree.renderIndentGuides": "none",
-  "workbench.preferredLightColorTheme": "Default Dark Modern",
-  "workbench.productIconTheme": "fluent-icons",
-  "workbench.iconTheme": "symbols",
-  "workbench.editor.showTabs": "single",
   "workbench.tree.enableStickyScroll": false,
-  "workbench.sideBar.location": "right",
-  "workbench.colorCustomizations": {},
-  "workbench.colorTheme": "Min Dark",
-  "workbench.enableExperiments": false,
-
-  // JANELA
+  // Outros
+  "workbench.settings.applyToAllProfiles": ["editor.cursorBlinking"],
+  "symbols.hidesExplorerArrows": true,
+  "breadcrumbs.enabled": false,
+  // JANELA - Window Settings
   "window.menuBarVisibility": "toggle",
   "window.commandCenter": false,
   "window.titleBarStyle": "native",
   "window.zoomLevel": 1,
-
-  // Git
-  "git.enabled": true,
-  "git.autorefresh": false,
-  "git.decorations.enabled": false,
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false
-  },
-  "editor.inlineSuggest.enabled": false,
-
-  // EXPLORER E FILE NESTING
+  "window.customTitleBarVisibility": "never",
+  // TERMINAL
+  "terminal.integrated.fontSize": 15,
+  "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+  "terminal.integrated.fontWeight": "normal",
+  // EXPLORER - Navegação e File Nesting
   "explorer.compactFolders": false,
-  "explorer.fileNesting.enabled": true,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "explorer.openEditors.sortOrder": "alphabetical",
   "explorer.sortOrder": "foldersNestsFiles",
+  // File Nesting
+  "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
@@ -108,8 +111,22 @@
     "*.sdb": "${capture}.${extname}-*",
     "*.s3db": "${capture}.${extname}-*"
   },
-
-  // EXCLUSÕES
+  // FILES - Arquivos e Auto Save
+  "files.autoSave": "afterDelay",
+  "files.simpleDialog.enable": true,
+  // Exclusões de Arquivos
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/__pycache__": true,
+    "**/.venv": true,
+    "**/vendor": true
+  },
+  // Watcher Exclusões
   "files.watcherExclude": {
     "**/node_modules/**": true,
     "**/dist/**": true,
@@ -124,6 +141,7 @@
     "**/target/**": true,
     "**/vendor/**": true
   },
+  // SEARCH - Busca
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
@@ -136,25 +154,27 @@
     "**/target": true,
     "**/vendor": true
   },
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/build": true,
-    "**/.next": true,
-    "**/__pycache__": true,
-    "**/.venv": true,
-    //  "**/target": true,
-    "**/vendor": true
-  },
   "search.useIgnoreFiles": true,
   "search.followSymlinks": false,
   "search.useGlobalIgnoreFiles": true,
   "search.searchOnType": false,
-  "files.simpleDialog.enable": true,
-
+  // GIT - Controle de Versão
+  "git.enabled": true,
+  "git.autorefresh": false,
+  "git.autofetch": true,
+  "git.decorations.enabled": false,
+  "git.openRepositoryInParentFolders": "always",
+  "gitlens.telemetry.enabled": false,
+  // GITHUB COPILOT
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
   // FORMATADORES POR LINGUAGEM
+  // Python
   "[python]": {
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
@@ -166,46 +186,64 @@
     },
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
+  // JavaScript
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "prettier.semi": true,
     "prettier.singleQuote": true
   },
+  // JavaScript React
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "prettier.semi": true,
     "prettier.singleQuote": true
   },
+  // JSON
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  // JSON com Comentários
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  // CSS
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  // Java
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
   },
-
-  // PRETTIER
-  "prettier.enable": true,
-  "prettier.singleQuote": false,
-  "prettier.semi": false,
-
-  // PYTHON
+  // Shell Script
+  "[shellscript]": {
+    "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
+  },
+  // Docker Compose
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  // GitHub Actions
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  // PYTHON - Configurações Específicas
+  // Linting
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
+  // Testing
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
   "python.testing.pytestArgs": ["tests"],
+  // Analysis
   "python.analysis.autoImportCompletions": true,
   "python.analysis.typeCheckingMode": "off",
   "python.analysis.indexing": false,
@@ -213,17 +251,24 @@
   "python.analysis.useLibraryCodeForTypes": false,
   "python.analysis.openFilesOnly": true,
   "python.analysis.diagnosticMode": "openFilesOnly",
-
-  // RUFF
-  "ruff.lineLength": 79,
+  // RUFF - Python Linter
   "ruff.enable": true,
+  "ruff.lineLength": 79,
   "ruff.lint.select": ["I", "F", "E", "W", "PL", "PT", "N", "C4", "ICN"],
-
-  // TERMINAL
-  "terminal.integrated.fontSize": 15,
-  "terminal.integrated.fontFamily": "FiraCode Nerd Font",
-
-  // EXECUTOR (CODE RUNNER)
+  // JAVASCRIPT / TYPESCRIPT
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.completeFunctionCalls": false,
+  // TypeScript Server
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "typescript.tsserver.maxTsServerMemory": 2048,
+  "typescript.tsserver.log": "off",
+  // PRETTIER - Formatador
+  "prettier.enable": true,
+  "prettier.singleQuote": false,
+  "prettier.semi": false,
+  // ESLINT
+  "eslint.run": "onSave",
+  // CODE RUNNER - Executor de Código
   "code-runner.runInTerminal": true,
   "code-runner.ignoreSelection": true,
   "code-runner.executorMap": {
@@ -236,20 +281,10 @@
     "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
     "zig": "zig run"
   },
-
-  // JS/TS
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "javascript.suggest.completeFunctionCalls": false,
-  // "javascript.suggest.autoImports": false,
-  // "typescript.suggest.autoImports": false,
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
-  "typescript.tsserver.maxTsServerMemory": 2048,
-  "typescript.tsserver.log": "off",
-
-  // ORTOGRAFIA
+  // SPELL CHECKER - Ortografia
   "cSpell.language": "en,pt-BR",
   "cSpell.suggestionMenuType": "quickFix",
-  "cSpell.showAutocompleteSuggestions": true,
+  "cSpell.showAutocompleteDirectiveSuggestions": true,
   "cSpell.userWords": [
     "albumcover",
     "dublefy",
@@ -271,149 +306,12 @@
     "tailwindcss",
     "ufat"
   ],
-
-  // TELEMETRIA E EXTENSÕES
+  // CHAT E ASSISTENTES
+  "chat.commandCenter.enabled": false,
+  "chat.extensionUnification.enabled": true,
+  // TELEMETRIA - Privacidade
   "telemetry.telemetryLevel": "off",
   "telemetry.feedback.enabled": false,
-  "gitlens.telemetry.enabled": false,
-  "git.autofetch": true,
-  "tabnine.experimentalAutoImports": true,
-  "codeium.enableConfig": {
-    "*": true,
-    "postcss": true
-  },
-
-  // OUTROS
-  "breadcrumbs.enabled": false,
-  "symbols.hidesExplorerArrows": true,
-  "chat.commandCenter.enabled": false,
-  "git.openRepositoryInParentFolders": "always",
-  "eslint.run": "onSave",
-  "files.autoSave": "afterDelay",
-  "workbench.settings.applyToAllProfiles": ["editor.cursorBlinking"],
-  "[dockercompose]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.autoIndent": "advanced",
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "workbench.activityBar.location": "bottom",
-  "workbench.editor.empty.hint": "hidden",
-  "latex-workshop.latex.defaultCompiler": "lualatex",
-  "latex-workshop.latex.tools": [
-    {
-      "name": "lualatexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-lualatex",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "latexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-pdf",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "xelatexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-xelatex",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "latexmk_rconly",
-      "command": "latexmk",
-      "args": ["%DOC%"],
-      "env": {}
-    },
-    {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": ["%DOCFILE%"],
-      "env": {}
-    },
-    {
-      "name": "rnw2tex",
-      "command": "Rscript",
-      "args": [
-        "-e",
-        "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
-      ],
-      "env": {}
-    },
-    {
-      "name": "jnw2tex",
-      "command": "julia",
-      "args": ["-e", "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"],
-      "env": {}
-    },
-    {
-      "name": "jnw2texminted",
-      "command": "julia",
-      "args": [
-        "-e",
-        "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
-      ],
-      "env": {}
-    },
-    {
-      "name": "pnw2tex",
-      "command": "pweave",
-      "args": ["-f", "tex", "%DOC_EXT%"],
-      "env": {}
-    },
-    {
-      "name": "pnw2texminted",
-      "command": "pweave",
-      "args": ["-f", "texminted", "%DOC_EXT%"],
-      "env": {}
-    },
-    {
-      "name": "tectonic",
-      "command": "tectonic",
-      "args": ["--synctex", "--keep-logs", "--print", "%DOC%.tex"],
-      "env": {}
-    }
-  ],
-  "[shellscript]": {
-    "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
-  },
-  "github.copilot.nextEditSuggestions.enabled": true,
-  "window.customTitleBarVisibility": "never",
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "workbench.statusBar.visible": false
+  "workbench.statusBar.visible": false,
+  "update.showReleaseNotes": false
 }

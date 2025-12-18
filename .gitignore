@@ -1,11 +1,193 @@
 # VisualStudioCode
 .vscode
-config/code/.config/Code/*
+
+# Logs e Temporários
+*.log
+
+# PipeWire
+stream-properties
+
+# CONFIG - Ignorar tudo EXCETO arquivos gerenciados pelo repositório
+------------------------------------------------------------------------------
+# Estratégia: Ignorar tudo em config/, depois não ignorar arquivo por arquivo
+
+# Ignorar tudo por padrão
+config/**/*
+
+# Aceitar arquivo .stow-local-ignore
+!config/.stow-local-ignore
+
+# --- alacritty ---
+!config/alacritty/
+!config/alacritty/alacritty.toml
+
+# --- Code ---
+!config/code/.config/Code/
 !config/code/.config/Code/User/settings.json
 !config/code/.config/Code/User/profiles/*
 
-# Logs
-*.log
+# --- fish ---
+!config/fish/
+!config/fish/.config/
+!config/fish/.config/fish/
+!config/fish/.config/fish/config.fish
+!config/fish/.config/fish/aliases.fish
+!config/fish/.config/fish/functions/
+!config/fish/.config/fish/functions/ls-service-running.fish
 
-# pipewire
-stream-properties
+# --- fastfetch ---
+!config/fastfetch/
+!config/fastfetch/.config/
+!config/fastfetch/.config/fastfetch/
+!config/fastfetch/.config/fastfetch/config.jsonc
+
+# --- foot ---
+!config/foot/
+!config/foot/.config/
+!config/foot/.config/foot/
+!config/foot/.config/foot/foot.ini
+
+# --- fuzzel ---
+!config/fuzzel/
+!config/fuzzel/.config/
+!config/fuzzel/.config/fuzzel/
+!config/fuzzel/.config/fuzzel/fuzzel.ini
+
+# --- git ---
+!config/git/
+!config/git/.gitconfig
+
+# --- gtk ---
+!config/gtk/
+!config/gtk/.config/
+!config/gtk/.config/gtk-3.0/
+!config/gtk/.config/gtk-3.0/bookmarks
+!config/gtk/.config/gtk-3.0/settings.ini
+!config/gtk/.config/gtk-4.0/
+!config/gtk/.config/gtk-4.0/assets/*
+!config/gtk/.config/gtk-4.0/gtk-dark.css
+!config/gtk/.config/gtk-4.0/gtk.css
+!config/gtk/.config/gtk-4.0/settings.ini
+
+# --- hyprland ---
+!config/hyprland/
+!config/hyprland/.config/
+!config/hyprland/.config/hypr/
+!config/hyprland/.config/hypr/settings
+!config/hyprland/.config/hypr/settings/autostart.conf
+!config/hyprland/.config/hypr/settings/env.conf
+!config/hyprland/.config/hypr/settings/input.conf
+!config/hyprland/.config/hypr/settings/look-and-style.conf
+!config/hyprland/.config/hypr/settings/monitors.conf
+!config/hyprland/.config/hypr/settings/permissions.conf
+!config/hyprland/.config/hypr/settings/programs.conf
+!config/hyprland/.config/hypr/settings/shortcuts.conf
+!config/hyprland/.config/hypr/settings/windows-and-workspaces.conf
+!config/hyprland/.config/hypr/hyprland.conf
+!config/hyprland/.config/hypr/hyprpaper.conf
+
+# --- kanshi ---
+!config/kanshi/
+!config/kanshi/.config/
+!config/kanshi/.config/kanshi/
+!config/kanshi/.config/kanshi/config
+
+# --- kitty ---
+!config/kitty/
+!config/kitty/.config/
+!config/kitty/.config/kitty/
+!config/kitty/.config/kitty/kitty.conf
+!config/kitty/.config/kitty/kitty.conf.bak
+!config/kitty/.config/kitty/current-theme.conf
+!config/kitty/.config/kitty/dark-theme.auto.conf
+
+# --- mako ---
+!config/mako/
+!config/mako/.config/
+!config/mako/.config/mako/
+!config/mako/.config/mako/config
+
+# --- nautilus ---
+!config/nautilus/
+!config/nautilus/.local/
+!config/nautilus/.local/share/
+!config/nautilus/.local/share/nautilus/
+!config/nautilus/.local/share/nautilus/scripts
+!config/nautilus/.local/share/nautilus/scripts/Abrir no Foot
+!config/nautilus/.local/share/nautilus/tags
+!config/nautilus/.local/share/nautilus/tags/meta.db
+
+# --- nwg ---
+!config/nwg/
+!config/nwg/.config/
+!config/nwg/.config/nwg-*/
+!config/nwg/.config/nwg-*/**
+
+# --- omf ---
+!config/omf/
+!config/omf/.config/
+!config/omf/.config/omf/
+!config/omf/.config/omf/init.fish
+!config/omf/.config/omf/bundle
+!config/omf/.config/omf/channel
+
+# --- river ---
+!config/river/
+!config/river/.config/
+!config/river/.config/river/
+!config/river/.config/river/init
+!config/river/.config/river/river-session.sh
+
+# --- rofi ---
+!config/rofi/
+!config/rofi/.config/
+!config/rofi/.config/rofi/
+!config/rofi/.config/rofi/config.rasi
+!config/rofi/.config/rofi/shared
+!config/rofi/.config/rofi/shared/colors.rasi
+!config/rofi/.config/rofi/shared/fonts.rasi
+
+# --- scripts ---
+!config/scripts/
+!config/scripts/**
+
+# --- shikane ---
+!config/shikane/
+!config/shikane/.config/
+!config/shikane/.config/shikane/
+!config/shikane/.config/shikane/config.yaml
+
+# --- starship ---
+!config/starship/
+!config/starship/.config/
+!config/starship/.config/starship.toml
+
+# --- sway ---
+!config/sway/
+!config/sway/.config/
+!config/sway/.config/sway/
+!config/sway/.config/sway/config
+!config/sway/.config/sway/script
+!config/sway/.config/sway/script/env.sh
+
+# --- way-displays ---
+!config/way-displays/
+!config/way-displays/.config/
+!config/way-displays/.config/way-displays/
+!config/way-displays/.config/way-displays/config.yaml
+
+# --- waybar ---
+!config/waybar/
+!config/waybar/.config/
+!config/waybar/.config/waybar/
+!config/waybar/.config/waybar/colors.css
+!config/waybar/.config/waybar/config.jsonc
+!config/waybar/.config/waybar/modules.jsonc
+!config/waybar/.config/waybar/style.css
+
+# --- xdg-desktop-portal ---
+!config/xdg-desktop-portal/
+!config/xdg-desktop-portal/.config/
+!config/xdg-desktop-portal/.config/xdg-desktop-portal/
+!config/xdg-desktop-portal/.config/xdg-desktop-portal/portals.conf
+

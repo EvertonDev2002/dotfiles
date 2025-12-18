@@ -13,6 +13,22 @@ user_pref('sidebar.revamp', true);
 user_pref('sidebar.visibility', 'hide-sidebar');
 // Posiciona sidebar no final (false = direita, true = esquerda)
 user_pref('sidebar.position_start', false);
+// Desativar a memorização do histórico de navegação e downloads
+user_pref('places.history.enabled', false);
+// Desativar a funcionalidade de "Ações Rápidas" (ex: botões de limpar histórico na barra)
+user_pref('browser.urlbar.quickactions.enabled', false);
+// Não exibir sugestões de "Ações Rápidas" na barra de endereços
+user_pref('browser.urlbar.suggest.quickactions', false);
+// Garantir que sugestões de pesquisa não apareçam na barra de endereços
+user_pref('browser.urlbar.suggest.searches', false);
+// Definir o número de pesquisas recentes exibidas como zero
+user_pref('browser.urlbar.maxRecentSearches', 0);
+// Permitir definir um motor de busca diferente para janelas privadas
+user_pref('browser.search.separatePrivateDefault', true);
+// Mostrar sempre a URL completa (https://...) em vez dos termos pesquisados na barra
+user_pref('browser.urlbar.showSearchTerms.enabled', false);
+// Nunca exibir a barra de favoritos (nem na nova aba)
+user_pref('browser.toolbars.bookmarks.visibility', 'never');
 
 // Remove o título da janela quando as abas estão na barra de título
 // user_pref("browser.tabs.inTitlebar", 1);

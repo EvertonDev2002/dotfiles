@@ -45,7 +45,6 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 ### 🚀 Performance
 
-- **Preload service** para cache inteligente de aplicações
 - **Zramen** swap comprimido em memória
 - **Pacman otimizado** (ParallelDownloads=12, DownloadUser=alpm)
 - **PipeWire** com baixa latência
@@ -72,8 +71,7 @@ Este repositório contém todas as configurações necessárias para replicar me
 ### 🛠️ Ferramentas de Desenvolvimento
 
 - **VSCode** com perfis e configurações
-- **Git** com aliases e configurações
-- **Fish shell** com autosuggestions e syntax highlighting
+- **Fish shell** com autosuggestions, syntax highlighting e plugins
 - **Mise** para gerenciamento de versões (Python, Node, etc.)
 
 ---
@@ -85,7 +83,6 @@ dotfiles/
 ├── browser
 │   ├── extension
 │   │   └── ublock
-│   │       └── my-ublock-backup.txt
 │   └── firefox
 ├── config
 │   ├── alacritty
@@ -116,43 +113,32 @@ dotfiles/
 │   └── xdg-desktop-portal
 ├── pkgs
 │   ├── flatpak
-│   │   └── flatpaklist.txt
 │   └── yay
-│       └── pkglist.txt
 ├── scripts
-│   ├── setup_firefox.sh
-│   ├── setup_flatpaks.sh
-│   ├── setup_repos.sh
-│   ├── setup_system.sh
-│   └── setup_themes.sh
+│   ├── setup_dotfiles.sh
+│   ├── setup_firefox.sh
+│   ├── setup_flatpaks.sh
+│   ├── setup_packages.sh
+│   ├── setup_repos.sh
+│   ├── setup_services.sh
+│   ├── setup_system.sh
+│   ├── setup_theme_and_shell.sh
+│   ├── setup_user.sh
+│   └── setup_yay.sh
 ├── system
 │   ├── etc
 │   │   ├── iwd
-│   │   │   └── main.conf
 │   │   ├── nanorc
 │   │   ├── NetworkManager
 │   │   │   └── conf.d
-│   │   │       ├── dhcp.conf
-│   │   │       ├── dns-servers.conf
-│   │   │       ├── iwd.conf
-│   │   │       └── macrandomize.conf
 │   │   ├── pacman.d
 │   │   │   └── hooks
-│   │   │       └── 99-cp-kernel-esp.hook
 │   │   ├── runit
 │   │   │   └── sv
-│   │   │       └── preload
-│   │   │           ├── conf
-│   │   │           ├── finish
-│   │   │           ├── log
-│   │   │           │   └── run
-│   │   │           └── run
 │   │   ├── security
-│   │   │   └── limits.conf
 │   │   ├── sensors.d
 │   │   └── tlp.conf
 │   └── example
-│       └── fstab
 ├── uv.lock
 ├── pyproject.toml
 ├── README.md
@@ -173,7 +159,7 @@ dotfiles/
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/dotfiles.git ~/dotfiles
+git clone git@github.com:EvertonDev2002/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
 # 2. Execute o script de instalação principal
@@ -183,14 +169,16 @@ chmod +x install.sh
 
 O script `install.sh` irá:
 
-1. ✅ Instalar Yay (AUR helper)
-2. ✅ Configurar repositórios (Arch extra)
-3. ✅ Instalar pacotes do sistema (pkglist.txt)
-4. ✅ Instalar Flatpaks (flatpaklist.txt)
-5. ✅ Criar symlinks com GNU Stow
-6. ✅ Configurar Firefox (detecção automática de perfil)
-7. ✅ Copiar arquivos de sistema (/etc)
-8. ✅ Habilitar serviços Runit
+1. ✅ Configurar repositórios (Arch extra)
+2. ✅ Instalar Yay (AUR helper)
+3. ✅ Instalar pacotes do sistema (pkglist.txt) - 142 pacotes
+4. ✅ Instalar Flatpaks (flatpaklist.txt) - 29 aplicativos
+5. ✅ Copiar arquivos de sistema (/etc)
+6. ✅ Habilitar serviços Runit
+7. ✅ Criar symlinks com GNU Stow
+8. ✅ Configurar usuário (grupos e sudo)
+9. ✅ Configurar Firefox (opcional - detecção automática de perfil)
+10. ✅ Instalar temas e shell (opcional - Colloid, OMF, pnpm)
 
 ### Instalação Modular
 
@@ -200,17 +188,32 @@ Você pode executar scripts individuais:
 # Apenas repositórios
 ./scripts/setup_repos.sh
 
+# Apenas Yay (AUR helper)
+./scripts/setup_yay.sh
+
+# Apenas pacotes do sistema
+./scripts/setup_packages.sh
+
 # Apenas Flatpaks
 ./scripts/setup_flatpaks.sh
-
-# Apenas Firefox
-./scripts/setup_firefox.sh
 
 # Apenas arquivos de sistema
 ./scripts/setup_system.sh
 
-# Apenas temas e ícones
-./scripts/setup_themes.sh
+# Apenas serviços Runit
+./scripts/setup_services.sh
+
+# Apenas dotfiles (Stow)
+./scripts/setup_dotfiles.sh
+
+# Apenas configuração de usuário
+./scripts/setup_user.sh
+
+# Apenas Firefox
+./scripts/setup_firefox.sh
+
+# Apenas temas e shell (opcional)
+./scripts/setup_theme_and_shell.sh
 ```
 
 ### Instalação Manual (Stow)
@@ -241,8 +244,6 @@ stow -d config -t ~ scripts
 
 - **Compositor**: Wayland baseado em wlroots
 - **Configuração**: `config/river/.config/river/init`
-  <!-- - **Atalhos**: Documentados em `shortcuts.db` -->
-  <!-- - **Scripts**: `show-keys.sh` para visualizar atalhos -->
 
 **Recursos configurados:**
 
@@ -300,7 +301,6 @@ Baseado em [Betterfox](https://github.com/yokoffing/Betterfox) com 170+ preferê
 - **way-displays**: Auto-configuração de displays
 - **wl-mirror**: Espelhamento de tela
 - **wlr-randr**: Controle de outputs
-<!-- - **kanshi**: Perfis de display por contexto -->
 
 ### Audio - PipeWire
 
@@ -340,13 +340,24 @@ Todos os scripts possuem:
 
 ### Scripts de Setup (`scripts/`)
 
-| Script              | Função                                           |
-| ------------------- | ------------------------------------------------ |
-| `setup_repos.sh`    | Configura Artix/CachyOS/Arch repos + pacman.conf |
-| `setup_flatpaks.sh` | Instala Flatpak + Flathub + apps                 |
-| `setup_firefox.sh`  | Detecta perfil e cria symlinks                   |
-| `setup_system.sh`   | Copia /etc configs com backup                    |
-| `setup_themes.sh`   | Copia temas/ícones de /usr/share                 |
+| Script                     | Função                                           | Contadores |
+| -------------------------- | ------------------------------------------------ | ---------- |
+| `setup_repos.sh`           | Configura Artix/CachyOS/Arch repos + pacman.conf | ❌         |
+| `setup_yay.sh`             | Instala Yay (AUR helper)                         | ✅         |
+| `setup_packages.sh`        | Instala 142 pacotes (Pacman + AUR)               | ✅         |
+| `setup_flatpaks.sh`        | Instala Flatpak + Flathub + 29 apps              | ✅         |
+| `setup_system.sh`          | Copia /etc configs com backup                    | ❌         |
+| `setup_services.sh`        | Habilita serviços Runit                          | ❌         |
+| `setup_dotfiles.sh`        | Cria symlinks com GNU Stow                       | ❌         |
+| `setup_user.sh`            | Configura grupos e sudo                          | ❌         |
+| `setup_firefox.sh`         | Detecta perfil e cria symlinks                   | ❌         |
+| `setup_theme_and_shell.sh` | Instala Colloid, OMF, Fisher, pnpm (interativo)  | ❌         |
+
+**Scripts com contadores** exibem resumo final:
+
+- ✓ Instalados
+- → Já existentes
+- ✗ Falhados
 
 ---
 
@@ -369,20 +380,6 @@ gsettings set org.gnome.desktop.interface icon-theme 'Bibata-Modern-Ice'
 - Editar cores: `config/waybar/.config/waybar/colors.css`
 - Módulos: `config/waybar/.config/waybar/modules.jsonc`
 - Layout: `config/waybar/.config/waybar/config.jsonc`
-
-### Atalhos do River
-
-Editar: `config/river/.config/river/init`
-
-Após modificar:
-
-```bash
-# Atualizar database de atalhos
-~/.local/bin/update-keys.sh
-
-# Visualizar atalhos
-~/.local/bin/show-keys.sh
-```
 
 ### Aliases do Fish
 

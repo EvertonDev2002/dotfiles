@@ -13,7 +13,7 @@
 
 alias -- add-arch="yay -S --needed --noconfirm"
 alias -- remove-arch="yay -Rns"
-alias -- update-arch="flatpak update -y; and yay -Syu --noconfirm; and yay -c"
+alias -- update-arch="flatpak update -y; and yay -Syu --noconfirm; and yay -Ycc"
 alias flatpak-search="flatpak search --columns=name,application"
 #alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg; and sudo mkinitcpio -P"
 
@@ -32,3 +32,4 @@ alias cat="bat --style=auto --paging=auto"
 alias lt="eza --tree --level=2 --icons"
 alias find="fd --hidden --follow --exclude .git"
 alias grep="rg --smart-case --hidden --follow --glob '!.git'"
+alias pn=pnpm

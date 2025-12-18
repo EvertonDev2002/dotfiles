@@ -1,143 +1,316 @@
 #!/bin/bash
-# ============================================================================
-#  SETUP THEMES & ICONS
-#  Copia temas e ícones de /usr/share para ~/.local/share (user-level)
-# ============================================================================
+#  Instala Colloid, OMF e cria links para todos os temas/ícones
 
 set -euo pipefail
+IFS=$'\n\t'
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly TEMP_DIR="/tmp/setup-${SCRIPT_NAME%.*}-$$"
+readonly COLLOID_REPO="https://github.com/vinceliuice/Colloid-gtk-theme"
+readonly OMF_INSTALL_DIR="$HOME/.local/share/omf"
+readonly OMF_CONFIG_DIR="$HOME/.config/omf"
 
-# --- Cores para output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# --- Diretórios de destino
+readonly THEMES_XDG="$HOME/.local/share/themes"
+readonly ICONS_XDG="$HOME/.local/share/icons"
+readonly THEMES_LEGACY="$HOME/.themes"
+readonly ICONS_LEGACY="$HOME/.icons"
 
-log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
-log_success() { echo -e "${GREEN}[OK]${NC} $1"; }
-log_warn() { echo -e "${YELLOW}[AVISO]${NC} $1"; }
-log_error() { echo -e "${RED}[ERRO]${NC} $1"; }
+# --- Cores
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m'
 
-# --- Diretórios
-SYSTEM_THEMES="/usr/share/themes"
-SYSTEM_ICONS="/usr/share/icons"
-USER_THEMES="$HOME/.local/share/themes"
-USER_ICONS="$HOME/.local/share/icons"
+log()     { echo -e "${BLUE}[INFO]${NC} $1"; }
+success() { echo -e "${GREEN}[✓]${NC} $1"; }
+warn()    { echo -e "${YELLOW}[!]${NC} $1"; }
+error()   { echo -e "${RED}[✗]${NC} $1"; }
 
-# Criar diretórios de destino
-mkdir -p "$USER_THEMES" "$USER_ICONS"
+cleanup() {
+    [ -d "$TEMP_DIR" ] && rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
 
-copy_items() {
-    local source_dir="$1"
-    local dest_dir="$2"
-    local item_type="$3"
+check_dependencies() {
+    log "Verificando dependências do sistema..."
     
-    if [ ! -d "$source_dir" ]; then
-        log_warn "Diretório $source_dir não encontrado. Pulando..."
-        return
+    local -a missing=()
+    local -a deps=("git" "curl" "sassc" "fish")
+    
+    if ! pacman -Qi "gtk-engine-murrine" &> /dev/null; then
+        missing+=("gtk-engine-murrine")
+    fi
+    if ! pacman -Qi "gnome-themes-extra" &> /dev/null; then
+        missing+=("gnome-themes-extra")
     fi
     
-    log_info "Procurando $item_type em $source_dir..."
-    
-    # Listar itens disponíveis (excluir Adwaita e default que são padrão)
-    local items=$(find "$source_dir" -maxdepth 1 -type d ! -name "Adwaita*" ! -name "default" ! -name "hicolor" -printf "%f\n" | grep -v "^themes$\|^icons$" | sort)
-    
-    if [ -z "$items" ]; then
-        log_warn "Nenhum $item_type customizado encontrado."
-        return
-    fi
-    
-    echo ""
-    log_info "$item_type disponíveis:"
-    echo "$items" | nl -w2 -s'. '
-    echo ""
-    
-    read -p "Copiar todos os $item_type? [S/n] " -n 1 -r
-    echo
-    
-    if [[ $REPLY =~ ^[Nn]$ ]]; then
-        read -p "Digite os números dos itens para copiar (ex: 1 3 5) ou 'todos': " selection
+
+    for pkg in "${deps[@]}"; do
+        if ! command -v "$pkg" &> /dev/null && ! pacman -Qi "$pkg" &> /dev/null; then
+            missing+=("$pkg")
+        fi
+    done
+
+    if [ ${#missing[@]} -gt 0 ]; then
+        warn "Dependências faltando: ${missing[*]}"
+        log "Deseja instalar? [Y/n]"
+        read -r -t 30 response || response="y"
         
-        if [[ "$selection" == "todos" ]]; then
-            selection=""
+        if [[ "$response" =~ ^([yY]|)$ ]]; then
+            sudo pacman -S --noconfirm --needed "${missing[@]}"
+            success "Dependências instaladas"
+        else
+            error "Dependências não instaladas. Abortando."
+            return 1
         fi
     else
-        selection=""
+        success "Todas as dependências presentes"
+    fi
+}
+
+install_colloid() {
+    log "Instalando Colloid GTK Theme..."
+    
+    mkdir -p "$TEMP_DIR"
+    
+    if ! git clone --depth 1 "$COLLOID_REPO" "$TEMP_DIR/Colloid-gtk-theme"; then
+        error "Falha ao clonar repositório Colloid"
+        return 1
     fi
     
-    local copied=0
-    local skipped=0
+    cd "$TEMP_DIR/Colloid-gtk-theme"
+    chmod +x install.sh
     
+    log "Compilando variante dark com tweaks rimless..."
+    if sudo ./install.sh -c dark --tweaks rimless -l && sudo ./install.sh -c dark --tweaks rimless; then
+        success "Colloid instalado com sucesso"
+        cd - > /dev/null
+        return 0
+    else
+        error "Falha ao instalar Colloid"
+        cd - > /dev/null
+        return 1
+    fi
+}
+
+create_directories() {
+    log "Criando estrutura de diretórios..."
+    
+    mkdir -p "$THEMES_XDG" "$ICONS_XDG" "$THEMES_LEGACY" "$ICONS_LEGACY"
+    
+    success "Diretórios criados:"
+    echo "  • $THEMES_XDG"
+    echo "  • $ICONS_XDG"
+    echo "  • $THEMES_LEGACY"
+    echo "  • $ICONS_LEGACY"
+}
+
+link_items() {
+    local src_base="$1"
+    local dst_base="$2"
+    local label="$3"
+    
+    [ ! -d "$src_base" ] && { warn "$src_base não encontrado"; return 1; }
+    
+    log "Criando links: $label"
+    
+    local -i linked=0 skipped=0
+    
+    # Encontrar todos os diretórios, exceto os padrão
     while IFS= read -r item; do
         [ -z "$item" ] && continue
         
-        local should_copy=true
+        local src="$src_base/$item"
+        local dst="$dst_base/$item"
         
-        # Verificar se deve copiar baseado na seleção
-        if [ -n "$selection" ]; then
-            should_copy=false
-            local index=1
-            while IFS= read -r candidate; do
-                if echo "$selection" | grep -qw "$index"; then
-                    if [ "$candidate" = "$item" ]; then
-                        should_copy=true
-                        break
-                    fi
-                fi
-                ((index++))
-            done <<< "$items"
+        # Pular se já existe link
+        if [ -L "$dst" ]; then
+            ((skipped++))
+            continue
         fi
         
-        if [ "$should_copy" = true ]; then
-            local source_path="$source_dir/$item"
-            local dest_path="$dest_dir/$item"
-            
-            if [ -e "$dest_path" ]; then
-                log_warn "$item já existe em $dest_dir. Pulando..."
-                ((skipped++))
-                continue
-            fi
-            
-            log_info "Copiando $item..."
-            if cp -r "$source_path" "$dest_path" 2>/dev/null; then
-                log_success "$item copiado com sucesso"
-                ((copied++))
-            else
-                log_error "Falha ao copiar $item"
-            fi
+        # Avisar se há pasta real (não sobrescrever)
+        if [ -e "$dst" ]; then
+            warn "  ! $item já existe (não é link). Pulando."
+            ((skipped++))
+            continue
         fi
-    done <<< "$items"
+        
+        # Criar link
+        if ln -s "$src" "$dst" 2>/dev/null; then
+            ((linked++))
+        else
+            error "  Falha ao linkar $item"
+        fi
+        
+    done < <(find "$src_base" -maxdepth 1 -type d \
+        ! -name "default" ! -name "hicolor" ! -name "HighContrast" \
+        -printf "%f\n" | sort)
     
-    echo ""
-    log_success "$item_type: $copied copiados, $skipped ignorados"
+    success "$label: $linked links criados, $skipped pulados"
 }
 
-# --- Main
-echo "============================================================================"
-echo "  COPIAR TEMAS E ÍCONES DO SISTEMA PARA USUÁRIO"
-echo "============================================================================"
-echo ""
+create_symlinks() {
+    log "Gerando links simbólicos..."
+    echo ""
+    
+    create_directories
+    echo ""
+    
+    # Temas
+    if [ -d "/usr/share/themes" ]; then
+        link_items "/usr/share/themes" "$THEMES_XDG" "Temas (XDG Standard)"
+        link_items "/usr/share/themes" "$THEMES_LEGACY" "Temas (Legacy)"
+    else
+        warn "/usr/share/themes não encontrado"
+    fi
+    
+    echo ""
+    
+    # Ícones
+    if [ -d "/usr/share/icons" ]; then
+        link_items "/usr/share/icons" "$ICONS_XDG" "Ícones (XDG Standard)"
+        link_items "/usr/share/icons" "$ICONS_LEGACY" "Ícones (Legacy)"
+    else
+        warn "/usr/share/icons não encontrado"
+    fi
+}
 
-log_info "Destinos:"
-log_info "  Temas → $USER_THEMES"
-log_info "  Ícones → $USER_ICONS"
-echo ""
+install_omf() {
+    log "Instalando Oh My Fish..."
+    
+    # Verificar se fish existe
+    if ! command -v fish &> /dev/null; then
+        error "Fish shell não está instalado"
+        return 1
+    fi
+    
+    # Baixar instalador
+    local omf_installer="$TEMP_DIR/omf-install"
+    if ! curl -fsSL "https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install" -o "$omf_installer"; then
+        error "Falha ao baixar OMF installer"
+        return 1
+    fi
+    
+    # Instalar
+    if fish "$omf_installer" --path="$OMF_INSTALL_DIR" --config="$OMF_CONFIG_DIR" --noninteractive --yes 2>/dev/null; then
+        success "Oh My Fish instalado"
+        return 0
+    else
+        error "Falha ao instalar OMF"
+        return 1
+    fi
+}
 
-# Copiar temas
-copy_items "$SYSTEM_THEMES" "$USER_THEMES" "temas"
-echo ""
+install_fish_plugins() {
+    log "Instalando plugins do Fish..."
+    
+    if ! command -v fish &> /dev/null; then
+        error "Fish shell não está instalado"
+        return 1
+    fi
+    
+    if [ ! -d "$OMF_INSTALL_DIR" ]; then
+        warn "OMF não encontrado. Pulando plugins."
+        return 1
+    fi
+    
+    fish << 'EOF'
+# Instalar Fisher se não existir
+if not functions -q fisher
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    fisher install jorgebucaran/fisher
+end
 
-# Copiar ícones
-copy_items "$SYSTEM_ICONS" "$USER_ICONS" "ícones"
-echo ""
+# Instalar plugins
+fisher install jorgebucaran/autopair.fish 2>/dev/null || true
+fisher install meaningful-oasis/sponge 2>/dev/null || true
+fisher install PatrickF1/fzf.fish 2>/dev/null || true
+fisher install oh-my-fish/plugin-sudope 2>/dev/null || true
+EOF
+    
+    success "Plugins instalados"
+}
 
-log_success "Configuração de temas e ícones concluída!"
-log_info "Os temas/ícones agora estão disponíveis no nível do usuário."
-echo ""
-log_info "Comandos úteis:"
-echo "  • Listar temas: ls ~/.local/share/themes"
-echo "  • Listar ícones: ls ~/.local/share/icons"
-echo "  • Aplicar tema GTK: gsettings set org.gnome.desktop.interface gtk-theme 'NomeDoTema'"
-echo "  • Aplicar ícones: gsettings set org.gnome.desktop.interface icon-theme 'NomeDosIcones'"
+install_pnpm() {
+    log "Instalando pnpm (gestor de pacotes Node.js)..."
+    
+    if command -v pnpm &> /dev/null; then
+        success "pnpm já está instalado"
+        return 0
+    fi
+    
+    if curl -fsSL https://get.pnpm.io/install.sh | sh -; then
+        success "pnpm instalado com sucesso"
+        
+        # Atualizar PATH para a sessão atual
+        export PNPM_HOME="$HOME/.local/share/pnpm"
+        export PATH="$PNPM_HOME:$PATH"
+        
+        log "pnpm versão: $(pnpm --version)"
+        return 0
+    else
+        error "Falha ao instalar pnpm"
+        return 1
+    fi
+}
+
+show_menu() {
+    echo ""
+    echo "  1) Instalar tudo (Colloid + OMF + Links + pnpm)"
+    echo "  2) Apenas Colloid GTK"
+    echo "  3) Apenas OMF + Plugins"
+    echo "  4) Apenas Links Simbólicos"
+    echo "  5) Apenas pnpm (Gestor de pacotes Node)"
+    echo "  6) Apenas Dependências"
+    echo "  7) Sair"
+    echo ""
+    read -p "Escolha [1-7]: " choice
+}
+
+main() {
+    while true; do
+        show_menu
+        
+        case "$choice" in
+            1)
+                check_dependencies && \
+                install_colloid && \
+                create_symlinks && \
+                install_omf && \
+                install_fish_plugins && \
+                install_pnpm && \
+                success "Setup completo finalizado!"
+                ;;
+            2)
+                check_dependencies && install_colloid
+                ;;
+            3)
+                check_dependencies && install_omf && install_fish_plugins
+                ;;
+            4)
+                create_symlinks
+                ;;
+            5)
+                check_dependencies && install_pnpm
+                ;;
+            6)
+                check_dependencies
+                ;;
+            7)
+                log "Saindo..."
+                exit 0
+                ;;
+            *)
+                error "Opção inválida"
+                ;;
+        esac
+        
+        echo ""
+        read -p "Pressione Enter para continuar..."
+    done
+}
+main "$@"

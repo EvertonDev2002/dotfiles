@@ -1,7 +1,7 @@
 [terminal]
 # O VT para executar o greeter. Pode ser "next", "current" ou um número
 # que designa o VT.
-vt = 1
+vt = 2
 
 # A sessão padrão, também conhecida como greeter.
 [default_session]

@@ -59,9 +59,9 @@ riverctl xcursor-theme "Bibata-Modern-Ice" 20
 
 # Cores das Bordas
 riverctl border-width 2
-riverctl border-color-focused "0x5b9bf8"
-riverctl border-color-unfocused "0x586e75"
-riverctl border-color-urgent "0xff0000"
+riverctl border-color-focused "0xCDC2B2"
+riverctl border-color-unfocused "0x6e6e6e"
+riverctl border-color-urgent "0xed8796"
 
 # Rivertile
 pkill -x rivertile

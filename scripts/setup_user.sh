@@ -1,8 +1,6 @@
 #!/bin/bash
-# ============================================================================
 #  SETUP USER - Configura sudo e grupos do usuário
-#  Adiciona usuário aos grupos necessários e configura sudo sem senha
-# ============================================================================
+#  Adiciona usuário aos grupos necessários e configura sudo com senha
 
 set -euo pipefail
 
@@ -15,56 +13,63 @@ NC='\033[0m'
 
 # --- Funções de log
 log() { echo -e "${BLUE}[INFO]${NC} $1"; }
-success() { echo -e "${GREEN}[OK]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-error() { echo -e "${RED}[ERRO]${NC} $1"; }
+success() { echo -e "${GREEN}[✓]${NC} $1"; }
+warn() { echo -e "${YELLOW}[!]${NC} $1"; }
+error() { echo -e "${RED}[✗]${NC} $1"; }
 
-# --- Verificar se está rodando como root
+# --- Pedir sudo se necessário
 if [ "$EUID" -ne 0 ]; then
-    error "Este script precisa ser executado como root (sudo)"
-    echo "Uso: sudo $0"
+    exec sudo "$0" "$@"
+fi
+
+# --- Pedir nome do usuário
+echo ""
+read -p "Digite o nome do usuário a ser configurado: " TARGET_USER
+
+# Validar entrada
+if [ -z "$TARGET_USER" ]; then
+    error "Nome de usuário não pode ser vazio"
     exit 1
 fi
 
-# --- Detectar usuário real (quem executou sudo)
-REAL_USER="${SUDO_USER:-$USER}"
-
-if [ "$REAL_USER" = "root" ]; then
-    error "Não execute este script diretamente como root"
-    echo "Execute: sudo $0 (como usuário normal)"
+# --- Verificar se usuário existe
+if ! id "$TARGET_USER" &>/dev/null; then
+    error "Usuário '$TARGET_USER' não existe"
+    echo "Crie primeiro com: sudo useradd -m -s /bin/bash $TARGET_USER"
+    echo "                   sudo passwd $TARGET_USER"
     exit 1
 fi
 
-log "Configurando usuário: $REAL_USER"
+log "Configurando usuário: $TARGET_USER"
 echo ""
 
 # Documentação: https://wiki.archlinux.org/title/users_and_groups
 GROUPS_TO_ADD=(
-    "wheel"        # Sudo/administração
-    "video"        # Acesso a dispositivos de vídeo (GPU)
-    "audio"        # Acesso a dispositivos de áudio
-    "input"        # Acesso a dispositivos de input (teclado, mouse)
-    "storage"      # Acesso a dispositivos de armazenamento removíveis
-    "network"      # Gerenciamento de rede (NetworkManager)
-    "power"        # Gerenciamento de energia (suspend, hibernate)
-    "rfkill"       # Controle de dispositivos wireless
-    "seat"         # Acesso ao seatd (sessões Wayland)
-    "docker"       # Acesso ao Docker (se instalado)
+    "wheel"
+    "video"
+    "audio"
+    "input"
+    "storage"
+    "network"
+    "power"
+    "rfkill"
+    "seat"
+    "docker"
 )
 
 # --- Adicionar usuário aos grupos
-log "Adicionando $REAL_USER aos grupos necessários..."
+log "Adicionando $TARGET_USER aos grupos necessários..."
 echo ""
 
 for group in "${GROUPS_TO_ADD[@]}"; do
     # Verificar se o grupo existe
     if getent group "$group" > /dev/null 2>&1; then
         # Verificar se usuário já está no grupo
-        if id -nG "$REAL_USER" | grep -qw "$group"; then
+        if id -nG "$TARGET_USER" | grep -qw "$group"; then
             echo " -> $group: já membro ✓"
         else
             # Adicionar ao grupo
-            if usermod -aG "$group" "$REAL_USER"; then
+            if usermod -aG "$group" "$TARGET_USER"; then
                 success "$group: adicionado"
             else
                 warn "$group: falha ao adicionar"
@@ -78,16 +83,16 @@ done
 echo ""
 
 # --- Configurar Sudo
-log "Configurando sudo para $REAL_USER..."
+log "Configurando sudo para $TARGET_USER..."
 
 # Verificar se usuário está no grupo wheel
-if ! id -nG "$REAL_USER" | grep -qw "wheel"; then
+if ! id -nG "$TARGET_USER" | grep -qw "wheel"; then
     warn "Usuário não está no grupo 'wheel'. Adicionando..."
-    usermod -aG wheel "$REAL_USER"
+    usermod -aG wheel "$TARGET_USER"
 fi
 
 # Descomente apenas a linha para sudo com senha no /etc/sudoers
-if grep -q "^## %wheel ALL=(ALL:ALL) ALL" /etc/sudoers; then
+if grep -q "^# %wheel ALL=(ALL:ALL) ALL" /etc/sudoers; then
     log "Descomentando linha wheel no /etc/sudoers..."
     sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
     
@@ -108,8 +113,8 @@ echo ""
 success "Configuração concluída!"
 echo ""
 echo "Detalhes:"
-echo "  Usuário: $REAL_USER"
-echo "  Grupos: $(id -nG "$REAL_USER" | tr ' ' ', ')"
+echo "  Usuário: $TARGET_USER"
+echo "  Grupos: $(id -nG "$TARGET_USER" | tr ' ' ', ')"
 echo "  Sudo: Com senha (descomentado em /etc/sudoers)"
 echo ""
 warn "IMPORTANTE: Faça logout e login novamente para aplicar as mudanças de grupo!"
@@ -119,6 +124,6 @@ echo "  1. Abra um novo terminal (logout/login)"
 echo "  2. Teste: sudo -v (pedirá senha)"
 echo ""
 echo "Recomendação de segurança:"
-echo "  Para DESABILITAR acesso root no Display Manager (DM),"
+echo "  Para DESABILITAR acesso ao root sem sudo:"
 echo "  Use: passwd -l root"
 echo ""

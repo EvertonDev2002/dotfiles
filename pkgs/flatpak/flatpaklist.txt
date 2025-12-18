@@ -1,59 +1,29 @@
-# ============================================================================
-# LISTA DE FLATPAKS - Aplicações do Flathub
-# Organizada por categorias para instalação via setup_flatpaks.sh
-# ============================================================================
-
-# --- SYSTEM UTILITIES ---
-com.github.tchx84.Flatseal/x86_64/stable
-io.github.flattool.Warehouse/x86_64/stable
-net.nokyan.Resources/x86_64/stable
-org.bleachbit.BleachBit/x86_64/stable
-it.mijorus.gearlever/x86_64/stable
-page.codeberg.libre_menu_editor.LibreMenuEditor/x86_64/stable
-com.github.d4nj1.tlpui/x86_64/stable
-
-# --- OFFICE & PRODUCTIVITY ---
-org.libreoffice.LibreOffice/x86_64/stable
-com.notesnook.Notesnook/x86_64/stable
-org.gnome.Calculator/x86_64/stable
-org.gnome.TextEditor/x86_64/stable
-
-# --- INTERNET & COMMUNICATION ---
-org.telegram.desktop/x86_64/stable
-org.localsend.localsend_app/x86_64/stable
-net.codelogistics.webapps/x86_64/stable
-
-# --- MULTIMEDIA ---
-# Video
-org.kde.kdenlive/x86_64/stable
-fr.handbrake.ghb/x86_64/stable
-io.github.seadve.Kooha/x86_64/stable
-com.stremio.Stremio/x86_64/stable
-# Audio
-com.spotify.Client/x86_64/stable
-# Images
-org.gimp.GIMP/x86_64/stable
-org.gnome.Loupe/x86_64/stable
-# Comics
-info.febvre.Komikku/x86_64/stable
-
-# --- DEVELOPMENT ---
-rest.insomnia.Insomnia/x86_64/stable
-
-# --- DESIGN & GRAPHICS ---
-com.jgraph.drawio.desktop/x86_64/stable
-
-# --- DOCUMENTS ---
-com.github.jeromerobert.pdfarranger/x86_64/stable
-
-# --- UTILITIES ---
-com.transmissionbt.Transmission/x86_64/stable
-
-# --- AI & MACHINE LEARNING ---
-com.jeffser.Alpaca/x86_64/stable
-
-# --- VIRTUALIZATION ---
-org.gnome.Boxes/x86_64/stable
-
-# --- GAMING ---
-com.valvesoftware.Steam/x86_64/stable
+com.github.tchx84.Flatseal
+io.github.flattool.Warehouse
+net.nokyan.Resources
+org.bleachbit.BleachBit
+it.mijorus.gearlever
+page.codeberg.libre_menu_editor.LibreMenuEditor
+com.github.d4nj1.tlpui
+org.libreoffice.LibreOffice
+com.notesnook.Notesnook
+org.gnome.Calculator
+org.gnome.TextEditor
+org.telegram.desktop
+org.localsend.localsend_app
+net.codelogistics.webapps
+org.kde.kdenlive
+fr.handbrake.ghb
+io.github.seadve.Kooha
+com.stremio.Stremio
+com.spotify.Client
+org.gimp.GIMP
+org.gnome.Loupe
+info.febvre.Komikku
+rest.insomnia.Insomnia
+com.jgraph.drawio.desktop
+com.github.jeromerobert.pdfarranger
+com.transmissionbt.Transmission
+com.jeffser.Alpaca
+org.gnome.Boxes
+com.valvesoftware.Steam

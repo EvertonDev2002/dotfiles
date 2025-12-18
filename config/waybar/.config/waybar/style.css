@@ -1,9 +1,10 @@
-@import "colors.css";
+@import 'colors.css';
 * {
-  font-family: Symbols Nerd Font, FontAwesome, Roboto, Helvetica, Arial,
-    sans-serif;
-  font-size: 0.9rem;
+  font-family: Symbols Nerd Font, FontAwesome;
+  font-size: 14.5px;
   min-height: 0;
+  padding: 0;
+  margin: 0;
 }
 
 window#waybar {
@@ -24,14 +25,15 @@ window#waybar {
   margin-right: 0px;
   padding: 0px 7px 0px 7px;
   font-weight: bolder;
-  color: @white;
+  color: @gray;
   background-color: transparent;
 }
 
 #workspaces button.active,
 #workspaces button.focused,
+#tags button.occupied,
 #tags button.focused {
-  color: @blue;
+  color: @light-beige;
 }
 
 #tray,
@@ -51,18 +53,18 @@ window#waybar {
 #clock,
 #network {
   padding: 0px 15px 0px 0px;
-  color: @white;
+  color: @light-beige;
 }
 
 #custom-power {
-  color: @white;
+  color: @light-beige;
   border-radius: 10px;
   font-size: 0.8rem;
   font-weight: 600;
 }
 
 #keyboard-state label.locked {
-  color: @blue;
+  color: @light-beige;
 }
 
 #temperature.critical {
@@ -71,4 +73,16 @@ window#waybar {
 
 #clock {
   font-weight: 500;
+}
+#tray menu {
+  color: @light-beige;
+}
+#tray > .active {
+  color: @light-beige;
+}
+#tray > .passive {
+  color: @gray;
+}
+#tray > .needs-attention {
+  color: @dusty-pink;
 }

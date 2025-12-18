@@ -37,10 +37,8 @@ apparmor-runit
 river
 waybar
 mako
-seatd
 fuzzel
 swww
-swaybg
 wl-clipboard
 wl-mirror
 wlr-randr
@@ -65,7 +63,7 @@ intel-ucode
 intel-media-driver
 intel-gpu-tools
 vulkan-intel
-thermald
+
 # Media Libs
 libva
 libva-utils
@@ -80,32 +78,18 @@ ffmpeg
 mpv
 
 # --- NETWORKING ---
-networkmanager
 network-manager-applet
-iwd
-ufw
-chrony
-bluez
 blueman
 bluez-utils
 bind
 
 # --- SYSTEM UTILITIES ---
-dbus
-acpid
-earlyoom
-tlp
-preload
-lm_sensors
-zramen
 pacman-contrib
 polkit
 polkit-gnome
 greetd-tuigreet
-ufw
-apparmor
-openssh
 inxi
+wget
 
 # --- FILE SYSTEM ---
 btrfs-progs
@@ -131,7 +115,6 @@ flatpak
 
 # --- DEVELOPMENT ---
 git
-docker
 docker-compose
 stow
 mise

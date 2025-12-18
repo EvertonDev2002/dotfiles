@@ -1,11 +1,4 @@
 {
-  /*   "bluetooth": {
-    "format": "",
-    "format-disabled": "󰂲",
-    "format-connected": "󰂱",
-    "tooltip-format": "{device_battery_percentage}%",
-    "on-click": "blueman-manager"
-  }, */
   "clock": {
     "format": "{:L%d %b  %H:%M}",
     "format-alt": "{:%d/%m/%y  %H:%M}",
@@ -15,9 +8,9 @@
     "calendar": {
       "mode": "month",
       "format": {
-        "months": "<span color='#5b9bf8'><b>{}</b></span>",
+        "months": "<span color='#CDC2B2'><b>{}</b></span>",
         "days": "<span color='#cdd6f4'><b>{}</b></span>",
-        "weekdays": "<span color='#ade8fa'><b>{}</b></span>",
+        "weekdays": "<span color='#CDC2B2'><b>{}</b></span>",
         "today": "<span color='#ffcc66'><b>{}</b></span>"
       }
     }
@@ -95,8 +88,8 @@
     "format-icons": {
       "default": ["", "", ""]
     },
-    "on-click": "foot --app-id=Wiremix -e wiremix"
-    // "on-click-right": "pamixer -t"
+    "on-click": "foot --app-id=Wiremix -e wiremix",
+    "on-click-right": "pamixer -t"
   },
   "tray": {
     "icon-size": 15,
@@ -104,7 +97,6 @@
   },
   "custom/clipboard": {
     "format": "󰅇",
-    // "format-alt": "",
     "tooltip": false,
     "on-click": "cliphist list | fuzzel -d -p 'Área de transferência' | cliphist decode | wl-copy",
     "on-click-right": "cliphist wipe"
