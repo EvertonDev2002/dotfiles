@@ -97,7 +97,6 @@ config/**/*
 !config/kitty/.config/
 !config/kitty/.config/kitty/
 !config/kitty/.config/kitty/kitty.conf
-!config/kitty/.config/kitty/kitty.conf.bak
 !config/kitty/.config/kitty/current-theme.conf
 !config/kitty/.config/kitty/dark-theme.auto.conf
 
@@ -122,14 +121,6 @@ config/**/*
 !config/nwg/.config/
 !config/nwg/.config/nwg-*/
 !config/nwg/.config/nwg-*/**
-
-# --- omf ---
-!config/omf/
-!config/omf/.config/
-!config/omf/.config/omf/
-!config/omf/.config/omf/init.fish
-!config/omf/.config/omf/bundle
-!config/omf/.config/omf/channel
 
 # --- river ---
 !config/river/
