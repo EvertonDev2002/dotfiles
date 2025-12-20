@@ -93,7 +93,7 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 ### Atalhos do Teclado
 
-Para lista completa de atalhos do River WM, veja **[KEYBINDS.md](KEYBINDS.md)**.
+Para lista completa de atalhos do River WM, veja **[KEYBINDS.md](docs/KEYBINDS.md)**.
 
 ### Shell - Fish
 
