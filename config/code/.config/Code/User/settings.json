@@ -312,6 +312,6 @@
   // TELEMETRIA - Privacidade
   "telemetry.telemetryLevel": "off",
   "telemetry.feedback.enabled": false,
-  "workbench.statusBar.visible": false,
-  "update.showReleaseNotes": false
+  "update.showReleaseNotes": false,
+  "workbench.statusBar.visible": false
 }

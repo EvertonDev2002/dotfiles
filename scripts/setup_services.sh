@@ -2,22 +2,16 @@
 # setup_services.sh - Habilitar Serviços Runit
 # Autor: EvertonDev2002
 
-# --- Cores e Formatação
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
-
-log() { echo -e "${BLUE}[INFO]${NC} $1"; }
-success() { echo -e "${GREEN}[OK]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-error() { echo -e "${RED}[ERRO]${NC} $1"; }
-
-set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
 
 # --- Habilitar Serviços Runit
 log "Configurando serviços do Runit..."
+echo ""
+
+enabled=0
+existing=0
+not_found=0
 
 enable_service() {
     local service="$1"
@@ -25,11 +19,15 @@ enable_service() {
         if [ ! -L "/etc/runit/runsvdir/default/$service" ]; then
             log "Habilitando serviço: $service"
             sudo ln -s "/etc/runit/sv/$service" "/etc/runit/runsvdir/default"
+            success "$service habilitado"
+            ((enabled++))
         else
-            echo " -> $service já está ativo."
+            success "$service já está ativo"
+            ((existing++))
         fi
     else
-        warn "Serviço '$service' não encontrado em /etc/runit/sv. O pacote foi instalado?"
+        warn "Serviço '$service' não encontrado. Pacote instalado?"
+        ((not_found++))
     fi
 }
 
@@ -58,4 +56,10 @@ for service in "${services[@]}"; do
     enable_service "$service"
 done
 
+echo ""
+echo "────────────────────────────────────────────"
 success "Configuração de serviços concluída!"
+echo "  Habilitados: $enabled"
+echo "  Já ativos: $existing"
+echo "  Não encontrados: $not_found"
+echo "────────────────────────────────────────────"

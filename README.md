@@ -13,13 +13,13 @@ Configurações pessoais para Artix Linux (Runit) com River (Wayland compositor)
 - [Visão Geral](#-visão-geral)
 - [Screenshots](#-screenshots)
 - [Características](#-características)
-- [Estrutura do Repositório](#-estrutura-do-repositório)
-- [Instalação](#-instalação)
 - [Componentes](#-componentes)
+- [Instalação](#-instalação)
 - [Scripts de Configuração](#-scripts-de-configuração)
 - [Customização](#-customização)
-- [Créditos](#-créditos)
+- [Notas](#-notas)
 - [Licença](#-licença)
+- [Contribuindo](#-contribuindo)
 
 ---
 
@@ -29,8 +29,8 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 - **Sistema**: Artix Linux (Runit init system - sem systemd)
 - **Window Manager**: River (compositor Wayland minimalista)
-- **Shell**: Fish com Oh My Fish, Starship prompt
-- **Terminal**: Foot
+- **Shell**: Fish com Fisher, Starship prompt
+- **Terminal**: Kitty
 - **Browser**: Firefox com configurações (Betterfox + Personal use)
 - **Gerenciamento**: GNU Stow para symlinks automáticos
 - **Pacotes**: Yay (AUR helper) + Flatpak
@@ -46,9 +46,9 @@ Este repositório contém todas as configurações necessárias para replicar me
 ### 🚀 Performance
 
 - **Zramen** swap comprimido em memória
-- **Pacman otimizado** (ParallelDownloads=12, DownloadUser=alpm)
 - **PipeWire** com baixa latência
 - **Aliases modernos** (fd, ripgrep, eza, bat, xcp)
+- **Pacman otimizado**
 
 ### 🔒 Privacidade & Segurança
 
@@ -76,168 +76,6 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 ---
 
-## 📁 Estrutura do Repositório
-
-```
-dotfiles/
-├── browser
-│   ├── extension
-│   │   └── ublock
-│   └── firefox
-├── config
-│   ├── alacritty
-│   ├── code
-│   ├── fastfetch
-│   ├── fish
-│   ├── foot
-│   ├── fuzzel
-│   ├── git
-│   ├── gtk
-│   ├── hyprland
-│   ├── init-log
-│   ├── kanshi
-│   ├── kitty
-│   ├── mako
-│   ├── nautilus
-│   ├── nwg
-│   ├── omf
-│   ├── river
-│   ├── rofi
-│   ├── scripts
-│   ├── shikane
-│   ├── shortcuts
-│   ├── starship
-│   ├── sway
-│   ├── waybar
-│   ├── way-displays
-│   └── xdg-desktop-portal
-├── pkgs
-│   ├── flatpak
-│   └── yay
-├── scripts
-│   ├── setup_dotfiles.sh
-│   ├── setup_firefox.sh
-│   ├── setup_flatpaks.sh
-│   ├── setup_packages.sh
-│   ├── setup_repos.sh
-│   ├── setup_services.sh
-│   ├── setup_system.sh
-│   ├── setup_theme_and_shell.sh
-│   ├── setup_user.sh
-│   └── setup_yay.sh
-├── system
-│   ├── etc
-│   │   ├── iwd
-│   │   ├── nanorc
-│   │   ├── NetworkManager
-│   │   │   └── conf.d
-│   │   ├── pacman.d
-│   │   │   └── hooks
-│   │   ├── runit
-│   │   │   └── sv
-│   │   ├── security
-│   │   ├── sensors.d
-│   │   └── tlp.conf
-│   └── example
-├── uv.lock
-├── pyproject.toml
-├── README.md
-└── install.sh
-```
-
----
-
-## 🚀 Instalação
-
-### Pré-requisitos
-
-- Artix Linux instalado (Runit)
-- Acesso root (sudo)
-- Conexão com internet
-
-### Instalação Completa
-
-```bash
-# 1. Clone o repositório
-git clone git@github.com:EvertonDev2002/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-
-# 2. Execute o script de instalação principal
-chmod +x install.sh
-./install.sh
-```
-
-O script `install.sh` irá:
-
-1. ✅ Configurar repositórios (Arch extra)
-2. ✅ Instalar Yay (AUR helper)
-3. ✅ Instalar pacotes do sistema (pkglist.txt) - 142 pacotes
-4. ✅ Instalar Flatpaks (flatpaklist.txt) - 29 aplicativos
-5. ✅ Copiar arquivos de sistema (/etc)
-6. ✅ Habilitar serviços Runit
-7. ✅ Criar symlinks com GNU Stow
-8. ✅ Configurar usuário (grupos e sudo)
-9. ✅ Configurar Firefox (opcional - detecção automática de perfil)
-10. ✅ Instalar temas e shell (opcional - Colloid, OMF, pnpm)
-
-### Instalação Modular
-
-Você pode executar scripts individuais:
-
-```bash
-# Apenas repositórios
-./scripts/setup_repos.sh
-
-# Apenas Yay (AUR helper)
-./scripts/setup_yay.sh
-
-# Apenas pacotes do sistema
-./scripts/setup_packages.sh
-
-# Apenas Flatpaks
-./scripts/setup_flatpaks.sh
-
-# Apenas arquivos de sistema
-./scripts/setup_system.sh
-
-# Apenas serviços Runit
-./scripts/setup_services.sh
-
-# Apenas dotfiles (Stow)
-./scripts/setup_dotfiles.sh
-
-# Apenas configuração de usuário
-./scripts/setup_user.sh
-
-# Apenas Firefox
-./scripts/setup_firefox.sh
-
-# Apenas temas e shell (opcional)
-./scripts/setup_theme_and_shell.sh
-```
-
-### Instalação Manual (Stow)
-
-```bash
-# Instalar configurações específicas
-cd ~/dotfiles
-
-# Fish shell
-stow -d config -t ~ fish
-
-# River WM
-stow -d config -t ~ river
-
-# Waybar
-stow -d config -t ~ waybar
-
-# Scripts utilitários
-stow -d config -t ~ scripts
-
-```
-
----
-
 ## 🧩 Componentes
 
 ### Window Manager - River
@@ -253,9 +91,13 @@ stow -d config -t ~ scripts
 - Workspaces (tags) 1-9
 - Scratchpad
 
+### Atalhos do Teclado
+
+Para lista completa de atalhos do River WM, veja **[KEYBINDS.md](KEYBINDS.md)**.
+
 ### Shell - Fish
 
-- **Framework**: Oh My Fish (OMF)
+- **Gerenciador de Plugins**: Fisher
 - **Prompt**: Starship
 - **Plugins**:
   - `autopair` - Fecha parênteses automaticamente
@@ -302,21 +144,77 @@ Baseado em [Betterfox](https://github.com/yokoffing/Betterfox) com 170+ preferê
 - **wl-mirror**: Espelhamento de tela
 - **wlr-randr**: Controle de outputs
 
-### Audio - PipeWire
+---
+
+## 📦 Instalação
+
+### Pré-requisitos
+
+- Artix Linux instalado (Runit)
+- Acesso root (sudo)
+- Conexão com internet
+
+### Instalação Completa
 
 ```bash
-# Stack completo
-pipewire
-pipewire-pulse
-pipewire-alsa
-wireplumber
+# 1. Clone o repositório
+git clone git@github.com:EvertonDev2002/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+
+# 2. Execute o script de instalação principal
+chmod +x install.sh
+./install.sh
 ```
 
-Inicializado via `init-pipewire.sh` com logging em `~/.local/state/init-log/audio.log`
+O script `install.sh` irá:
+
+1. ✅ Configurar repositório extra do Arch
+2. ✅ Instalar Yay (AUR helper)
+3. ✅ Instalar pacotes do sistema (pkglist.txt)
+4. ✅ Instalar Flatpaks (flatpaklist.txt)
+5. ✅ Copiar arquivos de sistema (/etc)
+6. ✅ Habilitar serviços Runit
+7. ✅ Criar symlinks com GNU Stow
+8. ✅ Configurar usuário (grupos e sudo)
+9. ✅ Configurar Firefox
+10. ✅ Instalar temas e shell
+
+### Instalação Modular
+
+Você pode executar scripts individuais:
+
+```bash
+# Exemplo
+./scripts/setup_dotfiles.sh
+```
+
+### Instalação Manual (Stow)
+
+```bash
+# Exemplo
+# Instalar configurações específicas
+cd ~/dotfiles
+stow -d config -t ~ river
+```
 
 ---
 
-## 🔧 Scripts de Configuração
+## �🔧 Scripts de Configuração
+
+### Scripts de Setup (`scripts/`)
+
+| Script              | Função                                      |
+| ------------------- | ------------------------------------------- |
+| `setup_repos.sh`    | Configura repos Artix/Arch + pacman.conf    |
+| `setup_yay.sh`      | Instala Yay (AUR helper)                    |
+| `setup_packages.sh` | Instala ~103 pacotes (Pacman + AUR)         |
+| `setup_flatpaks.sh` | Instala Flatpak + Flathub + 29 apps         |
+| `setup_system.sh`   | Copia configs de /etc com backup            |
+| `setup_services.sh` | Habilita 17 serviços Runit                  |
+| `setup_dotfiles.sh` | Aplica symlinks com GNU Stow                |
+| `setup_user.sh`     | Configura sudo e grupos                     |
+| `setup_firefox.sh`  | Detecta perfil e aplica user.js             |
+| `setup_themes_plugins.sh`   | Instala Colloid + Plugins Fish (interativo) |
 
 ### Scripts de Inicialização (`config/scripts/.local/bin/`)
 
@@ -326,17 +224,17 @@ Todos os scripts possuem:
 - ✅ Error handling (`set -euo pipefail`)
 - ✅ Paths dinâmicos com `$SCRIPT_DIR`
 
-| Script              | Função                                      | Log              |
-| ------------------- | ------------------------------------------- | ---------------- |
-| `init-services.sh`  | Orquestra todos os serviços de usuário      | `services.log`   |
-| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              | `audio.log`      |
-| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         | `portals.log`    |
-| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) | `clipboard.log`  |
-| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     | `autostart.log`  |
-| `screenshot.sh`     | Captura de tela (grim + slurp)              | `screenshot.log` |
-| `powermenu.sh`      | Menu de energia (fuzzel)                    | -                |
-| `mirror_toggle.sh`  | Toggle espelhamento de display              | `mirror.log`     |
-| `set-wallpaper.sh`  | Gerencia wallpapers com swww                | `wallpaper.log`  |
+| Script              | Função                                      |
+| ------------------- | ------------------------------------------- |
+| `init-services.sh`  | Orquestra todos os serviços de usuário      |
+| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              |
+| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         |
+| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) |
+| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     |
+| `screenshot.sh`     | Captura de tela (grim + slurp)              |
+| `powermenu.sh`      | Menu de energia (fuzzel)                    |
+| `mirror_toggle.sh`  | Toggle espelhamento de display              |
+| `set-wallpaper.sh`  | Gerencia wallpapers com swww                |
 
 ---
 
@@ -369,25 +267,6 @@ Recarregar:
 ```bash
 source ~/.config/fish/aliases.fish
 ```
-
----
-
-## 🙏 Créditos
-
-Este repositório foi construído com inspiração e código de várias fontes incríveis da comunidade:
-
-### Firefox
-
-- **[Betterfox](https://github.com/yokoffing/Betterfox)** - Base para user.js hardened e timizações de performance
-
-### Temas & Estética
-
-- **[Colloid](https://github.com/vinceliuice/Colloid-gtk-theme)** - Tema GTK
-- **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** - Tema de cursor
-
-<!-- ### Scripts & Tools -->
-
-<!-- - **[Nome]** - [Link] - Descrição -->
 
 ---
 
@@ -460,8 +339,7 @@ Este repositório é disponibilizado sob a licença MIT. Sinta-se livre para usa
 Contribuições são bem-vindas! Se você encontrou um bug ou tem uma sugestão:
 
 1. Abra uma Issue
-2. Faça um Fork
-3. Crie uma Branch (`git checkout -b feature/MinhaFeature`)
-4. Commit suas mudanças (`git commit -m 'Add: Minha feature'`)
-5. Push para a Branch (`git push origin feature/MinhaFeature`)
-6. Abra um Pull Request
+2. Crie uma Branch (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Add: Minha feature'`)
+4. Push para a Branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request

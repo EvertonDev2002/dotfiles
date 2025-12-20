@@ -2,22 +2,10 @@
 # scripts/setup_firefox.sh
 # Cria links simbólicos do user.js e chrome/ para o perfil Firefox ativo
 
-set -euo pipefail
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+
 DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
-
-# Cores
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-YELLOW='\033[1;33m'
-RED='\033[0;31m'
-NC='\033[0m'
-
-log() { echo -e "${BLUE}[INFO]${NC} $1"; }
-success() { echo -e "${GREEN}[OK]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-error() { echo -e "${RED}[ERRO]${NC} $1"; }
 
 log "Configurando Firefox..."
 

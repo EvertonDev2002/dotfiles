@@ -11,19 +11,9 @@ FLATPAK="${SCRIPT_DIR}/scripts/setup_flatpaks.sh"
 DOTFILES="${SCRIPT_DIR}/scripts/setup_dotfiles.sh"
 SERVICES="${SCRIPT_DIR}/scripts/setup_services.sh"
 
-# --- Cores e Formatação
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
+# Carregar funções e cores comuns
+source "${SCRIPT_DIR}/scripts/lib/common.sh"
 
-log() { echo -e "${BLUE}[INFO]${NC} $1"; }
-success() { echo -e "${GREEN}[OK]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-error() { echo -e "${RED}[ERRO]${NC} $1"; }
-
-set -e
 
 log "Iniciando pós-instalação..."
 
@@ -67,8 +57,8 @@ fi
 # --- Arquivos de Sistema (Root)
 if [ -f "${SCRIPT_DIR}/scripts/setup_system.sh" ]; then
     log "Deseja aplicar configurações de sistema em /etc? [y/N]"
-    read -r -t 10 sys_response || sys_response="n"
-    if [[ "$sys_response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+    read -r sys_response
+    if [[ "$sys_response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         bash "${SCRIPT_DIR}/scripts/setup_system.sh"
     else
         warn "Configurações de sistema não aplicadas"
@@ -96,7 +86,7 @@ fi
 # --- Configuração do Firefox
 if [ -f "${SCRIPT_DIR}/scripts/setup_firefox.sh" ]; then
     log "Deseja configurar Firefox (user.js e chrome/)? [Y/n]"
-    read -r -t 10 firefox_response || firefox_response="y"
+    read -r firefox_response
     if [[ "$firefox_response" =~ ^([nN][oO]|[nN])$ ]]; then
         warn "Configuração do Firefox ignorada"
     else
@@ -119,6 +109,6 @@ fi
 # fi
 
 echo ""
-echo -e "${GREEN}=========================================${NC}"
-echo -e "${GREEN}   INSTALAÇÃO CONCLUÍDA COM SUCESSO!     ${NC}"
-echo -e "${GREEN}=========================================${NC}"
+echo "========================================="
+success "   INSTALAÇÃO CONCLUÍDA COM SUCESSO!     "
+echo "========================================="

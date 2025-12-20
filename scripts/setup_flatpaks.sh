@@ -1,21 +1,9 @@
 #!/bin/bash
-set -eo pipefail
 
-# --- Variáveis
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+
 LIST_FILE="${SCRIPT_DIR}/../pkgs/flatpak/flatpaklist.txt"
-
-# --- Cores
-readonly GREEN='\033[0;32m'
-readonly BLUE='\033[0;34m'
-readonly YELLOW='\033[1;33m'
-readonly RED='\033[0;31m'
-readonly NC='\033[0m'
-
-log() { echo -e "${BLUE}[INFO]${NC} $1"; }
-success() { echo -e "${GREEN}[✓]${NC} $1"; }
-warn() { echo -e "${YELLOW}[!]${NC} $1"; }
-error() { echo -e "${RED}[✗]${NC} $1"; }
 
 install_flatpak() {
     if ! command -v flatpak &> /dev/null; then

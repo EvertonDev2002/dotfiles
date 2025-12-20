@@ -1,33 +1,21 @@
 #!/bin/bash
-#  Instala Colloid, OMF e cria links para todos os temas/ícones
+#  Instala Colloid e cria links para todos os temas/ícones
 
-set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/common.sh"
+
 IFS=$'\n\t'
 
-readonly SCRIPT_NAME="$(basename "$0")"
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_NAME="$(basename "$0")"
+readonly SCRIPT_NAME
 readonly TEMP_DIR="/tmp/setup-${SCRIPT_NAME%.*}-$$"
 readonly COLLOID_REPO="https://github.com/vinceliuice/Colloid-gtk-theme"
-readonly OMF_INSTALL_DIR="$HOME/.local/share/omf"
-readonly OMF_CONFIG_DIR="$HOME/.config/omf"
 
 # --- Diretórios de destino
 readonly THEMES_XDG="$HOME/.local/share/themes"
 readonly ICONS_XDG="$HOME/.local/share/icons"
 readonly THEMES_LEGACY="$HOME/.themes"
 readonly ICONS_LEGACY="$HOME/.icons"
-
-# --- Cores
-readonly RED='\033[0;31m'
-readonly GREEN='\033[0;32m'
-readonly YELLOW='\033[1;33m'
-readonly BLUE='\033[0;34m'
-readonly NC='\033[0m'
-
-log()     { echo -e "${BLUE}[INFO]${NC} $1"; }
-success() { echo -e "${GREEN}[✓]${NC} $1"; }
-warn()    { echo -e "${YELLOW}[!]${NC} $1"; }
-error()   { echo -e "${RED}[✗]${NC} $1"; }
 
 cleanup() {
     [ -d "$TEMP_DIR" ] && rm -rf "$TEMP_DIR"
@@ -81,17 +69,17 @@ install_colloid() {
         return 1
     fi
     
-    cd "$TEMP_DIR/Colloid-gtk-theme"
+    cd "$TEMP_DIR/Colloid-gtk-theme" || return 1
     chmod +x install.sh
     
     log "Compilando variante dark com tweaks rimless..."
     if sudo ./install.sh -c dark --tweaks rimless -l && sudo ./install.sh -c dark --tweaks rimless; then
         success "Colloid instalado com sucesso"
-        cd - > /dev/null
+        cd - > /dev/null || return 1
         return 0
     else
         error "Falha ao instalar Colloid"
-        cd - > /dev/null
+        cd - > /dev/null || return 1
         return 1
     fi
 }
@@ -179,31 +167,7 @@ create_symlinks() {
     fi
 }
 
-install_omf() {
-    log "Instalando Oh My Fish..."
-    
-    # Verificar se fish existe
-    if ! command -v fish &> /dev/null; then
-        error "Fish shell não está instalado"
-        return 1
-    fi
-    
-    # Baixar instalador
-    local omf_installer="$TEMP_DIR/omf-install"
-    if ! curl -fsSL "https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install" -o "$omf_installer"; then
-        error "Falha ao baixar OMF installer"
-        return 1
-    fi
-    
-    # Instalar
-    if fish "$omf_installer" --path="$OMF_INSTALL_DIR" --config="$OMF_CONFIG_DIR" --noninteractive --yes 2>/dev/null; then
-        success "Oh My Fish instalado"
-        return 0
-    else
-        error "Falha ao instalar OMF"
-        return 1
-    fi
-}
+
 
 install_fish_plugins() {
     log "Instalando plugins do Fish..."
@@ -213,18 +177,12 @@ install_fish_plugins() {
         return 1
     fi
     
-    if [ ! -d "$OMF_INSTALL_DIR" ]; then
-        warn "OMF não encontrado. Pulando plugins."
+    if ! command -v fisher &> /dev/null; then
+        error "Fisher não está instalado. Instale via: yay -S fisher"
         return 1
     fi
     
     fish << 'EOF'
-# Instalar Fisher se não existir
-if not functions -q fisher
-    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
-    fisher install jorgebucaran/fisher
-end
-
 # Instalar plugins
 fisher install jorgebucaran/autopair.fish 2>/dev/null || true
 fisher install meaningful-oasis/sponge 2>/dev/null || true
@@ -260,9 +218,9 @@ install_pnpm() {
 
 show_menu() {
     echo ""
-    echo "  1) Instalar tudo (Colloid + OMF + Links + pnpm)"
+    echo "  1) Instalar tudo (Colloid + Plugins Fish + Links + pnpm)"
     echo "  2) Apenas Colloid GTK"
-    echo "  3) Apenas OMF + Plugins"
+    echo "  3) Apenas Plugins Fish (Fisher)"
     echo "  4) Apenas Links Simbólicos"
     echo "  5) Apenas pnpm (Gestor de pacotes Node)"
     echo "  6) Apenas Dependências"
@@ -280,7 +238,6 @@ main() {
                 check_dependencies && \
                 install_colloid && \
                 create_symlinks && \
-                install_omf && \
                 install_fish_plugins && \
                 install_pnpm && \
                 success "Setup completo finalizado!"
@@ -289,7 +246,7 @@ main() {
                 check_dependencies && install_colloid
                 ;;
             3)
-                check_dependencies && install_omf && install_fish_plugins
+                check_dependencies && install_fish_plugins
                 ;;
             4)
                 create_symlinks

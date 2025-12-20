@@ -1,7 +1,7 @@
-# ============================================================================
+#
 # LISTA DE PACOTES - Artix Linux (Yay)
 # Organizada por categorias para instalação via install.sh
-# ============================================================================
+#
 
 # --- BASE & KERNEL ---
 base
@@ -45,9 +45,7 @@ wlr-randr
 way-displays
 slurp
 grim
-libnotify
 brightnessctl
-pamixer
 
 # --- AUDIO (PIPEWIRE) ---
 pipewire
@@ -56,6 +54,7 @@ pipewire-alsa
 pipewire-jack
 wireplumber
 playerctl
+pamixer
 
 # --- VIDEO & HARDWARE ACCELERATION ---
 # Intel Graphics
@@ -74,6 +73,8 @@ gst-plugins-bad
 gst-plugins-ugly
 gstreamer
 gstreamer-vaapi
+gst-plugin-pipewire
+gst-plugin-va
 ffmpeg
 mpv
 
@@ -109,9 +110,10 @@ xdg-utils
 firefox
 nautilus
 evince
-foot
+kitty
 visual-studio-code-bin
 flatpak
+file-roller
 
 # --- DEVELOPMENT ---
 git
@@ -139,6 +141,7 @@ nano-syntax-highlighting
 7zip
 jq
 lswt
+usage
 
 # --- SECURITY ---
 gnome-keyring
@@ -165,3 +168,4 @@ nwg-look
 # --- MEDIA ---
 ffmpegthumbnailer
 wiremix
+spotify-player

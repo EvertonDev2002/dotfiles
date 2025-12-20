@@ -17,7 +17,7 @@ echo "--- [$(date)] Iniciando River Compositor ---"
 mod="Super"
 
 # Aplicações
-term="foot"
+term="kitty"
 web="firefox"
 files="nautilus"
 launcher="fuzzel"
@@ -170,7 +170,7 @@ riverctl rule-add ssd
 
 # Janelas Flutuantes (Função float_app)
 riverctl rule-add -app-id 'org.gnome.Calculator' float
-riverctl rule-add -title 'Authentication Required' float
+#riverctl rule-add -title 'Authentication Required' float
 riverctl rule-add -app-id 'firefox' -title 'Picture-in-Picture' float
 
 # --- AUTOSTART
