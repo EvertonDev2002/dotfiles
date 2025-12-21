@@ -177,8 +177,8 @@ install_fish_plugins() {
         return 1
     fi
     
-    if ! command -v fisher &> /dev/null; then
-        error "Fisher não está instalado. Instale via: yay -S fisher"
+    if ! pacman -Qs "fisher" | grep -w "fisher" &> /dev/null; then
+        error "Fisher não está instalado. Instale via: pacman -S fisher"
         return 1
     fi
     
