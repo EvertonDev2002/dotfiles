@@ -6,6 +6,7 @@ Configurações pessoais para Artix Linux (Runit) com River (Wayland compositor)
 ![River WM](https://img.shields.io/badge/River-Wayland-0ea5e9?style=for-the-badge)
 ![Fish Shell](https://img.shields.io/badge/Fish-Shell-f59e0b?style=for-the-badge&logo=fishshell)
 ![CI Status](https://img.shields.io/github/actions/workflow/status/EvertonDev2002/dotfiles/validate.yml?style=for-the-badge&label=Validações&logo=githubactions)
+![Conventional Commits](https://img.shields.io/badge/Conventional_Commits-1.0.0-fe5196?style=for-the-badge&logo=conventionalcommits&logoColor=white)
 
 ---
 
@@ -298,16 +299,22 @@ grep -i error ~/.local/state/init-log/*.log
 
 **📚 Documentação Completa:**
 
-- **[TROUBLESHOOTING](docs/TROUBLESHOOTING.md)** - Solução de problemas detalhada e logs
-- **[KEYBINDS](docs/KEYBINDS.md)** - Atalhos do River WM
-- **[SYSTEM-CONFIG](docs/SYSTEM-CONFIG.md)** - Configurações do sistema
-- **[ACTIONS](docs/ACTIONS.md)** - CI/CD e validações automáticas
+### Documentação do Projeto
 
----
+- **[TROUBLESHOOTING](docs/TROUBLESHOOTING.md)** — Solução de problemas detalhada e logs
+- **[KEYBINDS](docs/KEYBINDS.md)** — Atalhos do River WM
+- **[SYSTEM-CONFIG](docs/SYSTEM-CONFIG.md)** — Configurações do sistema
+- **[ACTIONS](docs/ACTIONS.md)** — CI/CD e validações automáticas
 
-## 📜 Licença
+### Documentação de Terceiros e Referências
 
-Este repositório é disponibilizado sob a licença MIT. Sinta-se livre para usar, modificar e compartilhar.
+- **[Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0)** — Padrão de mensagens de commit
+- **[Betterfox](https://github.com/yokoffing/Betterfox)** — Hardening do Firefox
+- **[River Documentation](https://codeberg.org/river/river/wiki)** — Documentação oficial do River WM
+- **[Arch Wiki](https://wiki.archlinux.org/)** — Referência para Arch/Artix Linux
+- **[Wayland Documentation](https://wayland.freedesktop.org/)** — Documentação oficial do Wayland
+- **[Limine Bootloader](https://github.com/limine-bootloader/limine)** — Bootloader utilizado
+- **[Spotify Player](https://github.com/aome510/spotify-player)** — Player de Spotify no terminal (TUI), rápido, leve e com suporte a playlists, busca e atalhos de teclado.
 
 ---
 
@@ -330,5 +337,3 @@ bash -n scripts/setup/*.sh     # Verificar sintaxe
 ```
 
 > **Nota:** Use a extensão ShellCheck do VS Code para análise em tempo real durante a edição.
-
-**Documentação:** [ACTIONS](docs/ACTIONS.md)
