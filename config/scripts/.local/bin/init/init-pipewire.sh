@@ -1,16 +1,19 @@
 #!/bin/sh
 
-# ============================================================================
+# 
 # init-pipewire.sh
 # Inicialização da Stack de Áudio (PipeWire + WirePlumber)
-# ============================================================================
+# 
 
 set -e
 
+# Carregar Configurações
+# shellcheck disable=SC1091
+. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+
 # Logging
-DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
 mkdir -p "$DIR_LOG"
-exec >"$DIR_LOG/audio.log" 2>&1
+exec > "$DIR_LOG/audio.log" 2>&1
 
 echo "--- Iniciando Stack de Áudio: $(date) ---"
 

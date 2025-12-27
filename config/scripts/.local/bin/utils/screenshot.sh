@@ -2,17 +2,20 @@
 
 set -euo pipefail
 
-# --- LOGGING
-DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
+# Carregar Configurações
+# shellcheck disable=SC1091
+. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+
+# --- LOGGING 
 mkdir -p "$DIR_LOG"
 LOG_FILE="$DIR_LOG/screenshot.log"
 
-exec >"$LOG_FILE" 2>&1
+exec > "$LOG_FILE" 2>&1
 
 echo "--- Screenshot: $(date) ---"
 
 # --- CONFIGURAÇÕES
-save_dir="$HOME/Imagens/Capturas de tela"
+save_dir="$SCREENSHOT_DIR"
 timestamp=$(date +'%Y-%m-%d_%H-%M-%S')
 filename="${timestamp}_screenshot.png"
 filepath="${save_dir}/${filename}"

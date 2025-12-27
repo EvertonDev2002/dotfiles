@@ -1,29 +1,21 @@
 #!/bin/bash
-# ============================================================================
+#
 #  INIT SERVICES - VERSÃO TURBO & MODULAR
 #  Otimizado para velocidade e fácil manutenção.
-# ============================================================================
+#
 
-# --- 1. CONFIGURAÇÃO E LOGS ---
+# --- Carregar Configurações
+# shellcheck disable=SC1091
+. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
 
-# Logging
-DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
-mkdir -p "$DIR_LOG"
-exec > "$DIR_LOG/services.log" 2>&1
+# --- Carregar Biblioteca de Logging
+# shellcheck disable=SC1091
+. "$SCRIPTS_LIB_DIR/logging.sh"
 
-log() { echo "[$(date '+%H:%M:%S')] $1"; }
+# --- Logging
+setup_logging "$DIR_LOG/services.log" "Init Services"
 
-# --- VARIÁVEIS (MANUTENÇÃO)
-
-# Caminhos dos scripts auxiliares
-SCRIPT_PORTALS="$HOME/.local/bin/init-portals.sh"
-SCRIPT_PIPEWIRE="$HOME/.local/bin/init-pipewire.sh"
-SCRIPT_CLIPBOARD="$HOME/.local/bin/init-clipboard.sh"
-
-# Binários do sistema
-BIN_POLKIT="/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-
-log "--- Iniciando Serviços ---"
+log_info "Iniciando serviços do sistema..."
 
 # --- PREPARAÇÃO DO AMBIENTE
 
@@ -33,7 +25,7 @@ export XDG_RUNTIME_DIR
 if pgrep -f gnome-keyring-daemon >/dev/null; then
     pkill -u "$USER" -f gnome-keyring-daemon
     sleep 0.3
-    log "Processos antigos limpos."
+    log_info "Processos antigos do keyring limpos"
 fi
 
 # Cria diretório do keyring se não existir
@@ -44,11 +36,15 @@ fi
 if [ -x "/usr/bin/gnome-keyring-daemon" ]; then
     if pgrep -x "gnome-keyring-d" >/dev/null; then
         export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
-        log "Keyring já online."
+        log_info "Keyring já online"
     else
         eval "$(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh 2>/dev/null)"
         export SSH_AUTH_SOCK GNOME_KEYRING_CONTROL GNOME_KEYRING_PID
-        log "Keyring iniciado: $SSH_AUTH_SOCK"
+        if [ -n "${SSH_AUTH_SOCK:-}" ]; then
+            log_info "Keyring iniciado com sucesso"
+        else
+            log_warn "Keyring não retornou SSH_AUTH_SOCK"
+        fi
     fi
 fi
 
@@ -65,24 +61,33 @@ run_bg() {
     NAME="$1"
     CMD="$2"
     if ! pgrep -f "$NAME" >/dev/null; then
-        log "Iniciando serviço: $NAME"
+        log_info "Iniciando serviço: $NAME"
         "$CMD" &
     else
-        log "Serviço já rodando: $NAME"
+        log_debug "Serviço já rodando: $NAME"
     fi
 }
 
 # Polkit
 [ -x "$BIN_POLKIT" ] && run_bg "polkit-gnome" "$BIN_POLKIT"
 
-# Serviços Customizados
-run_bg "xdg-desktop-portal" "$SCRIPT_PORTALS"
-run_bg "pipewire" "$SCRIPT_PIPEWIRE"
-run_bg "wl-paste" "$SCRIPT_CLIPBOARD"
+# Serviços
+log_info "Iniciando serviços..."
+log_info "Iniciando stack de áudio (pipewire)..."
+if ! pgrep -x pipewire >/dev/null; then
+    "$SCRIPT_PIPEWIRE" &
+else
+    log_debug "Stack de áudio já rodando"
+fi
+sleep 1
+
+run_bg "portais XDG" "$SCRIPT_PORTALS"
+run_bg "clipboard" "$SCRIPT_CLIPBOARD"
 
 # Applets do Sistema
+log_info "Iniciando applets..."
 run_bg "swww-daemon" "swww-daemon"
 run_bg "nm-applet" "nm-applet"
 run_bg "blueman-applet" "blueman-applet"
 
-log "--- Fim (Script liberado) ---"
+finish_logging 0 "Init Services"

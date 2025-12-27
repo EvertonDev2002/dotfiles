@@ -1,16 +1,19 @@
 #!/bin/sh
 
-# ============================================================================
+# 
 # init-portals.sh
 # Inicialização de portais XDG para ambientes wlroots (River/Artix)
-# ============================================================================
+# 
 
 set -e
 
+# Carregar Configurações
+# shellcheck disable=SC1091
+. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+
 # Logging
-DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
 mkdir -p "$DIR_LOG"
-exec >"$DIR_LOG/portals.log" 2>&1
+exec > "$DIR_LOG/portals.log" 2>&1
 
 echo "--- Iniciando Portais: $(date) ---"
 
@@ -24,16 +27,29 @@ echo "Atualizando DBus activation environment..."
 dbus-update-activation-environment --all
 
 echo "Matando processos antigos..."
-pkill -x xdg-desktop-portal || echo "Nenhum portal genérico rodando."
-pkill -x xdg-desktop-portal-wlr || echo "Nenhum portal wlr rodando."
-pkill -x xdg-desktop-portal-gtk || echo "Nenhum portal gtk rodando."
+pkill -f xdg-desktop-portal-wlr 2>/dev/null || echo "Nenhum portal wlr rodando."
+pkill -f xdg-desktop-portal-gtk 2>/dev/null || echo "Nenhum portal gtk rodando."
+pkill -f "xdg-desktop-portal" 2>/dev/null || echo "Nenhum portal genérico rodando."
+
+sleep 0.5
+
+# Aguardar pipewire estar pronto (necessário para screencast)
+echo "Aguardando PipeWire..."
+for i in 1 2 3 4 5; do
+    if pgrep -x pipewire >/dev/null; then
+        echo "PipeWire detectado."
+        break
+    fi
+    [ "$i" -eq 5 ] && echo "AVISO: PipeWire não detectado, continuando..."
+    sleep 0.5
+done
 
 echo "Iniciando Backend (WLR)..."
 if [ -x "$PORTAL_WLR" ]; then
     "$PORTAL_WLR" &
     PID_WLR=$!
     echo "Backend iniciado (PID: $PID_WLR). Aguardando..."
-    sleep 1 
+    sleep 1.5 
 else
     echo "ERRO CRÍTICO: Backend $PORTAL_WLR não encontrado!" >&2
     exit 1

@@ -2,22 +2,23 @@
 
 set -e
 
+# Carregar Configurações
+# shellcheck disable=SC1091
+. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+
 # Logging
-DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
 mkdir -p "$DIR_LOG"
 LOG_FILE="$DIR_LOG/wallpaper.log"
 
 exec > "$LOG_FILE" 2>&1
 
 echo "--- Wallpaper: $(date) ---"
-
-WALL_DIR="$HOME/Imagens/Wallapaper"
 CACHE_IMG="/tmp/current_wallpaper.jpg"
 
 if [ -n "$1" ]; then
     WALLPAPER="$1"
 else
-    WALLPAPER=$(find "$WALL_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.gif" \) | shuf -n 1)
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.gif" \) | shuf -n 1)
 fi
 
 [ -f "$WALLPAPER" ] || { echo "Erro: Wallpaper não encontrado"; exit 1; }

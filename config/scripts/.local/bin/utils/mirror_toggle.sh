@@ -1,12 +1,16 @@
 #!/bin/bash
-# ============================================================================
+#
 #  MIRROR TOGGLE - Universal Wayland Display Mirroring
 #  Alterna o espelhamento de tela usando wl-mirror (compatível com qualquer WM Wayland)
-# ============================================================================
+#
 
 set -euo pipefail
 
-DIR_LOG="${DIR_LOG:-$HOME/.local/state/init-log}"
+# Carregar Configurações
+# shellcheck disable=SC1091
+. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+
+# Logging
 mkdir -p "$DIR_LOG"
 LOG_FILE="$DIR_LOG/mirror.log"
 
