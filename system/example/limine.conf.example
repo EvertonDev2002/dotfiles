@@ -1,3 +1,4 @@
+# cSpell:disable
 # limine.conf — configuração do Limine para sistema UEFI
 #
 # Coloque esse arquivo em esp/EFI/limine/limine.conf
@@ -10,7 +11,7 @@ default_entry: 1
 /Artix Linux - Kernel linux
     protocol: linux
     kernel_path: boot():/linux/vmlinuz-linux
-    cmdline: root=UUID=d45e2eab-2d32-4b50-9dc7-5a841f90791e rw loglevel=3  quiet
+    cmdline: root=UUID=d45e2eab-2d32-4b50-9dc7-5a841f90791e rw loglevel=3  quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf apparmor=1 security=apparmor
     module_path: boot():/linux/intel-ucode.img
     module_path: boot():/linux/initramfs-linux.img
     comment: Kernel linux com microcode Intel + initramfs padrão

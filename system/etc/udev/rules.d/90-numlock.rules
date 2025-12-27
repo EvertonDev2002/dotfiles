@@ -1,0 +1,3 @@
+# Ativa NumLock automaticamente ao detectar teclado
+# Funciona em TTY e Wayland (River, Sway, Hyprland, etc.)
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", RUN+="/usr/bin/setleds -D +num"
