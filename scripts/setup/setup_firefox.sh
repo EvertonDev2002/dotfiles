@@ -40,8 +40,8 @@ fi
 success "Perfil encontrado: $PROFILE_PATH"
 
 # Arquivos fonte
-USER_JS_SOURCE="$DOTFILES_DIR/browser/firefox/.mozilla/firefox/user.js"
-CHROME_SOURCE="$DOTFILES_DIR/browser/firefox/.mozilla/firefox/chrome"
+USER_JS_SOURCE="$DOTFILES_DIR/misc/browser/firefox/.mozilla/firefox/user.js"
+CHROME_SOURCE="$DOTFILES_DIR/misc/browser/firefox/.mozilla/firefox/chrome"
 
 # Destinos
 USER_JS_TARGET="$PROFILE_FULL_PATH/user.js"
