@@ -1,7 +1,8 @@
 @import 'colors.css';
+
 * {
-  font-family: Symbols Nerd Font, FontAwesome;
-  font-size: 14.5px;
+  font-family: FontAwesome, Symbols Nerd Font;
+  font-size: 0.8rem;
   min-height: 0;
   padding: 0;
   margin: 0;
@@ -9,21 +10,20 @@
 
 window#waybar {
   background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 #workspaces,
 #tags {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
+  margin: 0;
 }
 
 #workspaces button,
 #tags button {
   border-radius: 15px;
-  margin-right: 0px;
-  padding: 0px 7px 0px 7px;
+  margin-right: 0;
+  padding: 0 7px;
   font-weight: bolder;
   color: @gray;
   background-color: transparent;
@@ -36,7 +36,6 @@ window#waybar {
   color: @light-beige;
 }
 
-#tray,
 #cpu,
 #custom-clipboard,
 #temperature,
@@ -50,15 +49,25 @@ window#waybar {
 #network,
 #bluetooth,
 #battery,
-#clock,
-#network {
-  padding: 0px 15px 0px 0px;
+#clock {
+  padding: 0 8px;
+  margin: 0;
   color: @light-beige;
 }
 
-#custom-power {
+#tray {
+  padding: 0 8px;
+  margin: 0;
   color: @light-beige;
-  border-radius: 10px;
+}
+
+#clock {
+  font-weight: 500;
+}
+
+#custom-power {
+  min-width: 30px;
+  border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -71,18 +80,18 @@ window#waybar {
   color: @dusty-pink;
 }
 
-#clock {
-  font-weight: 500;
-}
 #tray menu {
   color: @light-beige;
 }
+
 #tray > .active {
   color: @light-beige;
 }
+
 #tray > .passive {
   color: @gray;
 }
+
 #tray > .needs-attention {
   color: @dusty-pink;
 }

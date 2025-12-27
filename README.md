@@ -5,6 +5,7 @@ Configurações pessoais para Artix Linux (Runit) com River (Wayland compositor)
 ![Artix Linux](https://img.shields.io/badge/Artix_Linux-Runit-10b981?style=for-the-badge&logo=artixlinux)
 ![River WM](https://img.shields.io/badge/River-Wayland-0ea5e9?style=for-the-badge)
 ![Fish Shell](https://img.shields.io/badge/Fish-Shell-f59e0b?style=for-the-badge&logo=fishshell)
+![CI Status](https://img.shields.io/github/actions/workflow/status/EvertonDev2002/dotfiles/validate.yml?style=for-the-badge&label=Validações&logo=githubactions)
 
 ---
 
@@ -17,7 +18,7 @@ Configurações pessoais para Artix Linux (Runit) com River (Wayland compositor)
 - [Instalação](#-instalação)
 - [Scripts de Configuração](#-scripts-de-configuração)
 - [Customização](#-customização)
-- [Notas](#-notas)
+- [Troubleshooting](#-troubleshooting)
 - [Licença](#-licença)
 - [Contribuindo](#-contribuindo)
 
@@ -47,14 +48,14 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 - **Zramen** swap comprimido em memória
 - **PipeWire** com baixa latência
-- **Aliases modernos** (fd, ripgrep, eza, bat, xcp)
+- **Aliases modernos** (fd, ripgrep, eza, bat, rsync)
 - **Pacman otimizado**
 
 ### 🔒 Privacidade & Segurança
 
 - **Firefox hardened** com 170+ preferências comentadas
 - **DNS-over-HTTPS** (Cloudflare + Google fallback)
-- **NetworkManager** com MAC randomization e DHCP privacy
+- **NetworkManager** com MAC randomization (globalmente)
 - **TLP** para gerenciamento de energia
 - **Limite de coredump** configurado
 
@@ -81,7 +82,8 @@ Este repositório contém todas as configurações necessárias para replicar me
 ### Window Manager - River
 
 - **Compositor**: Wayland baseado em wlroots
-- **Configuração**: `config/river/.config/river/init`
+- **Configuração Principal**: `config/river/.config/river/init`
+- **Variáveis Centralizadas**: `config/river/.config/river/config.sh`
 
 **Recursos configurados:**
 
@@ -115,7 +117,7 @@ alias -- update-arch="flatpak update -y; and yay -Syu --noconfirm; and yay -c"
 alias flatpak-search="flatpak search --columns=name,application"
 
 # Modern CLI tools
-alias cp="xcp --recursive --verbose"
+alias cp="rsync -ah --progress"
 alias mkdir="mkdir -pv"
 alias ls="eza --icons --classify --group-directories-first"
 alias ll="eza -l --icons --group-directories-first --time-style=relative --git"
@@ -193,48 +195,50 @@ Você pode executar scripts individuais:
 ```bash
 # Exemplo
 # Instalar configurações específicas
-cd ~/dotfiles
-stow -d config -t ~ river
+# use * para linkar todos
+cd ~/dotfiles/config
+stow -t $HOME river
 ```
 
 ---
 
-## �🔧 Scripts de Configuração
+## 🔧 Scripts de Configuração
 
-### Scripts de Setup (`scripts/`)
+### Scripts de Setup (`scripts/setup/`)
 
-| Script              | Função                                      |
-| ------------------- | ------------------------------------------- |
-| `setup_repos.sh`    | Configura repos Artix/Arch + pacman.conf    |
-| `setup_yay.sh`      | Instala Yay (AUR helper)                    |
-| `setup_packages.sh` | Instala ~103 pacotes (Pacman + AUR)         |
-| `setup_flatpaks.sh` | Instala Flatpak + Flathub + 29 apps         |
-| `setup_system.sh`   | Copia configs de /etc com backup            |
-| `setup_services.sh` | Habilita 17 serviços Runit                  |
-| `setup_dotfiles.sh` | Aplica symlinks com GNU Stow                |
-| `setup_user.sh`     | Configura sudo e grupos                     |
-| `setup_firefox.sh`  | Detecta perfil e aplica user.js             |
-| `setup_themes_plugins.sh`   | Instala Colloid + Plugins Fish (interativo) |
+| Script                    | Função                                      |
+| ------------------------- | ------------------------------------------- |
+| `setup_repos.sh`          | Configura repos Artix/Arch + pacman.conf    |
+| `setup_yay.sh`            | Instala Yay (AUR helper)                    |
+| `setup_packages.sh`       | Instala ~130 pacotes (Pacman + AUR)         |
+| `setup_flatpaks.sh`       | Instala Flatpak + Flathub + 29 apps         |
+| `setup_system.sh`         | Copia configs de /etc com backup            |
+| `setup_services.sh`       | Habilita 17 serviços Runit                  |
+| `setup_dotfiles.sh`       | Aplica symlinks com GNU Stow                |
+| `setup_user.sh`           | Configura sudo e grupos                     |
+| `setup_firefox.sh`        | Detecta perfil e aplica user.js             |
+| `setup_themes_plugins.sh` | Instala Colloid + Plugins Fish (interativo) |
 
 ### Scripts de Inicialização (`config/scripts/.local/bin/`)
 
 Todos os scripts possuem:
 
-- ✅ Logging em `~/.local/state/init-log/`
-- ✅ Error handling (`set -euo pipefail`)
-- ✅ Paths dinâmicos com `$SCRIPT_DIR`
+- ✅ Configuração centralizada via `config.sh` (variáveis, paths, IDs de hardware)
+- ✅ Logging estruturado em `~/.local/state/init-log/`
+- ✅ Error handling (`set -e` para Bash scripts)
+- ✅ Autonomia (podem ser executados diretamente ou chamados por outros scripts)
 
-| Script              | Função                                      |
-| ------------------- | ------------------------------------------- |
-| `init-services.sh`  | Orquestra todos os serviços de usuário      |
-| `init-pipewire.sh`  | Inicia stack de áudio PipeWire              |
-| `init-portals.sh`   | XDG Desktop Portals (wlr + generic)         |
-| `init-clipboard.sh` | Clipboard manager (wl-clipboard + cliphist) |
-| `init-autostart.sh` | UI components (waybar, mako, wallpaper)     |
-| `screenshot.sh`     | Captura de tela (grim + slurp)              |
-| `powermenu.sh`      | Menu de energia (fuzzel)                    |
-| `mirror_toggle.sh`  | Toggle espelhamento de display              |
-| `set-wallpaper.sh`  | Gerencia wallpapers com swww                |
+| Script              | Função                                          |
+| ------------------- | ----------------------------------------------- |
+| `init-services.sh`  | Orquestra serviços (keyring, polkit, audio, UI) |
+| `init-pipewire.sh`  | Stack de áudio (PipeWire + WirePlumber)         |
+| `init-portals.sh`   | XDG Desktop Portals (wlr + gtk + generic)       |
+| `init-clipboard.sh` | Clipboard manager (wl-paste + cliphist)         |
+| `init-autostart.sh` | UI/Temas (GTK, waybar, mako, wallpaper)         |
+| `screenshot.sh`     | Captura de tela (grim + slurp + notificação)    |
+| `powermenu.sh`      | Menu de sessão (fuzzel: shutdown/reboot/logout) |
+| `mirror_toggle.sh`  | Espelhamento de displays (wl-mirror)            |
+| `set-wallpaper.sh`  | Wallpapers aleatórios ou específicos (swww)     |
 
 ---
 
@@ -270,61 +274,34 @@ source ~/.config/fish/aliases.fish
 
 ---
 
-## 📝 Notas
+## � Troubleshooting
 
-### Logs
-
-Todos os logs ficam em `~/.local/state/init-log/`:
+**Problemas comuns e soluções rápidas:**
 
 ```bash
-# Ver logs em tempo real
-tail -f ~/.local/state/init-log/services.log
+# River não inicia
+cat ~/.local/state/init-log/river.log
+chmod +x ~/.config/river/init
 
-# Verificar erros
+# Waybar não aparece
+killall waybar && waybar &
+cat ~/.local/state/init-log/autostart.log
+
+# Som não funciona
+~/.local/bin/init/init-pipewire.sh
+pgrep -fa "pipewire|wireplumber"
+
+# Ver todos os logs
+tail -f ~/.local/state/init-log/*.log
 grep -i error ~/.local/state/init-log/*.log
 ```
 
-### Backup
+**📚 Documentação Completa:**
 
-Antes de modificar configs de sistema:
-
-```bash
-# Scripts fazem backup automático em:
-/etc/dotfiles-backup-YYYY-MM-DD_HH-MM-SS/
-/etc/pacman.conf.backup-YYYY-MM-DD_HH-MM-SS
-```
-
-### Troubleshooting
-
-**River não inicia:**
-
-```bash
-# Verificar log
-cat ~/.local/state/init-log/river.log
-
-# Verificar permissões
-chmod +x ~/.config/river/init
-```
-
-**Waybar não aparece:**
-
-```bash
-# Verificar log
-cat ~/.local/state/init-log/autostart.log
-
-# Reiniciar waybar
-killall waybar && waybar &
-```
-
-**Som não funciona:**
-
-```bash
-# Verificar PipeWire
-cat ~/.local/state/init-log/audio.log
-
-# Reiniciar serviço
-~/.local/bin/init-pipewire.sh
-```
+- **[TROUBLESHOOTING](docs/TROUBLESHOOTING.md)** - Solução de problemas detalhada e logs
+- **[KEYBINDS](docs/KEYBINDS.md)** - Atalhos do River WM
+- **[SYSTEM-CONFIG](docs/SYSTEM-CONFIG.md)** - Configurações do sistema
+- **[ACTIONS](docs/ACTIONS.md)** - CI/CD e validações automáticas
 
 ---
 
@@ -340,6 +317,18 @@ Contribuições são bem-vindas! Se você encontrou um bug ou tem uma sugestão:
 
 1. Abra uma Issue
 2. Crie uma Branch (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Add: Minha feature'`)
-4. Push para a Branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
+3. Commit com **Conventional Commits** (`feat:`, `fix:`, `docs:`, etc.)
+4. Aguarde validações do CI passarem
+5. Push para a Branch (`git push origin feature/MinhaFeature`)
+6. Abra um Pull Request
+
+**Validações locais:**
+
+```bash
+shellcheck scripts/setup/*.sh  # Análise estática
+bash -n scripts/setup/*.sh     # Verificar sintaxe
+```
+
+> **Nota:** Use a extensão ShellCheck do VS Code para análise em tempo real durante a edição.
+
+**Documentação:** [ACTIONS](docs/ACTIONS.md)

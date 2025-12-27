@@ -24,8 +24,8 @@ alias flatpak-search="flatpak search --columns=name,application"
 
 # --- Utilitários Modernos
 
-alias cp="xcp --recursive --verbose"
 alias mkdir="mkdir -pv"
+alias cp="rsync -ah --progress"
 alias ls="eza --icons --classify --group-directories-first"
 alias ll="eza -l --icons --group-directories-first --time-style=relative --git"
 alias cat="bat --style=auto --paging=auto"

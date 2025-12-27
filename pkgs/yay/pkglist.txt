@@ -91,6 +91,8 @@ polkit-gnome
 greetd-tuigreet
 inxi
 wget
+man-db
+man-pages-pt_br
 
 # --- FILE SYSTEM ---
 btrfs-progs
@@ -132,6 +134,7 @@ fd
 fzf
 bat
 eza
+rsync
 cliphist
 zoxide
 yazi
@@ -150,7 +153,6 @@ gnome-keyring
 yay
 
 # --- FONTS ---
-ttf-firacode-nerd
 otf-font-awesome
 ttf-jetbrains-mono-nerd
 ttf-nerd-fonts-symbols

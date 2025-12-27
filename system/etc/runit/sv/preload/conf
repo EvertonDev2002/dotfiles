@@ -1,7 +1,7 @@
-# ============================================================================
+#
 #  RUNIT CONFIG: preload
 #  Variáveis de ambiente e configurações do serviço
-# ============================================================================
+#
 
 # Nível de verbosidade (0=silencioso, 1=básico, 2=detalhado)
 PRELOAD_VERBOSE=1

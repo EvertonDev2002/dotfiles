@@ -4,12 +4,13 @@
 
 # Variáveis
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPOS="${SCRIPT_DIR}/scripts/setup_repos.sh"
-YAY="${SCRIPT_DIR}/scripts/setup_yay.sh"
-PACKAGES="${SCRIPT_DIR}/scripts/setup_packages.sh"
-FLATPAK="${SCRIPT_DIR}/scripts/setup_flatpaks.sh"
-DOTFILES="${SCRIPT_DIR}/scripts/setup_dotfiles.sh"
-SERVICES="${SCRIPT_DIR}/scripts/setup_services.sh"
+SETUP_DIR="${SCRIPT_DIR}/scripts/setup"
+REPOS="${SETUP_DIR}/setup_repos.sh"
+YAY="${SETUP_DIR}/setup_yay.sh"
+PACKAGES="${SETUP_DIR}/setup_packages.sh"
+FLATPAK="${SETUP_DIR}/setup_flatpaks.sh"
+DOTFILES="${SETUP_DIR}/setup_dotfiles.sh"
+SERVICES="${SETUP_DIR}/setup_services.sh"
 
 # Carregar funções e cores comuns
 source "${SCRIPT_DIR}/scripts/lib/common.sh"
@@ -17,7 +18,8 @@ source "${SCRIPT_DIR}/scripts/lib/common.sh"
 
 log "Iniciando pós-instalação..."
 
-chmod +x "${SCRIPT_DIR}/scripts/"*.sh
+chmod +x "${SETUP_DIR}/"*.sh
+chmod +x "${SCRIPT_DIR}/scripts/tools/"*.sh
 
 # --- Configuração de Repositórios (Arch Extra)
 if [ -f "$REPOS" ]; then
@@ -55,11 +57,11 @@ else
 fi
 
 # --- Arquivos de Sistema (Root)
-if [ -f "${SCRIPT_DIR}/scripts/setup_system.sh" ]; then
+if [ -f "${SETUP_DIR}/setup_system.sh" ]; then
     log "Deseja aplicar configurações de sistema em /etc? [y/N]"
     read -r sys_response
     if [[ "$sys_response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        bash "${SCRIPT_DIR}/scripts/setup_system.sh"
+        bash "${SETUP_DIR}/setup_system.sh"
     else
         warn "Configurações de sistema não aplicadas"
     fi
@@ -84,13 +86,13 @@ else
 fi
 
 # --- Configuração do Firefox
-if [ -f "${SCRIPT_DIR}/scripts/setup_firefox.sh" ]; then
+if [ -f "${SETUP_DIR}/setup_firefox.sh" ]; then
     log "Deseja configurar Firefox (user.js e chrome/)? [Y/n]"
     read -r firefox_response
     if [[ "$firefox_response" =~ ^([nN][oO]|[nN])$ ]]; then
         warn "Configuração do Firefox ignorada"
     else
-        bash "${SCRIPT_DIR}/scripts/setup_firefox.sh"
+        bash "${SETUP_DIR}/setup_firefox.sh"
     fi
 else
     warn "Script de configuração do Firefox não encontrado."

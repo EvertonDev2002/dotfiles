@@ -1,8 +1,8 @@
 #!/bin/sh
-# ============================================================================
+#
 #  RUNIT SERVICE: preload
 #  Pré-carrega aplicativos frequentes na RAM para inicialização mais rápida
-# ============================================================================
+#
 
 # Carregar configurações (se existir)
 [ -r ./conf ] && . ./conf

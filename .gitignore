@@ -3,6 +3,8 @@
 
 # Logs e Temporários
 *.log
+instructions
+*.pdf
 
 # PipeWire
 stream-properties

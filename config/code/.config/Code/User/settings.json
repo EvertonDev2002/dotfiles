@@ -5,7 +5,7 @@
   "editor.lineHeight": 2.1,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "editor.fontFamily": "FiraCode Nerd Font",
+  "editor.fontFamily": "JetBrainsMono Nerd Font",
   "editor.fontLigatures": true,
   "editor.fontWeight": "normal",
   "editor.minimap.enabled": false,
@@ -84,7 +84,7 @@
   "window.customTitleBarVisibility": "never",
   // TERMINAL
   "terminal.integrated.fontSize": 15,
-  "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
   "terminal.integrated.fontWeight": "normal",
   // EXPLORER - Navegação e File Nesting
   "explorer.compactFolders": false,
@@ -313,5 +313,11 @@
   "telemetry.telemetryLevel": "off",
   "telemetry.feedback.enabled": false,
   "update.showReleaseNotes": false,
-  "workbench.statusBar.visible": false
+  "liveServer.settings.donotShowInfoMsg": true,
+  "workbench.statusBar.visible": false,
+
+  "chat.viewSessions.orientation": "stacked",
+  "debug.console.fontFamily": "JetBrainsMono Nerd Font",
+  "chat.editor.fontFamily": "JetBrainsMono Nerd Font",
+  "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif, 'JetBrainsMono Nerd Font'"
 }
