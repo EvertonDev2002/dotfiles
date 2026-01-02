@@ -5,12 +5,12 @@
 # Variáveis
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SETUP_DIR="${SCRIPT_DIR}/scripts/setup"
-REPOS="${SETUP_DIR}/setup_repos.sh"
-YAY="${SETUP_DIR}/setup_yay.sh"
-PACKAGES="${SETUP_DIR}/setup_packages.sh"
-FLATPAK="${SETUP_DIR}/setup_flatpaks.sh"
-DOTFILES="${SETUP_DIR}/setup_dotfiles.sh"
-SERVICES="${SETUP_DIR}/setup_services.sh"
+REPOS="${SETUP_DIR}/repos.sh"
+YAY="${SETUP_DIR}/yay.sh"
+PACKAGES="${SETUP_DIR}/packages.sh"
+FLATPAK="${SETUP_DIR}/flatpaks.sh"
+DOTFILES="${SETUP_DIR}/dotfiles.sh"
+SERVICES="${SETUP_DIR}/services.sh"
 
 # Carregar funções e cores comuns
 source "${SCRIPT_DIR}/scripts/lib/common.sh"
@@ -26,7 +26,7 @@ if [ -f "$REPOS" ]; then
     log "Executando setup de repositórios..."
     bash "$REPOS"
 else
-    error "Script scripts/setup_repos.sh não encontrado!"
+    error "Script scripts/setup/repos.sh não encontrado!"
     exit 1
 fi
 
@@ -35,7 +35,7 @@ if [ -f "$YAY" ]; then
     log "Executando setup do Yay..."
     bash "$YAY"
 else
-    error "Script scripts/setup_yay.sh não encontrado!"
+    error "Script scripts/setup/yay.sh não encontrado!"
     exit 1
 fi
 
@@ -44,7 +44,7 @@ if [ -f "$PACKAGES" ]; then
     log "Executando instalação de pacotes..."
     bash "$PACKAGES"
 else
-    error "Script scripts/setup_packages.sh não encontrado!"
+    error "Script scripts/setup/packages.sh não encontrado!"
     exit 1
 fi
 
@@ -57,11 +57,11 @@ else
 fi
 
 # --- Arquivos de Sistema (Root)
-if [ -f "${SETUP_DIR}/setup_system.sh" ]; then
+if [ -f "${SETUP_DIR}/setup/system.sh" ]; then
     log "Deseja aplicar configurações de sistema em /etc? [y/N]"
     read -r sys_response
     if [[ "$sys_response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        bash "${SETUP_DIR}/setup_system.sh"
+        bash "${SETUP_DIR}/setup/system.sh"
     else
         warn "Configurações de sistema não aplicadas"
     fi
@@ -72,7 +72,7 @@ if [ -f "$SERVICES" ]; then
     log "Executando setup de serviços Runit..."
     bash "$SERVICES"
 else
-    error "Script scripts/setup_services.sh não encontrado!"
+    error "Script scripts/setup/services.sh não encontrado!"
     exit 1
 fi
 
@@ -81,34 +81,43 @@ if [ -f "$DOTFILES" ]; then
     log "Executando setup de dotfiles..."
     bash "$DOTFILES"
 else
-    error "Script scripts/setup_dotfiles.sh não encontrado!"
+    error "Script scripts/setup/dotfiles.sh não encontrado!"
     exit 1
 fi
 
 # --- Configuração do Firefox
-if [ -f "${SETUP_DIR}/setup_firefox.sh" ]; then
+if [ -f "${SETUP_DIR}/setup/firefox.sh" ]; then
     log "Deseja configurar Firefox (user.js e chrome/)? [Y/n]"
     read -r firefox_response
     if [[ "$firefox_response" =~ ^([nN][oO]|[nN])$ ]]; then
         warn "Configuração do Firefox ignorada"
     else
-        bash "${SETUP_DIR}/setup_firefox.sh"
+        bash "${SETUP_DIR}/setup/firefox.sh"
     fi
 else
     warn "Script de configuração do Firefox não encontrado."
 fi
 
-# --- Ferramentas Adicionais (Opcional)
-# log "Deseja clonar o LinuxToys? (Scripts utilitários) [y/N]"
-# read -r -t 10 response || response="n" # Timeout de 10s assume "não"
-# if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
-#    if [ ! -d "$HOME/linuxtoys" ]; then
-#        git clone https://github.com/psygreg/linuxtoys.git "$HOME/linuxtoys"
-#        success "LinuxToys clonado em ~/linuxtoys"
-#    else
-#        warn "LinuxToys já existe em ~/linuxtoys"
-#    fi
-# fi
+# --- Verificar se root está ativo e perguntar se deseja desativar
+log "Verificando status da conta root..."
+if sudo passwd -S root | grep -q "Password locked"; then
+    success "Conta root já está desativada"
+else
+    warn "Conta root está ativa"
+    echo ""
+    log "Deseja desativar a conta root (passwd -l root)? [y/N]"
+    read -r root_response
+    if [[ "$root_response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        if sudo passwd -l root; then
+            success "Conta root desativada"
+        else
+            error "Falha ao desativar conta root"
+        fi
+    else
+        warn "Conta root mantida ativa"
+    fi
+fi
+
 
 echo ""
 echo "========================================="
