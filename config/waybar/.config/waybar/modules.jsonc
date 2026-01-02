@@ -17,7 +17,7 @@
   },
   "custom/power": {
     "format": "⏻",
-    "on-click": "~/.local/bin/utils/powermenu.sh"
+    "on-click": "~/.local/bin/utils/fuzzel-power.sh"
   },
   "backlight": {
     "format": "{icon}",
@@ -48,7 +48,7 @@
     "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
     "tooltip": true
   },
-  /* "sway/workspaces": {
+  "niri/workspaces": {
     "all-outputs": true,
     "on-click": "activate",
     "format": "{icon}",
@@ -65,14 +65,12 @@
       "default": "",
       "focused": "󱓻",
       "urgent": ""
-      
     },
     "persistent-workspaces": {
       "1": [],
       "2": []
     }
-    
-  }, */
+  },
   "river/tags": {
     "num-tags": 9,
     "tag-labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
@@ -91,7 +89,7 @@
     "format-icons": {
       "default": ["", "", ""]
     },
-    "on-click": "foot --app-id=Wiremix -e wiremix",
+    "on-click": "kitty --class Wiremix wiremix",
     "on-click-right": "pamixer -t"
   },
   "tray": {
@@ -102,7 +100,7 @@
     "format": "󰅇",
     "icon-size": 15,
     "tooltip": false,
-    "on-click": "cliphist list | fuzzel -d -p 'Área de transferência' | cliphist decode | wl-copy",
+    "on-click": "cliphist list | fuzzel -d --placeholder 'Área de transferência' | cliphist decode | wl-copy",
     "on-click-right": "cliphist wipe"
   }
 }

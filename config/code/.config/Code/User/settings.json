@@ -54,7 +54,7 @@
   "workbench.colorTheme": "Min Dark",
   "workbench.iconTheme": "symbols",
   "workbench.productIconTheme": "fluent-icons",
-  "workbench.preferredLightColorTheme": "Default Dark Modern",
+  "workbench.preferredLightColorTheme": "Min Dark",
   "workbench.colorCustomizations": {},
   "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "bottom",
@@ -120,18 +120,16 @@
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/dist": true,
-    "**/build": true,
     "**/.next": true,
     "**/__pycache__": true,
     "**/.venv": true,
-    "**/vendor": true
+    "**/vendor": true,
+    "**/build": true
   },
   // Watcher Exclusões
   "files.watcherExclude": {
     "**/node_modules/**": true,
     "**/dist/**": true,
-    "**/build/**": true,
-    "**/out/**": true,
     "**/.git/**": true,
     "**/.next/**": true,
     "**/.venv/**": true,
@@ -139,20 +137,22 @@
     "**/.gradle/**": true,
     "**/.idea/**": true,
     "**/target/**": true,
-    "**/vendor/**": true
+    "**/vendor/**": true,
+    "**/build/**": true,
+    "**/out/**": true
   },
   // SEARCH - Busca
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
-    "**/build": true,
     "**/out": true,
     "**/.next": true,
     "**/__pycache__": true,
     "**/.venv": true,
     "**/.gradle": true,
     "**/target": true,
-    "**/vendor": true
+    "**/vendor": true,
+    "**/build": true
   },
   "search.useIgnoreFiles": true,
   "search.followSymlinks": false,
@@ -319,5 +319,62 @@
   "chat.viewSessions.orientation": "stacked",
   "debug.console.fontFamily": "JetBrainsMono Nerd Font",
   "chat.editor.fontFamily": "JetBrainsMono Nerd Font",
-  "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif, 'JetBrainsMono Nerd Font'"
+  "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif, 'JetBrainsMono Nerd Font'",
+  "shellformat.path": "",
+  "terminal.integrated.tabs.defaultColor": "terminal.ansiWhite",
+  "workbench.panel.showLabels": false,
+  "workbench.preferredDarkColorTheme": "Min Dark",
+  "workbench.preferredHighContrastColorTheme": "Min Dark",
+  "workbench.preferredHighContrastLightColorTheme": "Min Light",
+  // BETTER COMMENTS - Comentários Coloridos
+  "better-comments.highlightPlainText": true,
+  "better-comments.multilineComments": true,
+  "better-comments.tags": [
+  
+    {
+      "tag": "!",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "?",
+      "color": "#3498DB",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "//",
+      "color": "#474747",
+      "strikethrough": true,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": true
+    },
+    {
+      "tag": "todo",
+      "color": "#FF8C00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": true
+    },
+    {
+      "tag": "*",
+      "color": "#98C379",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": true
+    }
+  ]
 }
