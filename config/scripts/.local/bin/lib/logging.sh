@@ -10,7 +10,7 @@ if [ -n "${LOGGING_LIB_LOADED:-}" ]; then
 fi
 readonly LOGGING_LIB_LOADED=1
 
-# Detectar se output é para terminal (suporta cores) ou arquivo
+# Detectar se output é para terminal
 if [ -t 1 ]; then
     # Terminal: usa cores
     readonly BLUE='\033[0;34m'
@@ -92,9 +92,10 @@ setup_logging() {
     
     # Criar diretório de logs se não existir
     mkdir -p "$(dirname "$log_file")"
+    rm -f "$log_file"
     
     # Redirecionar stdout e stderr para arquivo
-    exec > "$log_file" 2>&1
+    exec >> "$log_file" 2>&1
     
     # Header inicial
     log_header "Iniciando: $log_name"

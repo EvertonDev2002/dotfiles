@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
 # Carregar Configurações
 # shellcheck disable=SC1091
-. "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+source "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
 
 # Logging
 mkdir -p "$DIR_LOG"
@@ -24,8 +24,7 @@ fi
 [ -f "$WALLPAPER" ] || { echo "Erro: Wallpaper não encontrado"; exit 1; }
 
 if ! pidof -q swww-daemon; then
-    swww-daemon &
-    sleep 0.5
+    log_warn "swww-daemon não está ativo. Iniciando em background..."
 fi
 
 swww img "$WALLPAPER" \

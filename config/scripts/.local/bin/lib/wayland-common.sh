@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 WM_NAME="$1"
 
@@ -6,7 +6,7 @@ if [ -z "$WM_NAME" ]; then
     WM_NAME="wayland"
 fi
 
-# --- Sessão e Identidade 
+# --- Sessão e Identidade
 export XDG_CURRENT_DESKTOP="$WM_NAME"
 export XDG_SESSION_DESKTOP="$WM_NAME"
 export XDG_SESSION_TYPE="wayland"
@@ -14,7 +14,8 @@ export XDG_MENU_PREFIX="arch-"
 
 # --- Aparência (Cursor e Temas)
 export XCURSOR_SIZE=20
-export XCURSOR_THEME=Bibata-Modern-Ice
+export XCURSOR_THEME="Bibata-Modern-Ice"
+export GTK_THEME="Colloid-Dark"
 
 # --- Teclado (Layout e padrão)
 export XKB_DEFAULT_LAYOUT=br
