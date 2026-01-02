@@ -2,8 +2,14 @@
 # scripts/lib/common.sh
 # Funções e constantes compartilhadas entre todos os scripts de setup
 
+# Guard para evitar múltiplos loads
+if [ -n "${COMMON_SH_LOADED:-}" ]; then
+    return 0
+fi
+readonly COMMON_SH_LOADED=1
+
 # Garantir error handling
-set -euo pipefail
+#set -euo pipefail
 
 # --- Cores ANSI
 readonly GREEN='\033[0;32m'
