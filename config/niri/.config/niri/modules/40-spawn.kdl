@@ -1,0 +1,33 @@
+// Adicione linhas como esta para executar processos na inicialização.
+// Note que executar niri como sessão suporta xdg-desktop-autostart,
+// que pode ser mais conveniente de usar.
+// Veja a seção binds abaixo para mais exemplos de spawn.
+
+// Inicia serviços essenciais
+spawn-at-startup "sh" "-c" "~/.local/bin/init/services.sh"
+
+// Inicia autostart (temas, waybar, applets)
+spawn-at-startup "sh" "-c" "~/.local/bin/init/autostart.sh"
+
+// Para executar um comando shell (com variáveis, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+/-hotkey-overlay {
+    // Descomente esta linha para desabilitar o pop-up "Atalhos Importantes" na inicialização.
+    // skip-at-startup
+}
+
+// Descomente esta linha para pedir aos clientes que omitam suas decorações client-side se possível.
+// Se o cliente especificamente pedir CSD, a solicitação será honrada.
+// Adicionalmente, clientes serão informados que estão tiled, removendo alguns cantos arredondados client-side.
+// Esta opção também corrigirá o desenho de borda/anel de foco atrás de algumas janelas semi-transparentes.
+// Após habilitar ou desabilitar isso, você precisa reiniciar os apps para isso ter efeito.
+prefer-no-csd
+
+// Você pode mudar o caminho onde capturas de tela são salvas.
+// Um ~ no início será expandido para o diretório home.
+// O caminho é formatado com strftime(3) para fornecer data e hora da captura de tela.
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// Você também pode definir isso como null para desabilitar salvar capturas de tela no disco.
+// screenshot-path null

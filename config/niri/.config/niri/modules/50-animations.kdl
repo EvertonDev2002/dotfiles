@@ -1,0 +1,10 @@
+// Configurações de animação.
+// A wiki explica como configurar animações individuais:
+// https://yalter.github.io/niri/Configuration:-Animations
+animations {
+    // Descomente para desligar todas as animações.
+    off
+
+    // Desacelera todas as animações por este fator. Valores abaixo de 1 as aceleram.
+    // slowdown 3.0
+}

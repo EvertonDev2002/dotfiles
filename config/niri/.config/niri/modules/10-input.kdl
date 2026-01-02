@@ -1,0 +1,34 @@
+// Configuração de dispositivos de entrada.
+// Encontre a lista completa de opções na wiki:
+// https://yalter.github.io/niri/Configuration:-Input
+input {
+    keyboard {
+        xkb {
+            layout "br"
+            model "abnt2"
+        }
+        numlock
+        repeat-delay 300
+        repeat-rate 50
+    }
+
+    touchpad {
+        tap
+        dwt
+        accel-speed 0.0
+        accel-profile "adaptive"
+        tap-button-map "left-right-middle"
+    }
+
+    mouse {
+      accel-speed 0.0
+      accel-profile "adaptive"
+    }
+
+  /-trackpoint {
+
+    } 
+
+    warp-mouse-to-focus
+    focus-follows-mouse
+}

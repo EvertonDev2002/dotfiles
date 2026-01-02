@@ -1,0 +1,30 @@
+// Configuração de saídas (monitores)
+//
+// Para apresentações, use os scripts auxiliares:
+//
+// - mirror-display.sh:  Espelha notebook no projetor (mesma resolução/posição)
+// - restore-display.sh: Restaura layout padrão (lado a lado)
+//
+// Ou use comandos manuais:
+//   niri msg outputs                    # Descobre nome do projetor
+//   niri msg output DP-1 mode 1920x1080 # Define resolução compatível
+//   niri msg output DP-1 position 0 0   # Espelha (mesma posição do eDP-1)
+//
+// Wiki: https://yalter.github.io/niri/Configuration:-Outputs
+
+// Monitor Interno do Notebook (eDP-1) - PRINCIPAL
+output "eDP-1" {
+    // mode "1920x1080@60"
+    scale 1.5
+    focus-at-startup
+    position x=0 y=0
+}
+
+// Monitor Externo LG (HDMI/DisplayPort com VRR)
+output "HDMI-A-1" {
+    // off
+    // mode "1920x1080@75"
+    scale 1.5
+    variable-refresh-rate on-demand=true
+    position x=1920 y=0
+}

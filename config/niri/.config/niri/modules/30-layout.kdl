@@ -1,0 +1,156 @@
+// Configurações que influenciam como janelas são posicionadas e dimensionadas.
+// Encontre mais informações na wiki:
+// https://yalter.github.io/niri/Configuration:-Layout
+layout {
+    // Define espaçamentos ao redor das janelas em pixels lógicos.
+    gaps 10
+
+    // Quando centralizar uma coluna ao mudar o foco, opções são:
+    // - "never", comportamento padrão, focar uma coluna fora da tela a manterá na borda
+    //   esquerda ou direita da tela.
+    // - "always", a coluna focada sempre será centralizada.
+    // - "on-overflow", focar uma coluna a centralizará se ela não couber
+    //   junto com a coluna anteriormente focada.
+    center-focused-column "never"
+
+    // Você pode personalizar as larguras que "switch-preset-column-width" (Mod+R) alterna.
+    preset-column-widths {
+        // Proportion define a largura como fração da largura da saída, considerando espaçamentos.
+        // Por exemplo, você pode ajustar perfeitamente quatro janelas com "proportion 0.25" em uma saída.
+        // As larguras preset padrão são 1/3, 1/2 e 2/3 da saída.
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+
+        // Fixed define a largura em pixels lógicos exatamente.
+        // fixed 1920
+    }
+
+    // Você também pode personalizar as alturas que "switch-preset-window-height" (Mod+Shift+R) alterna.
+    // preset-window-heights { }
+
+    // Você pode mudar a largura padrão das novas janelas.
+    default-column-width { proportion 0.5; }
+    // Se você deixar os colchetes vazios, as próprias janelas decidirão sua largura inicial.
+    // default-column-width {}
+
+    // Por padrão, anel de foco e borda são renderizados como retângulo de fundo sólido
+    // atrás das janelas. Ou seja, eles aparecerão através de janelas semi-transparentes.
+    // Isso ocorre porque janelas usando decorações client-side podem ter formato arbitrário.
+    //
+    // Se você não gosta disso, descomente `prefer-no-csd` abaixo.
+    // Niri desenhará anel de foco e borda *ao redor* de janelas que concordarem em omitir suas
+    // decorações client-side.
+    //
+    // Alternativamente, você pode sobrescrever com uma regra de janela chamada
+    // `draw-border-with-background`.
+
+    // Você pode mudar como o anel de foco parece.
+    focus-ring {
+        // Descomente esta linha para desabilitar o anel de foco.
+        // 
+        off
+
+        // Quantos pixels lógicos o anel se estende para fora das janelas.
+        width 4
+
+        // Cores podem ser definidas de várias formas:
+        // - Cores nomeadas CSS: "red"
+        // - Hex RGB: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
+        // - Notação estilo CSS: "rgb(255, 127, 0)", rgba(), hsl() e algumas outras.
+
+        // Cor do anel no monitor ativo.
+        active-color "#7fc8ff"
+
+        // Cor do anel em monitores inativos.
+        //
+        // O anel de foco só desenha ao redor da janela ativa, então o único lugar
+        // onde você pode ver sua inactive-color é em outros monitores.
+        inactive-color "#505050"
+
+        // Você também pode usar gradientes. Eles têm precedência sobre cores sólidas.
+        // Gradientes são renderizados da mesma forma que CSS linear-gradient(angle, from, to).
+        // O ângulo é o mesmo que em linear-gradient, e é opcional,
+        // padronizando para 180 (gradiente de cima para baixo).
+        // Você pode usar qualquer ferramenta CSS linear-gradient da web para configurá-los.
+        // Mudar o espaço de cores também é suportado, confira a wiki para mais info.
+        //
+        // active-gradient from="#80c8ff" to="#c7ff7f" angle=45
+
+        // Você também pode colorir o gradiente relativo à visão inteira
+        // do workspace, em vez de relativo apenas à própria janela.
+        // Para fazer isso, defina relative-to="workspace-view".
+        //
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    // Você também pode adicionar uma borda. É similar ao anel de foco, mas sempre visível.
+    border {
+        // As configurações são as mesmas do anel de foco.
+        // Se você habilitar a borda, provavelmente quererá desabilitar o anel de foco.
+        // off
+
+        width 2
+        active-color "#ffc87f"
+        inactive-color "#505050"
+
+        // Cor da borda ao redor de janelas que requisitam sua atenção.
+        urgent-color "#9b0000"
+
+        // Gradientes podem usar alguns espaços de cores de interpolação diferentes.
+        // Por exemplo, este é um gradiente arco-íris pastel via in="oklch longer hue".
+        //
+        // active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
+
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    // Você pode habilitar sombras projetadas para janelas.
+    shadow {
+        // Descomente a próxima linha para habilitar sombras.
+        off
+
+        // Por padrão, a sombra desenha apenas ao redor da janela, e não atrás dela.
+        // Descomente esta configuração para fazer a sombra desenhar atrás da janela.
+        //
+        // Note que niri não tem como saber sobre o raio de canto
+        // da janela CSD. Ele tem que assumir que janelas têm cantos quadrados, levando a
+        // artefatos de sombra dentro dos cantos arredondados CSD. Esta configuração corrige
+        // esses artefatos.
+        //
+        // Porém, você pode querer definir prefer-no-csd e/ou
+        // geometry-corner-radius. Então, niri saberá o raio do canto e
+        // desenhará a sombra corretamente, sem ter que desenhá-la atrás da
+        // janela. Isso também removerá sombras client-side se a janela
+        // desenhar alguma.
+        //
+        // draw-behind-window true
+
+        // Você pode mudar como as sombras parecem. Os valores abaixo estão em pixels
+        // lógicos e correspondem às propriedades CSS box-shadow.
+
+        // Softness controla o raio de desfoque da sombra.
+        softness 30
+
+        // Spread expande a sombra.
+        spread 5
+
+        // Offset move a sombra relativamente à janela.
+        offset x=0 y=5
+
+        // Você também pode mudar a cor e opacidade da sombra.
+        color "#0007"
+    }
+
+    // Struts reduzem a área ocupada por janelas, similarmente a painéis layer-shell.
+    // Você pode pensá-los como uma espécie de espaçamento externo. São definidos em pixels lógicos.
+    // Struts esquerdo e direito farão a próxima janela ao lado sempre estar visível.
+    // Struts superior e inferior simplesmente adicionarão espaçamentos externos além da área ocupada por
+    // painéis layer-shell e espaçamentos regulares.
+    struts {
+        // left 64
+        // right 64
+        // top 64
+        // bottom 64
+    }
+}

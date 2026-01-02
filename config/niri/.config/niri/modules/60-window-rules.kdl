@@ -1,0 +1,53 @@
+// Regras de janela permitem ajustar comportamento para janelas individuais.
+// Encontre mais informações na wiki:
+// https://yalter.github.io/niri/Configuration:-Window-Rules
+
+// Contornar bug de configuração inicial do WezTerm
+// definindo um default-column-width vazio.
+window-rule {
+    // Esta expressão regular é intencionalmente tão específica quanto possível,
+    // já que esta é a config padrão, e não queremos falsos positivos.
+    // Você pode usar apenas app-id="wezterm" se quiser.
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Abre o player picture-in-picture do Firefox como flutuante por padrão.
+window-rule {
+    // Esta expressão regular app-id funcionará para ambos:
+    // - Firefox host (app-id é "firefox")
+    // - Firefox Flatpak (app-id é "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Calculadora GNOME sempre flutuante
+window-rule {
+    match app-id=r#"^org\.gnome\.Calculator$"#
+    open-floating true
+}
+
+// Diálogos de autenticação sempre flutuantes
+window-rule {
+    match title=r#"^Authentication Required$"#
+    open-floating true
+}
+
+// Exemplo: bloquear dois gerenciadores de senha da captura de tela.
+// (Esta regra de exemplo está comentada com um "/-" na frente.)
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+
+    // Use isso em vez disso se você quer que sejam visíveis em ferramentas de captura de terceiros.
+    // block-out-from "screencast"
+}
+
+// Exemplo: habilitar cantos arredondados para todas as janelas.
+// (Esta regra de exemplo está comentada com um "/-" na frente.)
+window-rule {
+    geometry-corner-radius 5
+    clip-to-geometry true
+}

@@ -1,0 +1,618 @@
+// =============================================================================
+// ATENÇÃO: Este arquivo foi gerado automaticamente por build-config.sh
+// NÃO edite este arquivo diretamente!
+//
+// Para fazer mudanças, edite os arquivos em modules/ e execute:
+//   ./build-config.sh
+// =============================================================================
+
+
+// ===== Módulo: 00-header.kdl =====
+
+// Esta configuração está no formato KDL: https://kdl.dev
+// "/-" comenta o nó seguinte.
+// Consulte a wiki para descrição completa da configuração:
+// https://yalter.github.io/niri/Configuration:-Introduction
+
+// ===== Módulo: 10-input.kdl =====
+
+// Configuração de dispositivos de entrada.
+// Encontre a lista completa de opções na wiki:
+// https://yalter.github.io/niri/Configuration:-Input
+input {
+    keyboard {
+        xkb {
+            layout "br"
+            model "abnt2"
+        }
+        numlock
+        repeat-delay 300
+        repeat-rate 50
+    }
+
+    touchpad {
+        tap
+        dwt
+        accel-speed 0.0
+        accel-profile "adaptive"
+        tap-button-map "left-right-middle"
+    }
+
+    mouse {
+      accel-speed 0.0
+      accel-profile "adaptive"
+    }
+
+  /-trackpoint {
+
+    } 
+
+    warp-mouse-to-focus
+    focus-follows-mouse
+}
+
+// ===== Módulo: 20-output.kdl =====
+
+// Configuração de saídas (monitores)
+//
+// Para apresentações, use os scripts auxiliares:
+//
+// - mirror-display.sh:  Espelha notebook no projetor (mesma resolução/posição)
+// - restore-display.sh: Restaura layout padrão (lado a lado)
+//
+// Ou use comandos manuais:
+//   niri msg outputs                    # Descobre nome do projetor
+//   niri msg output DP-1 mode 1920x1080 # Define resolução compatível
+//   niri msg output DP-1 position 0 0   # Espelha (mesma posição do eDP-1)
+//
+// Wiki: https://yalter.github.io/niri/Configuration:-Outputs
+
+// Monitor Interno do Notebook (eDP-1) - PRINCIPAL
+output "eDP-1" {
+    // mode "1920x1080@60"
+    scale 1.5
+    focus-at-startup
+    position x=0 y=0
+}
+
+// Monitor Externo LG (HDMI/DisplayPort com VRR)
+output "HDMI-A-1" {
+    // off
+    // mode "1920x1080@75"
+    scale 1.5
+    variable-refresh-rate on-demand=true
+    position x=1920 y=0
+}
+// ===== Módulo: 30-layout.kdl =====
+
+// Configurações que influenciam como janelas são posicionadas e dimensionadas.
+// Encontre mais informações na wiki:
+// https://yalter.github.io/niri/Configuration:-Layout
+layout {
+    // Define espaçamentos ao redor das janelas em pixels lógicos.
+    gaps 10
+
+    // Quando centralizar uma coluna ao mudar o foco, opções são:
+    // - "never", comportamento padrão, focar uma coluna fora da tela a manterá na borda
+    //   esquerda ou direita da tela.
+    // - "always", a coluna focada sempre será centralizada.
+    // - "on-overflow", focar uma coluna a centralizará se ela não couber
+    //   junto com a coluna anteriormente focada.
+    center-focused-column "never"
+
+    // Você pode personalizar as larguras que "switch-preset-column-width" (Mod+R) alterna.
+    preset-column-widths {
+        // Proportion define a largura como fração da largura da saída, considerando espaçamentos.
+        // Por exemplo, você pode ajustar perfeitamente quatro janelas com "proportion 0.25" em uma saída.
+        // As larguras preset padrão são 1/3, 1/2 e 2/3 da saída.
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+
+        // Fixed define a largura em pixels lógicos exatamente.
+        // fixed 1920
+    }
+
+    // Você também pode personalizar as alturas que "switch-preset-window-height" (Mod+Shift+R) alterna.
+    // preset-window-heights { }
+
+    // Você pode mudar a largura padrão das novas janelas.
+    default-column-width { proportion 0.5; }
+    // Se você deixar os colchetes vazios, as próprias janelas decidirão sua largura inicial.
+    // default-column-width {}
+
+    // Por padrão, anel de foco e borda são renderizados como retângulo de fundo sólido
+    // atrás das janelas. Ou seja, eles aparecerão através de janelas semi-transparentes.
+    // Isso ocorre porque janelas usando decorações client-side podem ter formato arbitrário.
+    //
+    // Se você não gosta disso, descomente `prefer-no-csd` abaixo.
+    // Niri desenhará anel de foco e borda *ao redor* de janelas que concordarem em omitir suas
+    // decorações client-side.
+    //
+    // Alternativamente, você pode sobrescrever com uma regra de janela chamada
+    // `draw-border-with-background`.
+
+    // Você pode mudar como o anel de foco parece.
+    focus-ring {
+        // Descomente esta linha para desabilitar o anel de foco.
+        // 
+        off
+
+        // Quantos pixels lógicos o anel se estende para fora das janelas.
+        width 4
+
+        // Cores podem ser definidas de várias formas:
+        // - Cores nomeadas CSS: "red"
+        // - Hex RGB: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
+        // - Notação estilo CSS: "rgb(255, 127, 0)", rgba(), hsl() e algumas outras.
+
+        // Cor do anel no monitor ativo.
+        active-color "#7fc8ff"
+
+        // Cor do anel em monitores inativos.
+        //
+        // O anel de foco só desenha ao redor da janela ativa, então o único lugar
+        // onde você pode ver sua inactive-color é em outros monitores.
+        inactive-color "#505050"
+
+        // Você também pode usar gradientes. Eles têm precedência sobre cores sólidas.
+        // Gradientes são renderizados da mesma forma que CSS linear-gradient(angle, from, to).
+        // O ângulo é o mesmo que em linear-gradient, e é opcional,
+        // padronizando para 180 (gradiente de cima para baixo).
+        // Você pode usar qualquer ferramenta CSS linear-gradient da web para configurá-los.
+        // Mudar o espaço de cores também é suportado, confira a wiki para mais info.
+        //
+        // active-gradient from="#80c8ff" to="#c7ff7f" angle=45
+
+        // Você também pode colorir o gradiente relativo à visão inteira
+        // do workspace, em vez de relativo apenas à própria janela.
+        // Para fazer isso, defina relative-to="workspace-view".
+        //
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    // Você também pode adicionar uma borda. É similar ao anel de foco, mas sempre visível.
+    border {
+        // As configurações são as mesmas do anel de foco.
+        // Se você habilitar a borda, provavelmente quererá desabilitar o anel de foco.
+        // off
+
+        width 4
+        active-color "#ffc87f"
+        inactive-color "#505050"
+
+        // Cor da borda ao redor de janelas que requisitam sua atenção.
+        urgent-color "#9b0000"
+
+        // Gradientes podem usar alguns espaços de cores de interpolação diferentes.
+        // Por exemplo, este é um gradiente arco-íris pastel via in="oklch longer hue".
+        //
+        // active-gradient from="#e5989b" to="#ffb4a2" angle=45 relative-to="workspace-view" in="oklch longer hue"
+
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    // Você pode habilitar sombras projetadas para janelas.
+    shadow {
+        // Descomente a próxima linha para habilitar sombras.
+        off
+
+        // Por padrão, a sombra desenha apenas ao redor da janela, e não atrás dela.
+        // Descomente esta configuração para fazer a sombra desenhar atrás da janela.
+        //
+        // Note que niri não tem como saber sobre o raio de canto
+        // da janela CSD. Ele tem que assumir que janelas têm cantos quadrados, levando a
+        // artefatos de sombra dentro dos cantos arredondados CSD. Esta configuração corrige
+        // esses artefatos.
+        //
+        // Porém, você pode querer definir prefer-no-csd e/ou
+        // geometry-corner-radius. Então, niri saberá o raio do canto e
+        // desenhará a sombra corretamente, sem ter que desenhá-la atrás da
+        // janela. Isso também removerá sombras client-side se a janela
+        // desenhar alguma.
+        //
+        // draw-behind-window true
+
+        // Você pode mudar como as sombras parecem. Os valores abaixo estão em pixels
+        // lógicos e correspondem às propriedades CSS box-shadow.
+
+        // Softness controla o raio de desfoque da sombra.
+        softness 30
+
+        // Spread expande a sombra.
+        spread 5
+
+        // Offset move a sombra relativamente à janela.
+        offset x=0 y=5
+
+        // Você também pode mudar a cor e opacidade da sombra.
+        color "#0007"
+    }
+
+    // Struts reduzem a área ocupada por janelas, similarmente a painéis layer-shell.
+    // Você pode pensá-los como uma espécie de espaçamento externo. São definidos em pixels lógicos.
+    // Struts esquerdo e direito farão a próxima janela ao lado sempre estar visível.
+    // Struts superior e inferior simplesmente adicionarão espaçamentos externos além da área ocupada por
+    // painéis layer-shell e espaçamentos regulares.
+    struts {
+        // left 64
+        // right 64
+        // top 64
+        // bottom 64
+    }
+}
+
+// ===== Módulo: 40-spawn.kdl =====
+
+// Adicione linhas como esta para executar processos na inicialização.
+// Note que executar niri como sessão suporta xdg-desktop-autostart,
+// que pode ser mais conveniente de usar.
+// Veja a seção binds abaixo para mais exemplos de spawn.
+
+// Inicia serviços essenciais
+spawn-at-startup "sh" "-c" "~/.local/bin/init/services.sh"
+
+// Inicia autostart (temas, waybar, applets)
+spawn-at-startup "sh" "-c" "~/.local/bin/init/autostart.sh"
+
+// Para executar um comando shell (com variáveis, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+/-hotkey-overlay {
+    // Descomente esta linha para desabilitar o pop-up "Atalhos Importantes" na inicialização.
+    // skip-at-startup
+}
+
+// Descomente esta linha para pedir aos clientes que omitam suas decorações client-side se possível.
+// Se o cliente especificamente pedir CSD, a solicitação será honrada.
+// Adicionalmente, clientes serão informados que estão tiled, removendo alguns cantos arredondados client-side.
+// Esta opção também corrigirá o desenho de borda/anel de foco atrás de algumas janelas semi-transparentes.
+// Após habilitar ou desabilitar isso, você precisa reiniciar os apps para isso ter efeito.
+prefer-no-csd
+
+// Você pode mudar o caminho onde capturas de tela são salvas.
+// Um ~ no início será expandido para o diretório home.
+// O caminho é formatado com strftime(3) para fornecer data e hora da captura de tela.
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// Você também pode definir isso como null para desabilitar salvar capturas de tela no disco.
+// screenshot-path null
+
+// ===== Módulo: 50-animations.kdl =====
+
+// Configurações de animação.
+// A wiki explica como configurar animações individuais:
+// https://yalter.github.io/niri/Configuration:-Animations
+animations {
+    // Descomente para desligar todas as animações.
+    off
+
+    // Desacelera todas as animações por este fator. Valores abaixo de 1 as aceleram.
+    // slowdown 3.0
+}
+
+// ===== Módulo: 60-window-rules.kdl =====
+
+// Regras de janela permitem ajustar comportamento para janelas individuais.
+// Encontre mais informações na wiki:
+// https://yalter.github.io/niri/Configuration:-Window-Rules
+
+// Contornar bug de configuração inicial do WezTerm
+// definindo um default-column-width vazio.
+window-rule {
+    // Esta expressão regular é intencionalmente tão específica quanto possível,
+    // já que esta é a config padrão, e não queremos falsos positivos.
+    // Você pode usar apenas app-id="wezterm" se quiser.
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Abre o player picture-in-picture do Firefox como flutuante por padrão.
+window-rule {
+    // Esta expressão regular app-id funcionará para ambos:
+    // - Firefox host (app-id é "firefox")
+    // - Firefox Flatpak (app-id é "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Calculadora GNOME sempre flutuante
+window-rule {
+    match app-id=r#"^org\.gnome\.Calculator$"#
+    open-floating true
+}
+
+// Diálogos de autenticação sempre flutuantes
+window-rule {
+    match title=r#"^Authentication Required$"#
+    open-floating true
+}
+
+// Exemplo: bloquear dois gerenciadores de senha da captura de tela.
+// (Esta regra de exemplo está comentada com um "/-" na frente.)
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+
+    // Use isso em vez disso se você quer que sejam visíveis em ferramentas de captura de terceiros.
+    // block-out-from "screencast"
+}
+
+// Exemplo: habilitar cantos arredondados para todas as janelas.
+// (Esta regra de exemplo está comentada com um "/-" na frente.)
+window-rule {
+    geometry-corner-radius 5
+    clip-to-geometry true
+}
+
+// ===== Módulo: 70-binds.kdl =====
+
+// Esta seção define atalhos de teclado.
+// Mod refere-se à tecla Super (ou Logo, ou Windows).
+// Você pode definir modificadores custom separadamente
+// para cada tecla usando a sintaxe "Mod+Ctrl+..." ou "Super+Alt+...".
+// Mantenha binds redundantes ao executar niri como sessão porque algumas vinculações vêm do portal xdg-desktop:
+// - screenshot → abrir diálogo de screenshot
+// - screencopy → abrir diálogo de captura de tela
+// Se você não executar niri em modo sessão xdg-desktop-portal, sinta-se livre
+// para removê-los ou alterá-los para fazer a captura/screenshot diretamente.
+binds {
+    // Aplicativos
+    Mod+T     { spawn "kitty"; }
+    Mod+N     { spawn "firefox"; }
+    Mod+E     { spawn "nautilus"; }
+    Mod+M     { spawn "fuzzel"; }
+    Mod+D     { spawn "code"; }
+
+    // Toggle espelhamento de tela (apresentações)
+    Mod+P     { spawn-sh "~/.local/bin/utils/mirror-toggle.sh"; }
+
+    // Controle do sistema
+    Mod+Shift+C repeat=false { spawn-sh "niri msg reload-config"; }
+    Mod+Escape repeat=false { spawn-sh "killall waybar || ~/.local/bin/init/autostart.sh"; }
+
+    // Comandos exemplo de spawn.
+    // Mod+T { spawn "alacritty"; }
+    // Mod+T { spawn "alacritty" "msg" "create-window"; }
+    // Mod+Return { spawn "alacritty" "--class" "alacritty-floating"; }
+
+    // Exemplo de mapeamento de screenshot padrão, baseado em flameshot.
+    // Você pode também usar spawn ou spawn-sh se quiser executar um comando.
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // Screencopy (captura de vídeo) não disponível como ação direta
+    // Use spawn para executar ferramenta externa como wf-recorder ou kooha
+    // Mod+Print { spawn "kooha"; }
+    // Mod+Ctrl+Print { spawn-sh "wf-recorder -g \"$(slurp)\" -f ~/Videos/$(date +%Y%m%d_%H%M%S).mp4"; }
+    // Mod+Alt+Print { spawn-sh "wf-recorder -f ~/Videos/$(date +%Y%m%d_%H%M%S).mp4"; }
+
+    // Exemplo de mapeamento de teclas de áudio usando wpctl.
+    // "-l 1.0" limita o volume a 100%.
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    // Exemplo de mapeamento de teclas de mídia usando playerctl.
+    // Isso funcionará com qualquer reprodutor de mídia habilitado para MPRIS.
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+
+    // Exemplo de mapeamento de teclas de brilho para brightnessctl.
+    // Você pode usar spawn regular com múltiplos argumentos também (para evitar passar por "sh"),
+    // mas precisa colocar manualmente cada argumento em aspas "" separadas.
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+
+    // Abrir/fechar a Visão Geral: uma visão ampliada de workspaces e janelas.
+    // Você também pode mover o mouse para o canto superior esquerdo,
+    // ou fazer um deslize de quatro dedos para cima no touchpad.
+    Mod+O repeat=false { toggle-overview; }
+
+    Mod+Q repeat=false { close-window; }
+
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-down; }
+    Mod+K     { focus-window-up; }
+    Mod+L     { focus-column-right; }
+
+    Mod+Ctrl+Left  { move-column-left; }
+    Mod+Ctrl+Down  { move-window-down; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+H     { move-column-left; }
+    Mod+Ctrl+J     { move-window-down; }
+    Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+L     { move-column-right; }
+
+    // Comandos alternativos que movem entre workspaces ao alcançar
+    // a primeira ou última janela em uma coluna.
+    // Mod+J     { focus-window-or-workspace-down; }
+    // Mod+K     { focus-window-or-workspace-up; }
+    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
+    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
+
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    Mod+Shift+Left  { focus-monitor-left; }
+    Mod+Shift+Down  { focus-monitor-down; }
+    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+H     { focus-monitor-left; }
+    Mod+Shift+J     { focus-monitor-down; }
+    Mod+Shift+K     { focus-monitor-up; }
+    Mod+Shift+L     { focus-monitor-right; }
+
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
+
+    // Alternativamente, existem comandos para mover apenas uma única janela:
+    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
+    // ...
+
+    // E você também pode mover um workspace inteiro para outro monitor:
+    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
+    // ...
+
+    Mod+Page_Down      { focus-workspace-down; }
+    Mod+Page_Up        { focus-workspace-up; }
+    Mod+U              { focus-workspace-down; }
+    Mod+I              { focus-workspace-up; }
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
+    Mod+Ctrl+U         { move-column-to-workspace-down; }
+    Mod+Ctrl+I         { move-column-to-workspace-up; }
+
+    // Alternativamente, existem comandos para mover apenas uma única janela:
+    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
+    // ...
+
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up   { move-workspace-up; }
+    Mod+Shift+U         { move-workspace-down; }
+    Mod+Shift+I         { move-workspace-up; }
+
+    // Você pode vincular tiques de rolagem do scroll do mouse usando a seguinte sintaxe.
+    // Essas vinculações mudarão de direção baseadas na configuração natural-scroll.
+    //
+    // Para evitar rolar por workspaces muito rápido, você pode usar
+    // a propriedade cooldown-ms. A vinculação terá limite de taxa para este valor.
+    // Você pode definir um cooldown em qualquer vinculação, mas é mais útil para a roda do mouse.
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+
+    // Geralmente rolar para cima e para baixo com Shift em aplicações resulta em
+    // rolagem horizontal; essas vinculações replicam isso.
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+
+    // Similarmente, você pode vincular "tiques" de rolagem do touchpad.
+    // Rolagem do touchpad é contínua, então para essas vinculações é dividida em
+    // intervalos discretos.
+    // Essas vinculações também são afetadas pelo natural-scroll do touchpad, então essas
+    // vinculações de exemplo estão "invertidas", já que temos natural-scroll habilitado para
+    // touchpads por padrão.
+    // Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
+    // Mod+TouchpadScrollUp   { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
+
+    // Você pode referir-se a workspaces por índice. Porém, tenha em mente que
+    // niri é um sistema de workspace dinâmico, então esses comandos são meio
+    // "melhor esforço". Tentar referir-se a um índice de workspace maior que
+    // a contagem atual de workspaces irá em vez disso referir-se ao workspace mais abaixo
+    // (vazio).
+    //
+    // Por exemplo, com 2 workspaces + 1 vazio, índices 3, 4, 5 e assim por diante
+    // todos se referirão ao 3º workspace.
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+
+    // Alternativamente, existem comandos para mover apenas uma única janela:
+    // Mod+Ctrl+1 { move-window-to-workspace 1; }
+
+    // Alterna foco entre o workspace atual e o anterior.
+    // Mod+Tab { focus-workspace-previous; }
+
+    // As seguintes vinculações movem a janela focada para dentro e para fora de uma coluna.
+    // Se a janela está sozinha, elas a consumirão para a coluna próxima ao lado.
+    // Se a janela já está em uma coluna, elas a expelirão para fora.
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+
+    // Consome uma janela da direita para o fundo da coluna focada.
+    Mod+Comma  { consume-window-into-column; }
+    // Expele a janela inferior da coluna focada para a direita.
+    Mod+Period { expel-window-from-column; }
+
+    Mod+R { switch-preset-column-width; }
+    // Ciclar pelos presets em ordem reversa também é possível.
+    // Mod+R { switch-preset-column-width-back; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R { reset-window-height; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+
+    // Expande a coluna focada para espaço não ocupado por outras colunas totalmente visíveis.
+    // Faz a coluna "preencher o resto do espaço".
+    Mod+Ctrl+F { expand-column-to-available-width; }
+
+    Mod+C { center-column; }
+
+    // Centraliza todas as colunas totalmente visíveis na tela.
+    Mod+Ctrl+C { center-visible-columns; }
+
+    // Ajustes mais finos de largura.
+    // Este comando também pode:
+    // * definir largura em pixels: "1000"
+    // * ajustar largura em pixels: "-5" ou "+5"
+    // * definir largura como porcentagem da largura da tela: "25%"
+    // * ajustar largura como porcentagem da largura da tela: "-10%" ou "+10%"
+    // Tamanhos em pixels usam pixels lógicos, ou escalados. Ou seja, em uma saída com escala 2.0,
+    // set-column-width "100" fará a coluna ocupar 200 pixels físicos da tela.
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+
+    // Ajustes mais finos de altura quando em coluna com outras janelas.
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // Move a janela focada entre o layout flutuante e o tiling.
+    Mod+V       { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    // Alterna modo de exibição de coluna com abas.
+    // Janelas nesta coluna aparecerão como abas verticais,
+    // em vez de empilhadas uma sobre a outra.
+    Mod+W { toggle-column-tabbed-display; }
+
+    // Ações para alternar layouts.
+    // Nota: se você descomentar estas, certifique-se de NÃO ter
+    // um atalho de alternação de layout correspondente configurado nas opções xkb acima.
+    // Ter ambos ao mesmo tempo no mesmo atalho quebrará a alternação,
+    // já que alternará duas vezes ao pressionar o atalho (uma vez por xkb, uma vez por niri).
+    // Mod+Space       { switch-layout "next"; }
+    // Mod+Shift+Space { switch-layout "prev"; }
+}
