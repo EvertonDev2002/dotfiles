@@ -1,0 +1,26 @@
+# shellcheck disable=SC2148
+# Configurações padrão para o earlyoom. Este arquivo é carregado pelo /bin/sh a partir de
+# /etc/init.d/earlyoom ou pelo systemd a partir do earlyoom.service.
+# Adiciona `river` à lista --avoid para evitar matar o compositor.
+# Veja: https://github.com/rfjakob/earlyoom
+
+# Opções para passar ao earlyoom
+# shellcheck disable=SC2034
+EARLYOOM_ARGS="-r 0 -m 2 -M 256000 --prefer '^(Web Content|Isolated Web Co)' \
+  --avoid '^(seatd|dnf|apt|pacman|rpm-ostree|packagekitd|gnome-shell|gnome-session-c|gnome-session-b|lightdm|sddm|sddm-helper|gdm|gdm-wayland-ses|gdm-session-wor|gdm-x-session|Xorg|Xwayland|systemd|systemd-logind|dbus-daemon|dbus-broker|cinnamon|cinnamon-sessio|kwin_x11|kwin_wayland|plasmashell|ksmserver|plasma_session|startplasma-way|sway|river|i3|xfce4-session|mate-session|marco|lxqt-session|openbox|cryptsetup|sshd|init)'"
+
+# Exemplos:
+
+# Imprime o relatório de memória a cada minuto ao invés de a cada hora
+# EARLYOOM_ARGS="-r 60"
+
+# Mínimo de memória disponível 5%
+# EARLYOOM_ARGS="-m 5"
+
+# Mínimo de memória disponível 15% e mínimo de swap livre 5%
+# EARLYOOM_ARGS="-m 15 -s 5"
+
+# Evita matar processos cujo nome corresponda a esta expressão regular
+# EARLYOOM_ARGS="--avoid '(^|/)(init|X|sshd|firefox)$'"
+
+# Veja mais em `earlyoom -h'

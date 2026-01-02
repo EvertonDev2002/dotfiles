@@ -8,7 +8,7 @@ vt = 2
 
 # `agreety` é o agetty empacotado/um simulador de login. Você pode substituir `/bin/sh`
 # pelo que quiser iniciar, como `sway`.
-command = "tuigreet --remember --user-menu --asterisks --time --cmd /home/roneki/.config/river/river-session.sh"
+command = "tuigreet --remember --user-menu --asterisks --time --cmd /home/roneki/.config/niri/session/niri-session.sh"
 
 # O usuário que executará o comando. Os privilégios que esse usuário deve ter
 # dependem do greeter. Um greeter gráfico pode, por exemplo, exigir que o usuário
