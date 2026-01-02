@@ -1,5 +1,5 @@
 #!/bin/sh
-# 
+#
 #  RIVER COMPOSITOR CONFIGURATION
 #  Sistema: Artix Linux (Runit)
 #
@@ -7,25 +7,18 @@
 # --- Carregar Configurações Centralizadas
 # shellcheck disable=SC1091
 . "${XDG_CONFIG_HOME:-$HOME/.config}/river/config.sh"
+. "$SCRIPTS_LIB_DIR/logging.sh"
 
 # --- Setup de Logs
-mkdir -p "$DIR_LOG"
-rm -f "$DIR_LOG/river.log"
-exec >> "$DIR_LOG/river.log" 2>&1
+setup_logging "$DIR_LOG/river.log" "River Compositor"
 
-echo ""
-echo "════════════════════════════════════════════"
-echo "  RIVER COMPOSITOR - $(date '+%d/%m/%Y %H:%M:%S')"
-echo "════════════════════════════════════════════"
-echo ""
-
-# --- Iniciar serviços (em background para não redirecionar logs)
+# --- Iniciar serviços
 "$SCRIPT_SERVICES" &
 
 # ---  FUNÇÕES HELPER (DRY)
 
-map() { riverctl map normal "$@"; }
-map_pointer() { riverctl map-pointer normal "$@"; }
+map() { riverctl map normal "$@" 2>/dev/null; }
+map_pointer() { riverctl map-pointer normal "$@" 2>/dev/null; }
 spawn() { riverctl spawn "$@"; }
 
 # --- CONFIGURAÇÃO DE INPUT E HARDWARE
@@ -45,7 +38,7 @@ riverctl input "$TOUCHPAD_ID" pointer-accel 0.0
 # Cursor
 riverctl focus-follows-cursor normal
 riverctl set-cursor-warp on-focus-change
-riverctl xcursor-theme "$CURSOR_THEME" "$CURSOR_SIZE"
+riverctl xcursor-theme "$XCURSOR_THEME" "$XCURSOR_SIZE"
 
 # --- APARÊNCIA E LAYOUT
 
@@ -120,10 +113,10 @@ map "$MOD_KEY"+Shift bracketright send-to-output right
 
 # Gera mapeamentos para tags 1 a 9
 for i in $(seq 1 9); do
-    tags=$((1 << ($i - 1)))
-    map "$MOD_KEY" "$i" set-focused-tags $tags             # Focar Tag
-    map "$MOD_KEY"+Shift "$i" set-view-tags $tags          # Mover para Tag
-    map "$MOD_KEY"+Control "$i" toggle-focused-tags $tags  # Ver Tag junto com atual
+    tags=$((1 << (i - 1)))
+    map "$MOD_KEY" "$i" set-focused-tags $tags               # Focar Tag
+    map "$MOD_KEY"+Shift "$i" set-view-tags $tags            # Mover para Tag
+    map "$MOD_KEY"+Control "$i" toggle-focused-tags $tags    # Ver Tag junto com atual
     map "$MOD_KEY"+Shift+Control "$i" toggle-view-tags $tags # Fixar janela em +1 Tag
 done
 
@@ -172,11 +165,10 @@ riverctl rule-add -app-id 'org.gnome.Calculator' float
 riverctl rule-add -title 'Authentication Required' float
 riverctl rule-add -app-id 'firefox' -title 'Picture-in-Picture' float
 
-# --- AUTOSTART (em background para não redirecionar logs)
+# --- AUTOSTART
 
 "$SCRIPT_AUTOSTART" &
-
-# Aguardar serviços essenciais antes de finalizar
 sleep 0.5
 
-echo "River iniciado com sucesso."
+echo
+finish_logging 0 "River"
