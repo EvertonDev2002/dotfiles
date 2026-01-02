@@ -1,3 +1,17 @@
+
+// === AUTOPREENCHIMENTO E PAGAMENTOS ===
+// Desativa salvar e preencher automaticamente informações de pagamento
+user_pref('dom.payments.request.enabled', false);
+user_pref('privacy.payment_methods.autofill', false);
+// Desativa salvar e preencher endereços automaticamente
+user_pref('extensions.formautofill.addresses.enabled', false);
+user_pref('extensions.formautofill.available', 'off');
+user_pref('extensions.formautofill.creditCards.enabled', false);
+user_pref('extensions.formautofill.creditCards.available', 'off');
+// === DRM (Gerenciamento de Direitos Digitais) ===
+// Ativa suporte a conteúdo protegido por DRM (Widevine, Netflix, etc)
+user_pref('media.eme.enabled', true);
+
 // === CUSTOMIZAÇÃO DE UI & TEMAS ===
 
 // Permite carregar estilos de perfil (userChrome.css / userContent.css)
@@ -21,6 +35,8 @@ user_pref('browser.urlbar.quickactions.enabled', false);
 user_pref('browser.urlbar.suggest.quickactions', false);
 // Garantir que sugestões de pesquisa não apareçam na barra de endereços
 user_pref('browser.urlbar.suggest.searches', false);
+// Desativa sugestões de pesquisa na barra de endereços
+user_pref('browser.search.suggest.enabled', false);
 // Definir o número de pesquisas recentes exibidas como zero
 user_pref('browser.urlbar.maxRecentSearches', 0);
 // Permitir definir um motor de busca diferente para janelas privadas

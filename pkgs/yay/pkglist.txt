@@ -12,7 +12,6 @@ linux-firmware-realtek
 linux-firmware-other
 linux-firmware-whence
 limine
-efibootmgr
 artix-archlinux-support
 
 # --- INIT SYSTEM (RUNIT) ---
@@ -40,9 +39,9 @@ mako
 fuzzel
 swww
 wl-clipboard
-wl-mirror
-wlr-randr
-way-displays
+# wl-mirror
+# wlr-randr
+# way-displays
 slurp
 grim
 brightnessctl
@@ -51,7 +50,7 @@ brightnessctl
 pipewire
 pipewire-pulse
 pipewire-alsa
-pipewire-jack
+pipewire-libcamera
 wireplumber
 playerctl
 pamixer
@@ -116,13 +115,13 @@ kitty
 visual-studio-code-bin
 flatpak
 file-roller
+seahorse
 
 # --- DEVELOPMENT ---
 git
 docker-compose
 stow
 mise
-uv
 
 # --- SHELL & CLI TOOLS ---
 fish
@@ -143,7 +142,7 @@ nano
 nano-syntax-highlighting
 7zip
 jq
-lswt
+#lswt
 usage
 
 # --- SECURITY ---
