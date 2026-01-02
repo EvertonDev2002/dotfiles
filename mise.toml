@@ -1,3 +1,6 @@
 [tools]
 shfmt = "latest"
 python = "3.13"
+shellcheck = "latest"
+uv = "latest"
+

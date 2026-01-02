@@ -130,6 +130,7 @@ config/**/*
 !config/river/.config/river/
 !config/river/.config/river/init
 !config/river/.config/river/river-session.sh
+!config/river/.config/river/config.sh
 
 # --- rofi ---
 !config/rofi/
@@ -184,3 +185,28 @@ config/**/*
 !config/xdg-desktop-portal/.config/xdg-desktop-portal/
 !config/xdg-desktop-portal/.config/xdg-desktop-portal/portals.conf
 
+# --- mpv ---
+!config/mpv
+!config/mpv/mpv.conf
+
+# --- Niri ---
+!config/niri
+!config/niri/.config/
+!config/niri/.config/niri/
+!config/niri/.config/niri/config.kdl
+!config/niri/.config/niri/modules
+!config/niri/.config/niri/modules/00-header.kdl
+!config/niri/.config/niri/modules/10-input.kdl
+!config/niri/.config/niri/modules/20-output.kdl
+!config/niri/.config/niri/modules/30-layout.kdl
+!config/niri/.config/niri/modules/40-spawn.kdl
+!config/niri/.config/niri/modules/50-animations.kdl
+!config/niri/.config/niri/modules/60-window-rules.kdl
+!config/niri/.config/niri/modules/70-binds.kdl
+!config/niri/.config/niri/build-config.sh
+!config/niri/.config/niri/variables
+!config/niri/.config/niri/variables/config
+!config/niri/.config/niri/session
+!config/niri/.config/niri/session/niri-session.sh
+!config/niri/.config/niri/build
+!config/niri/.config/niri/build/build-config.sh

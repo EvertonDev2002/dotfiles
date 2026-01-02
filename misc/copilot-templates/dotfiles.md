@@ -1,13 +1,41 @@
 # Instruções - Dotfiles Linux
 
+## Perfil do Ambiente
+
+Esta seção resume os principais componentes do ambiente para facilitar automação e troubleshooting.
+
+- **Distribuição:** Artix Linux (base Arch)
+- **System Init:** runit
+- **Bootloader:** Limine
+- **Display Manager (DM):** greetd (padrão), Ly (alternativo)
+- **Wayland Compositor (WM):** Niri (principal), River, Sway, Hyprland (compatíveis)
+- **Terminal:** Kitty, Foot, Alacritty
+- **Shell:** Fish (interativo), Bash (scripts)
+- **Bar:** Waybar
+- **Launcher:** Fuzzel
+- **Gerenciador de pacotes:** yay (AUR), flatpak (GUI)
+- **Editor:** VSCode/VSCodium, Nano
+- **Clipboard:** wl-clipboard
+- **Outros:** pipewire (áudio), mako (notificações), way-displays (autodisplay), nwg-look (temas GTK)
+
+Referências cruzadas:
+
+- Configs de DM: `system/etc/greetd/config.toml`, `/usr/share/wayland-sessions/`
+- Configs de WM: `config/niri/.config/niri/`, `config/river/.config/river/`, `config/.config/sway/`, `config/.config/hyprland/`
+- Configs de terminal: `config/.config/kitty/`, `config/.config/foot/`, `config/.config/alacritty/`
+- Configs de shell: `config/.config/fish/`,
+- Config complementares do River: `config/scripts/.local/bin`
+- Configs de boot: `system/example/limine.conf.example`
+- Configs de pacotes: `pkgs/`
+
 ## Contexto do Projeto
 
-Este é um repositório de dotfiles para Arch Linux com foco em Wayland compositors (River) e ferramentas modernas.
+Este é um repositório de dotfiles para Artix Linux com foco em Wayland compositors (Niri) e ferramentas modernas.
 
 ## Notas Importantes
 
 - Este é um projeto **pessoal** - priorize praticidade sobre perfeição
-- Mantenha compatibilidade com Arch Linux
+- Mantenha compatibilidade com Artix Linux
 - Documente decisões não óbvias
 - Backups são essenciais antes de modificar configurações do sistema
 - Sempre teste mudanças em ambiente seguro quando possível
@@ -71,7 +99,7 @@ system/
 **Exemplo de logging correto:**
 
 ```bash
-# Scripts normais (init-services.sh, init-autostart.sh, etc)
+# Scripts normais (services.sh, autostart.sh, etc)
 exec > "$DIR_LOG/services.log" 2>&1
 
 # River init (comportamento especial)
@@ -95,7 +123,7 @@ readonly LOGGING_LIB_LOADED=1
 
 ### Wayland/Compositors
 
-- Priorize compatibilidade com River, Sway e Hyprland
+- Priorize compatibilidade com Niri, River, Sway e Hyprland
 - Use `wl-clipboard` ao invés de `xclip`
 - Prefira ferramentas nativas Wayland
 - Sempre teste configurações em ambiente Wayland
@@ -141,6 +169,7 @@ riverctl map locked None XF86AudioMute spawn 'pactl ...'
 ### Documentação
 
 - **Toda documentação do repositório deve ser criada em `docs/`**
+- **Toda modificação no projeto deve atualizar a documentação correspondente em `docs/`**
 - **Nomenclatura**: use nomes descritivos que indicam claramente o conteúdo
   - Exemplos: `KEYBINDS.md`, `SYSTEM-CONFIG.md`, `TROUBLESHOOTING.md`
 - **Cabeçalho obrigatório**: todo documento deve começar com:
@@ -177,7 +206,7 @@ riverctl map locked None XF86AudioMute spawn 'pactl ...'
 - **Terminal**: Kitty, Foot, Alacritty
 - **Shell**: Fish (interativo), Bash (scripts)
 - **Editor**: VSCode/VSCodium, Nano
-- **Compositor**: River
+- **Compositor**: Niri
 - **Bar**: Waybar
 - **Launcher**: Fuzzel
 - **Package Manager**: yay, flatpak
@@ -188,7 +217,7 @@ riverctl map locked None XF86AudioMute spawn 'pactl ...'
 
 **Localização dos logs:**
 
-- River compositor: `~/.local/state/init-log/river.log`
+- Compositor (Niri/River): `~/.local/state/init-log/{niri,river}.log`
 - Services (audio, portals, clipboard): `~/.local/state/init-log/{services,audio,portals,clipboard}.log`
 - Autostart (temas, waybar): `~/.local/state/init-log/autostart.log`
 - Utils (wallpaper, screenshot): `~/.local/state/init-log/{wallpaper,screenshot}.log`
@@ -203,7 +232,7 @@ set -x  # Mostra cada comando antes de executar
 bash -n script.sh
 
 # Executar script manualmente para debug
-~/.local/bin/init/init-services.sh  # Roda independente do River
+~/.local/bin/init/services.sh  # Roda independente do River
 ```
 
 **Problemas comuns:**
@@ -234,6 +263,8 @@ riverctl keyboard-layout -model abnt2 br  # Deve funcionar sem erros
 
 - [Arch Wiki](https://wiki.archlinux.org/)
 - [Artix Linux Wiki](https://wiki.artixlinux.org/)
+- [Void Linux](https://docs.voidlinux.org/)
+- [Gentoo](https://wiki.gentoo.org/wiki/Main_Page)
 - [Runit Documentation](http://smarden.org/runit/)
 - [Limine Bootloader](https://github.com/limine-bootloader/limine)
 - [Limine Bootloader | Config](https://github.com/limine-bootloader/limine/blob/v10.x/CONFIG.md)
@@ -243,6 +274,7 @@ riverctl keyboard-layout -model abnt2 br  # Deve funcionar sem erros
 ### Wayland & Compositors
 
 - [Wayland Documentation](https://wayland.freedesktop.org/)
+- [Niri Documentation](https://yalter.github.io/niri/Configuration%3A-Introduction.html)
 - [River Documentation](https://codeberg.org/river/river/wiki)
 - [River Man Page](https://man.archlinux.org/man/river.1.en)
 - [riverctl Man Page](https://man.archlinux.org/man/extra/river/riverctl.1.en)

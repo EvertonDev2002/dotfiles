@@ -1,9 +1,9 @@
-# 🏠 Dotfiles - Artix Linux + River WM
+# 🏠 Dotfiles - Artix Linux + Niri
 
-Configurações pessoais para Artix Linux (Runit) com River (Wayland compositor), otimizadas para performance, privacidade e produtividade.
+Configurações pessoais para Artix Linux (Runit) com Niri (Wayland compositor), otimizadas para performance, privacidade e produtividade.
 
 ![Artix Linux](https://img.shields.io/badge/Artix_Linux-Runit-10b981?style=for-the-badge&logo=artixlinux)
-![River WM](https://img.shields.io/badge/River-Wayland-0ea5e9?style=for-the-badge)
+![Niri](https://img.shields.io/badge/Niri-Wayland-0ea5e9?style=for-the-badge)
 ![Fish Shell](https://img.shields.io/badge/Fish-Shell-f59e0b?style=for-the-badge&logo=fishshell)
 ![CI Status](https://img.shields.io/github/actions/workflow/status/EvertonDev2002/dotfiles/validate.yml?style=for-the-badge&label=Validações&logo=githubactions)
 ![Conventional Commits](https://img.shields.io/badge/Conventional_Commits-1.0.0-fe5196?style=for-the-badge&logo=conventionalcommits&logoColor=white)
@@ -30,7 +30,7 @@ Configurações pessoais para Artix Linux (Runit) com River (Wayland compositor)
 Este repositório contém todas as configurações necessárias para replicar meu ambiente de desenvolvimento e uso diário:
 
 - **Sistema**: Artix Linux (Runit init system - sem systemd)
-- **Window Manager**: River (compositor Wayland minimalista)
+- **Window Manager**: Niri (compositor Wayland com scrollable tiling)
 - **Shell**: Fish com Fisher, Starship prompt
 - **Terminal**: Kitty
 - **Browser**: Firefox com configurações (Betterfox + Personal use)
@@ -47,18 +47,17 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 ### 🚀 Performance
 
-- **Zramen** swap comprimido em memória
-- **PipeWire** com baixa latência
-- **Aliases modernos** (fd, ripgrep, eza, bat, rsync)
+- **Zramen**
+- **PipeWire** 
 - **Pacman otimizado**
+- **Aliases modernos**
 
 ### 🔒 Privacidade & Segurança
 
-- **Firefox hardened** com 170+ preferências comentadas
-- **DNS-over-HTTPS** (Cloudflare + Google fallback)
-- **NetworkManager** com MAC randomization (globalmente)
-- **TLP** para gerenciamento de energia
-- **Limite de coredump** configurado
+- **Firefox hardened**
+- **DNS-over-HTTPS**
+- **TLP**
+- **AppArmor**
 
 ### 🎨 Interface
 
@@ -74,29 +73,39 @@ Este repositório contém todas as configurações necessárias para replicar me
 
 - **VSCode** com perfis e configurações
 - **Fish shell** com autosuggestions, syntax highlighting e plugins
-- **Mise** para gerenciamento de versões (Python, Node, etc.)
+- **Mise** para gerenciamento de versões de linguagens de programação e ferramentas.
 
 ---
 
 ## 🧩 Componentes
 
-### Window Manager - River
+### Window Manager - Niri
 
-- **Compositor**: Wayland baseado em wlroots
-- **Configuração Principal**: `config/river/.config/river/init`
-- **Variáveis Centralizadas**: `config/river/.config/river/config.sh`
+- **Compositor**: Wayland com scrollable tiling baseado em wlroots
+- **Configuração Principal**: `config/niri/.config/niri/config.kdl`
+- **Módulos**: Organizados em `config/niri/.config/niri/modules/`
 
 **Recursos configurados:**
 
-- Layouts dinâmicos com rivertile
-- Touchpad com gestures
-- Tiling automático
-- Workspaces (tags) 1-9
-- Scratchpad
+- Sistema de colunas scrollable (navegação horizontal infinita)
+- Workspaces dinâmicos
+- Touchpad com gestures e natural scrolling
+- Overview mode (visão geral de workspaces)
+- Suporte multi-monitor
+- Janelas flutuantes
+- Screenshots integrados
+
+**Compositors Alternativos:**
+
+- River, Sway e Hyprland também estão configurados e disponíveis
+- Configurações em: `config/river/`, `config/sway/`, `config/hyprland/`
 
 ### Atalhos do Teclado
 
-Para lista completa de atalhos do River WM, veja **[KEYBINDS.md](docs/KEYBINDS.md)**.
+Para lista completa de atalhos:
+
+- **Niri**: [KEYBINDS.md](docs/KEYBINDS.md)
+- **River**: [KEYBINDS-RIVER.md](docs/KEYBINDS-RIVER.md)
 
 ### Shell - Fish
 
@@ -141,11 +150,11 @@ Baseado em [Betterfox](https://github.com/yokoffing/Betterfox) com 170+ preferê
 - 🚫 **Telemetria**: Desabilitada completamente
 - 🍪 **Cookies**: Configurações de privacidade
 
-### Display Management
+<!-- ### Display Management
 
 - **way-displays**: Auto-configuração de displays
 - **wl-mirror**: Espelhamento de tela
-- **wlr-randr**: Controle de outputs
+- **wlr-randr**: Controle de outputs -->
 
 ---
 
@@ -198,7 +207,7 @@ Você pode executar scripts individuais:
 # Instalar configurações específicas
 # use * para linkar todos
 cd ~/dotfiles/config
-stow -t $HOME river
+stow -t $HOME niri
 ```
 
 ---
@@ -224,6 +233,7 @@ stow -t $HOME river
 
 Todos os scripts possuem:
 
+- ✅ Compatibilidade com Niri, River, Sway e Hyprland
 - ✅ Configuração centralizada via `config.sh` (variáveis, paths, IDs de hardware)
 - ✅ Logging estruturado em `~/.local/state/init-log/`
 - ✅ Error handling (`set -e` para Bash scripts)
@@ -238,7 +248,7 @@ Todos os scripts possuem:
 | `init-autostart.sh` | UI/Temas (GTK, waybar, mako, wallpaper)         |
 | `screenshot.sh`     | Captura de tela (grim + slurp + notificação)    |
 | `powermenu.sh`      | Menu de sessão (fuzzel: shutdown/reboot/logout) |
-| `mirror_toggle.sh`  | Espelhamento de displays (wl-mirror)            |
+| `mirror_toggle.sh`  | Espelhamento de displays                        |
 | `set-wallpaper.sh`  | Wallpapers aleatórios ou específicos (swww)     |
 
 ---
@@ -251,7 +261,7 @@ Todos os scripts possuem:
 
 ```bash
 # Alterar tema
-gsettings set org.gnome.desktop.interface gtk-theme 'Colloid-Grey-Dark-Compact'
+gsettings set org.gnome.desktop.interface gtk-theme 'Colloid-Grey-Dark'
 
 # Alterar ícones
 gsettings set org.gnome.desktop.interface icon-theme 'Bibata-Modern-Ice'
@@ -280,9 +290,8 @@ source ~/.config/fish/aliases.fish
 **Problemas comuns e soluções rápidas:**
 
 ```bash
-# River não inicia
-cat ~/.local/state/init-log/river.log
-chmod +x ~/.config/river/init
+# Recarregar configuração do Niri
+niri msg action load-config-file
 
 # Waybar não aparece
 killall waybar && waybar &
@@ -302,7 +311,9 @@ grep -i error ~/.local/state/init-log/*.log
 ### Documentação do Projeto
 
 - **[TROUBLESHOOTING](docs/TROUBLESHOOTING.md)** — Solução de problemas detalhada e logs
-- **[KEYBINDS](docs/KEYBINDS.md)** — Atalhos do River WM
+- **[KEYBINDS](docs/KEYBINDS.md)** — Atalhos do Niri
+- **[KEYBINDS-RIVER](docs/KEYBINDS-RIVER.md)** — Atalhos do River WM
+- **[NIRI](docs/NIRI.md)** — Guia completo do Niri
 - **[SYSTEM-CONFIG](docs/SYSTEM-CONFIG.md)** — Configurações do sistema
 - **[ACTIONS](docs/ACTIONS.md)** — CI/CD e validações automáticas
 
@@ -310,6 +321,7 @@ grep -i error ~/.local/state/init-log/*.log
 
 - **[Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0)** — Padrão de mensagens de commit
 - **[Betterfox](https://github.com/yokoffing/Betterfox)** — Hardening do Firefox
+- **[Niri Documentation](https://yalter.github.io/niri/Configuration%3A-Introduction.html)** — Documentação oficial do Niri
 - **[River Documentation](https://codeberg.org/river/river/wiki)** — Documentação oficial do River WM
 - **[Arch Wiki](https://wiki.archlinux.org/)** — Referência para Arch/Artix Linux
 - **[Wayland Documentation](https://wayland.freedesktop.org/)** — Documentação oficial do Wayland

@@ -1,1 +1,30 @@
-*.log
+# shellcheck disable=SC2148
+\.git
+\.gitignore
+# shellcheck disable=SC2211
+^/README.*
+# shellcheck disable=SC2211
+^/LICENSE.*
+^/docs
+^/scripts
+^/system
+^/misc
+^/pkgs
+^/install\.sh
+^/mise\.toml
+^/pyproject\.toml
+^/uv\.lock
+\.log$
+\.bak$
+~$
+
+# configurações sem uso na configuração atual
+^/alacritty
+^/foot
+^/hyprland
+^/kanshi
+^/rofi 
+^/shikane
+^/sway
+^/nwg/.config/nwg-bar
+^/river
